@@ -1,0 +1,10 @@
+/* ==========================================================================
+   ABSCHNITTSHINTERGRÜNDE
+   ========================================================================== */
+
+.reveal .slides section.title-slide:not(#title-slide) {
+  background-image: url("bg_chapter.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
