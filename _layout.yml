@@ -1,0 +1,334 @@
+# Einstellungen für Layout, Navigation und Ausgabe der Reveal.js-Präsentation.
+# Aktive Einträge bilden die Vorgaben dieses Templates.
+# Auskommentierte Einträge zeigen weitere verfügbare Quarto-/Reveal.js-Optionen.
+# Zum Aktivieren das führende # entfernen und den Wert bei Bedarf anpassen.
+#
+# Inhaltliche Metadaten werden nicht hier gepflegt:
+# - _praesentation.yml: Titel, Sprache, Datum, Lizenz, Zitation und Veranstaltung
+# - _autor_innen.yml: Autor:innen und Affiliations
+# - _oer_metadata.yml: OER- und Bildungsmetadaten
+#
+# Quarto Reveal.js: https://quarto.org/docs/presentations/revealjs/
+# Optionen: https://quarto.org/docs/reference/formats/presentations/revealjs
+
+quarto-required: ">= 1.9.0" # Mindestversion von Quarto
+
+
+format:
+  revealjs:
+
+    # Format und Branding
+
+    # brand: _brand.yml # Branding-Datei; im Projekt bereits zentral eingebunden
+    # brand-mode: light # Darstellungsmodus des Brandings: light oder dark
+
+    theme: # Vorgabe: Reveal.js-Theme und N4O-Anpassungen
+      - default
+      - brand
+      - assets/n4o_oer_revealjs.scss
+
+    css:
+      - backgrounds/background.css # Vorgabe: Hintergründe für Abschnittsfolien
+
+    # identifier-prefix: "slides-" # Präfix für automatisch erzeugte HTML-IDs
+    # email-obfuscation: none # Verschleierung von mailto:-Links: none, javascript oder references
+    # html-q-tags: true # Zitate mit HTML-Element <q> ausgeben
+
+
+    # Inhaltsverzeichnis und Abschnittsnummerierung
+
+    # toc: true # Automatisch erzeugtes Inhaltsverzeichnis anzeigen
+    # toc-depth: 3 # Anzahl der Überschriftenebenen im Inhaltsverzeichnis
+    # toc-title: "Inhalt" # Titel des Inhaltsverzeichnisses
+
+    # number-sections: true # Überschriften automatisch nummerieren
+    # number-depth: 2 # Nummerierung bis zu dieser Überschriftenebene
+    # number-offset: 0 # Startwert der Abschnittsnummerierung verschieben
+    # shift-heading-level-by: 1 # Alle Überschriftenebenen um den angegebenen Wert verschieben
+
+
+    # Folienstruktur und Inhalte
+
+    slide-level: 2 # Vorgabe: # erzeugt Abschnitte, ## erzeugt Folien
+
+    # incremental: true # Listeneinträge standardmäßig schrittweise einblenden
+    # scrollable: true # Überlange Folien vertikal scrollbar machen
+    # smaller: true # Schrift auf allen Folien verkleinern
+    # footer: "Text im Footer" # Text auf allen Folien anzeigen
+    # logo: assets/logos/logo.svg # Logo unten rechts auf allen Folien anzeigen
+    # output-location: default # Ausgabe ausführbarer Zellen: default, fragment, slide, column oder column-fragment
+    # rtl: true # Reveal.js-Präsentation von rechts nach links ausrichten
+
+    # title-slide-attributes: # Zusätzliche data-Attribute für die Titelfolie
+    #   data-background-image: backgrounds/title.svg
+    #   data-background-size: cover
+    # title-slide-style: pandoc # Pandocs Standardgestaltung für die Titelfolie verwenden
+
+    center-title-slide: false # Vorgabe: Titelfolie nicht vertikal zentrieren
+
+
+    # Folienformat
+
+    width: 1280 # Vorgabe: Folienbreite
+    height: 720 # Vorgabe: Folienhöhe
+    margin: 0.1 # Vorgabe: freier Rand als Anteil der Darstellungsfläche
+    center: false # Vorgabe: Folieninhalte nicht vertikal zentrieren
+    auto-stretch: true # Einzelne Bilder automatisch auf den verfügbaren Raum skalieren
+
+    # min-scale: 0.2 # Kleinster Skalierungsfaktor bei kleinen Displays
+    # max-scale: 2.0 # Größter Skalierungsfaktor bei großen Displays
+    # disable-layout: true # Reveal.js-Skalierung und -Zentrierung vollständig deaktivieren
+
+
+    # Navigation und URLs
+
+    navigation-mode: linear # Vorgabe: linear durch alle Folien navigieren
+
+    controls: true # Navigationspfeile anzeigen
+    controls-layout: edges # Navigationspfeile an den Folienrändern anzeigen
+    controls-tutorial: false # Bedienhinweise zu den Navigationspfeilen nicht einblenden
+    # controls-back-arrows: faded # Rückwärtspfeile: faded, hidden oder visible
+
+    progress: true # Fortschrittsbalken anzeigen
+
+    slide-number: c/t # Aktuelle Foliennummer und Gesamtzahl anzeigen
+    show-slide-number: all # Foliennummer in Präsentation, Druck und Speaker View anzeigen
+
+    hash: true # Aktuelle Folie in der URL abbilden
+    hash-type: title # Folientitel statt Nummer für den URL-Hash verwenden
+    history: true # Folienwechsel in der Browser-Historie speichern
+    respond-to-hash-changes: true # Auf Änderungen des URL-Hash reagieren
+    fragment-in-url: false # Fragment-Schritte nicht in die URL aufnehmen
+
+    # hash-one-based-index: true # Nummern-Hashes bei 1 beginnen lassen; nur bei hash-type: number relevant
+    # jump-to-slide: false # Schnellnavigation mit der Taste G deaktivieren
+    # touch: false # Navigation über Touch-Gesten deaktivieren
+    # keyboard: false # Navigation über Tastatur deaktivieren
+    # mouse-wheel: true # Navigation mit dem Mausrad aktivieren
+    # hide-inactive-cursor: true # Mauszeiger bei Inaktivität ausblenden
+    # hide-cursor-time: 5000 # Zeit bis zum Ausblenden des Mauszeigers in Millisekunden
+    # loop: true # Nach der letzten wieder zur ersten Folie wechseln
+    # shuffle: true # Folienreihenfolge beim Laden zufällig mischen
+    # pause: false # Blackout/Pause-Funktion deaktivieren
+    # help: false # Hilfe-Overlay über die Taste ? deaktivieren
+    # slide-tone: true # Beim Folienwechsel einen dezenten Ton abspielen
+
+
+    # Präsentationswerkzeuge
+
+    # overview: false # Folienübersicht deaktivieren
+    # menu: false # Schaltfläche für das Reveal.js-Menü ausblenden
+    # chalkboard: true # Zeichenfläche und Tafel aktivieren
+    # multiplex: true # Synchronisierte Präsentation für Publikum und Vortragende aktivieren
+    # scroll-view: true # Scroll-Ansicht der Präsentation aktivieren
+
+    # menu: # Alternative Konfiguration des Navigationsmenüs
+    #   side: right # Seite des Menüs: left oder right
+    #   width: wide # Breite: normal, wide, third, half, full oder CSS-Längenangabe
+    #   numbers: true # Foliennummern im Menü anzeigen
+
+    # chalkboard: # Alternative Konfiguration der Zeichenwerkzeuge
+    #   theme: whiteboard # Darstellung: chalkboard oder whiteboard
+    #   boardmarker-width: 5 # Strichbreite des Boardmarkers
+    #   chalk-width: 7 # Strichbreite der Kreide
+    #   chalk-effect: 1.0 # Kreideeffekt zwischen 0.0 und 1.0
+    #   buttons: true # Schaltflächen für Zeichenwerkzeuge anzeigen
+    #   read-only: false # Vorhandene Zeichnungen bearbeitbar lassen
+    #   src: drawings.json # Gespeicherte Zeichnungen laden
+
+    # multiplex: # Alternative Konfiguration mit eigenem Multiplex-Server
+    #   url: "https://example.org/" # URL des Multiplex-Servers
+    #   id: "ID" # Optional: vorhandene Multiplex-ID
+    #   secret: "SECRET" # Optional: Secret nur für die Speaker-Version
+
+
+    # Übergänge und Animationen
+
+    transition: fade # Folienübergang: none, fade, slide, convex, concave oder zoom
+    transition-speed: default # Geschwindigkeit: default, fast oder slow
+    background-transition: fade # Übergang zwischen Folienhintergründen
+
+    # fragments: false # Fragment-Funktion global deaktivieren
+    # auto-animate: false # Automatische Animation zwischen passenden Elementen deaktivieren
+    # auto-animate-easing: ease # CSS-Easing für Auto-Animate
+    # auto-animate-duration: 1.0 # Dauer von Auto-Animate in Sekunden
+    # auto-animate-unmatched: false # Nicht zugeordnete Elemente nicht automatisch animieren
+    # auto-animate-styles: [opacity, color] # Zusätzlich automatisch animierte CSS-Eigenschaften
+
+
+    # Automatischer Ablauf und Speaker View
+
+    show-notes: false # Speaker Notes nicht für das Publikum anzeigen
+
+    # default-timing: 30 # Durchschnittliche Dauer einer Folie in Sekunden für den Timer
+    # auto-slide: 5000 # Folien automatisch nach dieser Zeit in Millisekunden weiterschalten
+    # auto-slide-stoppable: false # Automatischen Ablauf nach Benutzereingabe nicht stoppen
+    # auto-slide-method: navigateNext # Methode für das automatische Weiterschalten
+
+
+    # PDF-Ausgabe
+
+    # pdf-max-pages-per-slide: 1 # Maximale Zahl von PDF-Seiten pro überlanger Folie
+    # pdf-separate-fragments: true # Jeden Fragment-Schritt als eigene PDF-Seite ausgeben
+    # pdf-page-height-offset: 0 # Korrektur der Seitenhöhe beim PDF-Druck in Pixeln
+
+
+    # Medien
+
+    # preview-links: true # Externe Links in einem Reveal.js-Overlay öffnen
+    # auto-play-media: true # Eingebettete Audio-/Videomedien automatisch abspielen
+    # preload-iframes: true # Lazy-loaded iframes vorab laden
+    # view-distance: 3 # Zahl der benachbarten Folien, deren Ressourcen vorgeladen werden
+    # mobile-view-distance: 2 # Vorladeabstand auf mobilen Geräten
+
+    # parallax-background-image: backgrounds/parallax.jpg # Parallax-Hintergrund für die Präsentation
+    # parallax-background-size: "2100px 900px" # Größe des Parallax-Hintergrunds
+    # parallax-background-horizontal: 200 # Horizontale Bewegung pro Folie in Pixeln
+    # parallax-background-vertical: 50 # Vertikale Bewegung pro Folie in Pixeln
+
+
+    # Allgemeines Layout
+
+    # cap-location: bottom # Position aller Beschriftungen: top, bottom oder margin
+    # fig-cap-location: bottom # Position von Abbildungsbeschriftungen
+    # tbl-cap-location: top # Position von Tabellenbeschriftungen
+    # classoption: fleqn # Display-Mathematik bei KaTeX linksbündig setzen
+    # max-width: 100% # CSS max-width für das HTML-Body-Element
+    # margin-left: 0 # Linker CSS-Rand des HTML-Body-Elements
+    # margin-right: 0 # Rechter CSS-Rand des HTML-Body-Elements
+    # margin-top: 0 # Oberer CSS-Rand des HTML-Body-Elements
+    # margin-bottom: 0 # Unterer CSS-Rand des HTML-Body-Elements
+
+
+    # Code
+
+    code-copy: true # Kopierschaltfläche bei Codeblöcken immer anzeigen
+    code-line-numbers: true # Zeilennummern in Codeblöcken anzeigen
+    code-overflow: wrap # Lange Codezeilen umbrechen
+    syntax-highlighting: github # Syntaxhervorhebung für Codeblöcke
+
+    # code-fold: true # Code in aufklappbaren Bereichen verbergen
+    # code-summary: "Code anzeigen" # Beschriftung für eingeklappte Codeblöcke
+    # code-link: true # Funktionen in knitr-Code mit Online-Dokumentation verlinken
+    # code-annotations: hover # Code-Anmerkungen: below, hover, select, none oder false
+    # code-block-height: 500px # Maximale Höhe von Codeblöcken
+    # syntax-definitions: [syntax.xml] # Zusätzliche KDE-Syntaxdefinitionen laden
+    # indented-code-classes: [python] # Klassen für eingerückte Codeblöcke festlegen
+
+
+    # Abbildungen
+
+    # fig-align: center # Abbildungen ausrichten: default, left, right oder center
+    # fig-width: 7 # Standardbreite erzeugter Abbildungen
+    # fig-height: 5 # Standardhöhe erzeugter Abbildungen
+    # fig-format: svg # Standardformat: retina, png, jpeg, svg oder pdf
+    # fig-dpi: 96 # Standardauflösung erzeugter Abbildungen
+    # fig-asp: 0.75 # Seitenverhältnis für knitr-Abbildungen
+    # fig-responsive: true # Bilder responsiv skalieren
+
+
+    # Tabellen
+
+    # tbl-colwidths: auto # Spaltenbreiten automatisch aus Markdown übernehmen
+    # df-print: kable # Ausgabe von R-Dataframes: default, kable, tibble oder paged
+
+
+    # Links
+
+    # link-external-icon: true # Externe Links mit einem Symbol kennzeichnen
+    # link-external-newwindow: true # Externe Links in neuem Tab/Fenster öffnen
+    # link-external-filter: "^https://example.org/" # RegEx für URLs, die als intern gelten
+
+
+    # Literatur und Fußnoten
+
+    reference-location: document # Fußnoten und Referenzen am Dokumentende ausgeben
+
+    # bibliography: bibliography.bib # Bibliografie-Datei; meist im Dokument selbst festlegen
+    # csl: citation-style.csl # CSL-Zitierstil
+    # citations-hover: true # Literaturangaben beim Überfahren einer Zitation anzeigen
+    # citeproc: true # Pandocs integrierte Zitationsverarbeitung erzwingen
+    # citation-abbreviations: abbreviations.json # Abkürzungen für Zeitschriftentitel
+    # footnotes-hover: true # Fußnoten beim Überfahren als Popup anzeigen
+
+
+    # Querverweise
+
+    # crossrefs-hover: true # Ziel eines Querverweises beim Überfahren als Popup anzeigen
+    # crossref: {} # Präfixe und Bezeichnungen für Querverweise konfigurieren
+
+
+    # Barrierefreiheit
+
+    # axe: true # Ausgabe beim Rendern mit axe-core auf Barrierefreiheit prüfen
+
+
+    # Technische Template-Vorgaben
+
+    include-in-header:
+      - _includes/fonts.html # Vorgabe: lokal mitgelieferte Schriftarten einbinden
+
+    template-partials:
+      - _partials/title-slide.html # Vorgabe: angepasste Titelfolie verwenden
+
+    # include-before-body: _includes/before-body.html # HTML direkt nach <body> einfügen
+    # include-after-body: _includes/after-body.html # HTML vor </body> einfügen
+    # resources: "assets/**" # Zusätzliche Dateien mit veröffentlichen; projektweit in _quarto.yml gepflegt
+    # metadata-files: [_praesentation.yml] # Weitere Metadatendateien einlesen; projektweit in _quarto.yml gepflegt
+
+    # revealjs-plugins: # Zusätzliche Reveal.js-Plugins aus lokalen Verzeichnissen laden
+    #   - myplugin
+
+
+    # Rendering und Markdown
+
+    from: markdown+emoji # Markdown lesen und Emoji-Syntax unterstützen
+
+    # output-file: index.html # Namen der erzeugten HTML-Datei festlegen
+    # output-ext: html # Dateiendung der Ausgabe festlegen
+    # template: custom.html # Eigenes vollständiges Pandoc-Template verwenden
+    # embed-resources: true # Abhängigkeiten möglichst in eine einzelne HTML-Datei einbetten
+    # self-contained-math: true # Mathematikbibliothek bei eingebetteten Ressourcen mit einbetten
+    # filters: [filter.lua] # Zusätzliche Pandoc-/Lua-Filter verwenden
+    # shortcodes: [shortcodes.lua] # Eigene Quarto-Shortcodes laden
+    # keep-md: true # Nach Ausführung erzeugte Markdown-Zwischendatei behalten
+    # keep-ipynb: true # Nach Ausführung erzeugtes Notebook behalten
+    # ipynb-filters: [filter.py] # Notebook vor der Markdown-Konvertierung filtern
+    # ipynb-shell-interactivity: all # Interaktive Ausführung von Notebook-Knoten steuern
+    # plotly-connected: true # Plotly-Abhängigkeiten über CDN laden
+    # extract-media: extracted-media # Medien aus Eingabedokumenten in ein Verzeichnis extrahieren
+    # resource-path: [".", "assets"] # Zusätzliche Suchpfade für Bilder und Ressourcen
+    # default-image-extension: png # Standardendung für Bildpfade ohne Dateiendung
+    # abbreviations: abbreviations.txt # Eigene Liste von Abkürzungen einlesen
+    # dpi: 96 # Standardauflösung für Pixel-zu-Längeneinheiten
+    # html-table-processing: none # Tabellen aus HTML-Eingaben nicht weiterverarbeiten
+
+    # strip-comments: true # HTML-Kommentare aus der Markdown-Quelle entfernen
+    # ascii: true # Ausgabe auf ASCII-Zeichen beschränken
+
+    # revealjs-url: revealjs # Eigenes lokales Reveal.js-Verzeichnis verwenden
+
+
+# Ausführung von Code
+#
+# Dieser Block liegt auf derselben Ebene wie format: und gilt für ausführbare
+# Zellen. Einzelne Optionen können zusätzlich pro Zelle überschrieben werden.
+
+# execute:
+#   eval: true # Code ausführen
+#   echo: true # Quellcode zusammen mit der Ausgabe anzeigen
+#   output: true # Ergebnisse in die Präsentation aufnehmen; alternativ false oder asis
+#   warning: false # Warnungen in der Ausgabe unterdrücken
+#   error: false # Fehler nicht als Ausgabe übernehmen
+#   include: true # Quellcode und Ergebnisse grundsätzlich in die Ausgabe aufnehmen
+#   cache: false # Berechnungsergebnisse zwischenspeichern
+#   freeze: false # Vorhandene Berechnungsergebnisse beim Projekt-Render wiederverwenden
+
+
+# Sprachliche Anpassungen
+
+language:
+  title-block-affiliation-single: "Institution"
+  title-block-affiliation-plural: "Institutionen"
+  title-block-published: "Veröffentlicht am"
+  title-block-modified: "Zuletzt geändert am"

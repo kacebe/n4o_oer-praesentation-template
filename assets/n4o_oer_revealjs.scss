@@ -1,0 +1,568 @@
+/*-- scss:defaults --*/
+
+/* ==========================================================================
+   REVEAL.JS – GRUNDEINSTELLUNGEN
+
+   Farben und Typografie stammen grundsätzlich aus _brand.yml.
+   Hier stehen nur präsentationsspezifische Ergänzungen.
+   ========================================================================== */
+
+
+/* Präsentationsgröße ------------------------------------------------------ */
+
+$presentation-font-size-root: 26px;
+
+/* Überschriften ---------------------------------------------------------- */
+
+$presentation-h1-font-size: 1.55em;
+$presentation-h2-font-size: 1.55em;
+
+
+/*-- scss:rules --*/
+
+#title-slide {
+  height: 100%;
+  box-sizing: border-box;
+  padding-top: 5.5em;
+  text-align: center;
+}
+
+/* ==========================================================================
+   LINKS
+   ========================================================================== */
+
+.reveal .slides section a,
+.reveal .slides section a:hover {
+  color: inherit;
+}
+
+
+/* ==========================================================================
+   TITELFOLIE: PROJEKT- UND INSTITUTIONSLOGO
+
+   Die Logos stammen aus _brand.yml und werden durch title_brand.lua
+   für title-slide.html bereitgestellt.
+   ========================================================================== */
+
+#title-slide .n4o-title-brand-logo {
+  position: absolute;
+  top: -20px;
+  left: -40px;
+}
+
+
+#title-slide .n4o-title-institution-logo {
+  position: absolute;
+  top: -20px;
+  right: -40px;
+}
+
+
+#title-slide .n4o-title-brand-logo img,
+#title-slide .n4o-title-institution-logo img {
+  display: block;
+
+  width: auto;
+  height: auto;
+
+  max-width: 320px;
+  max-height: 180px;
+}
+
+
+/* ==========================================================================
+   TITELFOLIE: HAUPTINHALT
+
+   Der Hauptinhalt bleibt im normalen Dokumentfluss und reagiert dadurch
+   auf optionale bzw. fehlende Metadaten.
+   ========================================================================== */
+
+#title-slide .n4o-title-main {
+  width: 100%;
+  margin: 0 auto;
+}
+
+
+/* ==========================================================================
+   TITELFOLIE: TITEL UND UNTERTITEL
+   ========================================================================== */
+
+#title-slide .n4o-title-heading {
+  margin-bottom: 0.7em;
+}
+
+
+#title-slide h1.title {
+  margin: 0;
+
+  font-size: $presentation-h1-font-size;
+  line-height: 1.08;
+}
+
+
+#title-slide .subtitle {
+  margin: 0.35em 0 0;
+
+  font-size: 0.95em;
+  line-height: 1.2;
+}
+
+
+/* ==========================================================================
+   TITELFOLIE: VERANSTALTUNG
+
+   Die Angaben stammen aus den citation-Metadaten.
+   ========================================================================== */
+
+#title-slide .n4o-title-event {
+  margin: 0.7em 0;
+}
+
+
+#title-slide .n4o-title-event-name {
+  margin: 0;
+
+  font-size: 0.80em;
+  line-height: 1.2;
+}
+
+#title-slide .n4o-title-event-place {
+  margin: 0.35em 0 0;
+
+  font-size: 0.65em;
+  line-height: 1.2;
+}
+
+
+#title-slide .n4o-title-event-date {
+  margin: 0.45em 0 0;
+
+  font-size: 0.45em;
+  line-height: 1.2;
+}
+
+
+/* ==========================================================================
+   TITELFOLIE: AUTOR:INNEN
+
+   Die Klassen orientieren sich an Quartos nativem Title-Partial.
+   ========================================================================== */
+
+#title-slide .quarto-title-authors {
+  margin: 0.7em 0 0;
+
+  justify-content: center;
+}
+
+
+#title-slide .quarto-title-author {
+  text-align: center;
+}
+
+
+#title-slide .quarto-title-author-name {
+  font-size: 0.70em;
+  line-height: 1.2;
+}
+
+
+#title-slide .quarto-title-author-orcid {
+  display: inline-block;
+
+  margin-left: 0.15em;
+
+  vertical-align: middle;
+}
+
+
+#title-slide .quarto-title-author-orcid img {
+  width: 0.8em;
+  height: 0.8em;
+
+  vertical-align: baseline;
+}
+
+
+/* ==========================================================================
+   TITELFOLIE: INSTITUTIONEN
+   ========================================================================== */
+
+#title-slide .quarto-title-affiliation {
+  margin: 0.35em 0 0;
+
+  font-size: 0.50em;
+  line-height: 1.25;
+}
+
+/* ==========================================================================
+   TITELFOLIE: LIZENZ-BADGE
+   ========================================================================== */
+
+#title-slide .n4o-title-license-badge {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+}
+
+#title-slide .n4o-title-license-badge a {
+  display: block;
+}
+
+#title-slide .n4o-title-license-badge img {
+  display: block;
+  width: 88px;
+  height: auto;
+}
+
+
+/* ==========================================================================
+   TITELFOLIE: LOGO-STREIFEN
+
+   Veranstaltungs- und Partnerlogos werden am unteren Folienrand positioniert.
+   ========================================================================== */
+
+#title-slide .n4o-title-logo-strip {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 1.5em;
+}
+
+#title-slide .n4o-title-logo-strip .n4o-title-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+#title-slide .n4o-title-logo-strip .n4o-title-logo img {
+  display: block;
+
+  width: auto;
+  height: auto;
+
+  max-width: 200px;
+  max-height: 120px;
+}
+
+
+/* ==========================================================================
+   TITELFOLIE: REVEAL.JS-ELEMENTE
+   ========================================================================== */
+
+.reveal .slide-number > a[href*="title-slide"] {
+  display: none;
+}
+
+
+/* Das native Reveal.js-Brand-Logo wird durch die Logos der Titelfolie ersetzt. */
+
+.reveal .slide-logo {
+  display: none !important;
+}
+
+
+/* ==========================================================================
+   ABSCHNITTSFOLIEN
+   ========================================================================== */
+
+.reveal .slides section.title-slide:not(#title-slide) {
+  text-align: left;
+}
+
+.reveal .slides section.title-slide:not(#title-slide) > h1 {
+  position: absolute;
+  top: 40%;
+  left: 6%;
+  width: 55%;
+  margin: 0;
+}
+
+.reveal .slides section.title-slide:not(#title-slide) > p {
+  position: absolute;
+  top: 60%;
+  left: 6%;
+  width: 55%;
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   NORMALE FOLIEN
+   ========================================================================== */
+
+.reveal .slide {
+  text-align: left;
+}
+
+
+/* ==========================================================================
+   FOLIENÜBERSCHRIFTEN
+   ========================================================================== */
+
+.reveal .slides section > h1,
+.reveal .slides section > h2 {
+  line-height: 1.08;
+  margin-top: 0;
+  margin-bottom: 0.7em;
+}
+
+/* ==========================================================================
+   BILDER
+   ========================================================================== */
+
+.reveal .slide img {
+  max-height: 70vh;
+}
+
+/* ==========================================================================
+   LISTEN
+   ========================================================================== */
+
+.reveal .slides .slide ul li,
+.reveal .slides .slide ol li {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   BILDUNTERSCHRIFTEN
+   ========================================================================== */
+
+.reveal .slide figure > figcaption,
+.reveal .slide img.stretch + p.caption,
+.reveal .slide img.r-stretch + p.caption {
+  font-size: 0.55em;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* ==========================================================================
+   ASIDE
+   ========================================================================== */
+
+.reveal .slide aside,
+.reveal .slide div.aside {
+  color: inherit;
+}
+
+/* ==========================================================================
+   BLOCKQUOTES
+   ========================================================================== */
+
+.reveal blockquote {
+  color: inherit;
+  font-style: italic;
+}
+
+/* ==========================================================================
+   CALLOUTS
+   ========================================================================== */
+
+.reveal .slides div.callout.callout-style-default,
+.reveal .slides div.callout.callout-style-simple {
+  border-top-color: var(--brand-companion);
+  border-right-color: var(--brand-companion);
+  border-bottom-color: var(--brand-companion);
+}
+
+.reveal .slides div.callout.callout-style-default .callout-title,
+.reveal .slides div.callout.callout-style-simple .callout-title {
+  background-color: var(--brand-extended-soft);
+  color: inherit;
+}
+
+/* ==========================================================================
+   QUELLEN
+   ========================================================================== */
+
+.reveal #refs {
+  font-size: 1em;
+  line-height: 1.2;
+  color: inherit;
+}
+
+.reveal #refs .csl-entry {
+  margin-bottom: 0.45em;
+  text-indent: 0;
+  display: list-item;
+  margin-left: 1.2em;
+}
+
+/* ==========================================================================
+   INLINE-CODE
+   ========================================================================== */
+
+.reveal .slides code:not(pre code),
+.reveal .slides section.has-light-background code:not(pre code),
+.reveal .slides section.has-dark-background code:not(pre code) {
+  color: var(--brand-text-logo);
+  background-color: var(--brand-extended-soft);
+  padding: 0.08em 0.3em;
+  border-radius: 0.15em;
+}
+
+/* ==========================================================================
+   CODE-BOXEN
+   ========================================================================== */
+
+.reveal div.sourceCode {
+  border-color: var(--brand-extended-strong);
+}
+
+.reveal pre.numberSource code > span > a:first-child::before {
+  color: var(--brand-text-logo);
+  opacity: 0.65;
+}
+
+/* ==========================================================================
+   AUSFÜHRBARE CODEZELLEN
+   ========================================================================== */
+
+.reveal .cell div.cell-code {
+  border-left-width: 0.25em;
+  border-left-color: var(--brand-extended-strong);
+}
+
+/* ==========================================================================
+   AUSGABE AUSFÜHRBARER CODEZELLEN
+   ========================================================================== */
+
+.reveal .cell-output-stdout {
+  margin-top: 0.3em;
+  padding-left: 0.5em;
+  border-left: 0.12em solid var(--brand-companion);
+}
+
+.reveal .cell-output-stdout pre,
+.reveal .cell-output-stdout pre code {
+  background-color: var(--brand-base-background);
+}
+
+/* ==========================================================================
+   FOOTER UND FOLIENNUMMER
+   ========================================================================== */
+
+.reveal .footer {
+  font-size: 0.45em;
+}
+
+.reveal .slide-number {
+  font-size: 0.45em;
+  color: $light-bg-text-color;
+
+  a,
+  a:hover {
+    color: inherit;
+  }
+}
+
+.reveal.has-light-background .slide-number {
+  color: $light-bg-text-color;
+}
+
+.reveal.has-dark-background .slide-number {
+  color: $dark-bg-text-color;
+}
+
+/* ==========================================================================
+   APPENDIX-FOLIE
+   ========================================================================== */
+
+/* Grundlayout */
+
+.reveal .slides section.n4o-appendix-slide {
+  text-align: left;
+}
+
+.n4o-appendix-citation {
+  width: 100%;
+  margin-bottom: 1.5em;
+}
+
+.n4o-appendix-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 4em;
+  align-items: start;
+  width: 88%;
+  margin-inline: auto;
+}
+
+.n4o-appendix-column {
+  min-width: 0;
+}
+
+/* Typografie und Abstände */
+
+.n4o-appendix-heading {
+  display: block;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.n4o-appendix-sources,
+.n4o-appendix-rights {
+  margin-top: 1.2em;
+}
+
+.reveal .slides section.n4o-appendix-slide p {
+  margin-top: 0.35em;
+  margin-bottom: 0.35em;
+}
+
+.n4o-appendix-citation-reference {
+  font-size: 1em;
+  line-height: 1.3;
+}
+
+.reveal .slides .n4o-appendix-citation-reference .csl-entry {
+  margin-left: 0;
+  text-indent: 0;
+}
+
+.reveal .slides .n4o-appendix-citation-reference .hanging-indent {
+  margin-left: 0;
+}
+
+.n4o-appendix-contact-person + .n4o-appendix-contact-person {
+  margin-top: 0.8em;
+}
+
+/* Lizenz und Links */
+
+.n4o-appendix-rights {
+  font-size: 0.7em;
+  line-height: 1.2;
+}
+
+.n4o-appendix-rights img {
+  display: block;
+  width: 88px;
+  height: auto;
+}
+
+.reveal .slides section.n4o-appendix-slide .n4o-appendix-rights p {
+  margin-top: 0.175em;
+  margin-bottom: 0.175em;
+}
+
+.reveal .slides section.n4o-appendix-slide a {
+  overflow-wrap: anywhere;
+}
+
+.reveal .slides section.n4o-appendix-slide img.n4o-appendix-link-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin: 0;
+  vertical-align: -0.125em;
+}

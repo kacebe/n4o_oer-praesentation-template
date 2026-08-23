@@ -1,0 +1,121 @@
+# Branding der Präsentation: Logos, Farben und Typografie.
+# Quarto Brand: https://quarto.org/docs/authoring/brand.html
+
+# Logos
+
+logo:
+  images:
+    icon-logo:
+      path: assets/logos/logo_klein.png # Kleines Markenlogo
+      alt: "Logo NFDI4Objects"
+
+    logo:
+      path: assets/logos/logo.png # Standardlogo
+      alt: "Logo NFDI4Objects"
+
+    logo-gross:
+      path: assets/logos/logo_gross.png # Großes Markenlogo
+      alt: "Logo NFDI4Objects"
+
+    institution-logo:
+      path: assets/logos/logo_institution.png # Durch eigenes Institutionslogo ersetzen
+      alt: "Logo der Institution"
+
+    projekt-logo:
+      path: assets/logos/logo_projekt.png # Durch eigenes Projektlogo ersetzen
+      alt: "Logo des Projekts"
+
+    event-logo:
+      path: assets/logos/logo_event.png # Optional: Logo der Veranstaltung
+      alt: "Logo der Veranstaltung"
+
+    partner-1:
+      path: assets/logos/logo_partner1.png # Optional: Logo einer Partnerorganisation
+      alt: "Logo der Partnerorganisation 1"
+
+    partner-2:
+      path: assets/logos/logo_partner2.png # Optional: Logo einer weiteren Partnerorganisation
+      alt: "Logo der Partnerorganisation 2"
+
+  small: icon-logo # Kleine Logo-Variante
+  medium: institution-logo # Mittlere Logo-Variante; von Reveal.js bevorzugt
+  large: projekt-logo # Große Logo-Variante
+
+
+# Farben
+
+color:
+  palette:
+    text-logo: "#13294B" # Text- und Logofarbe
+    base-background: "#EEEAE0" # Basishintergrund
+    companion: "#CFC5BA" # Begleitfarbe
+    accent-detail: "#0084FF" # Akzent- und Detailfarbe
+    inverse-content: "#FFFFFF" # Inhalt auf dunklen Flächen
+
+    extended-soft: "#E7C6AC" # Erweiterte Palette: heller Ton
+    extended-medium: "#D89E76" # Erweiterte Palette: mittlerer Ton
+    extended-strong: "#CD8255" # Erweiterte Palette: kräftiger Ton
+    extended-dark: "#BCA089" # Erweiterte Palette: dunkler Ton
+
+  # Semantische Rollen
+  foreground: text-logo # Standardtext
+  background: base-background # Standardhintergrund
+  primary: accent-detail # Primäre Akzentfarbe
+  secondary: companion # Sekundäre Akzentfarbe
+  light: inverse-content # Helle Kontrastfarbe
+  dark: text-logo # Dunkle Kontrastfarbe
+
+  # tertiary: extended-soft # Optionale dritte Akzentfarbe
+  # link: accent-detail # Eigene Linkfarbe
+  # success: "#..." # Semantische Farbe für positive Meldungen
+  # info: "#..." # Semantische Informationsfarbe
+  # warning: "#..." # Semantische Warnfarbe
+  # danger: "#..." # Semantische Fehlerfarbe
+
+
+# Typografie
+
+typography:
+
+  base:
+    family: "PT Sans" # Standardschrift
+    line-height: 1.4 # Zeilenabstand
+    # size: 1rem # Grundschriftgröße
+    # weight: 400 # Schriftgewicht
+
+  headings:
+    family: "PT Sans" # Überschriften
+    weight: 700 # Schriftgewicht
+    line-height: 1.2 # Zeilenabstand
+    color: text-logo # Überschriftenfarbe
+    # style: normal # Schriftstil
+
+  monospace:
+    family: "Noto Sans Mono" # Schrift für Code
+    # size: 1em # Grundgröße
+    # weight: 400 # Schriftgewicht
+    # color: text-logo # Schriftfarbe
+    # background-color: extended-soft # Hintergrundfarbe
+
+  monospace-inline:
+    color: text-logo # Schriftfarbe für Inline-Code
+    background-color: extended-soft # Hintergrund für Inline-Code
+    # size: 1em # Schriftgröße
+    # weight: 400 # Schriftgewicht
+
+  monospace-block:
+    size: 0.75em # Schriftgröße in Codeblöcken
+    background-color: extended-soft # Hintergrund für Codeblöcke
+    # color: text-logo # Schriftfarbe
+    # weight: 400 # Schriftgewicht
+    # line-height: 1.4 # Zeilenabstand
+
+  link:
+    decoration: underline # Links unterstreichen
+    # weight: 400 # Schriftgewicht
+    # color: text-logo # Linkfarbe
+    # background-color: transparent # Hintergrundfarbe
+
+
+# Weitere Brand-Bereiche wie meta und defaults werden von diesem
+# Reveal.js-Template derzeit nicht verwendet.

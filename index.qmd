@@ -1,0 +1,65 @@
+---
+title: "N4O OER-Präsentationstemplate"
+subtitle: "Schnelleinstieg in 8 Schritten"
+description: "Kurzanleitung zum Laden und Anpassen des N4O OER-Präsentationstemplates."
+repo-url: "https://github.com/kacebe/n4o_oer-praesentation-template/"
+citation:
+  url: "https://kacebe.github.io/n4o_oer-praesentation-template/"
+appendix-slide: false
+---
+
+## 1. Voraussetzungen
+
+- Quarto ab Version 1.9
+- Texteditor oder IDE
+- Terminal
+- Git optional
+
+## 2. Template herunterladen
+
+- Arbeitsverzeichnis im Terminal öffnen
+- `quarto use template kacebe/n4o_oer-praesentation-template`
+- Zielverzeichnis für das neue Projekt wählen
+- Repository: <https://github.com/kacebe/n4o_oer-praesentation-template/>
+
+## 3. Projekt öffnen
+
+- erzeugtes Projektverzeichnis öffnen
+- `template.qmd` als Ausgangspunkt verwenden
+- Projekt einmal mit `quarto render` rendern
+- Ausgabe im Verzeichnis `_site` prüfen
+
+## 4. Autor:innen anpassen
+
+- `_autor_innen.yml` öffnen
+- Namen und ORCID eintragen
+- E-Mail und persönliche URL ergänzen
+- Affiliations zuordnen und Institutionen anpassen
+
+## 5. Präsentationsmetadaten anpassen
+
+- `_praesentation.yml` öffnen
+- Titel, Beschreibung und Schlagwörter anpassen
+- Datum und Veranstaltungsangaben ergänzen
+- URL, DOI, Version, Lizenz und Copyright prüfen
+
+## 6. OER-Metadaten anpassen
+
+- `_oer_metadata.yml` öffnen
+- Fachgebiet festlegen
+- Lernressourcentyp und Bildungsstufe prüfen
+- Lernziele und weitere OER-Angaben ergänzen
+
+## 7. Inhalte bearbeiten
+
+- eigene Folien in `template.qmd` erstellen
+- Beispiele aus dem Steinbruch übernehmen
+- nicht benötigte Beispielbausteine entfernen
+- Steinbruch online: [template.html](template.html)
+
+## 8. Layout und Branding anpassen
+
+- `_layout.yml`: Reveal.js- und Layout-Einstellungen
+- `_brand.yml`: Farben, Typografie und Logos
+- vorhandene Konfigurationsmöglichkeiten bevorzugen
+- technische Dateien nur bei Bedarf ändern

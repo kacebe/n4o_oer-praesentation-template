@@ -1,0 +1,251 @@
+# =============================================================================
+# HINWEIS ZU DEN BEISPIEL- UND PLATZHALTERWERTEN
+# =============================================================================
+#
+# Diese Datei ist Bestandteil eines Templates. Einige aktive Metadatenwerte
+# dienen daher ausschließlich als Platzhalter oder Beispielwerte, damit die
+# Funktionsweise des Templates unmittelbar sichtbar und testbar bleibt.
+#
+# Vor der Veröffentlichung einer eigenen Präsentation müssen insbesondere
+# Platzhalter wie die folgenden durch reale Angaben ersetzt werden:
+#
+#   - Titel, Untertitel und Beschreibung
+#   - Datum und Veranstaltungsangaben
+#   - DOI
+#   - kanonische URL (citation.url)
+#   - Publisher
+#   - Version
+#   - Copyright-Inhaber:in und Copyright-Jahr
+#
+# Platzhalter können auch in die automatisch erzeugten maschinenlesbaren
+# Metadaten übernommen werden, insbesondere in:
+#
+#   - HTML-Metaelemente
+#   - AMB-/OERSI-JSON-LD
+#   - Schema.org-JSON-LD
+#   - Zitierempfehlung
+#
+# Die mit dem Template erzeugten Beispielwerte sind daher nicht als reale
+# bibliografische oder persistente Identifikatoren zu interpretieren.
+#
+# Kontrollierte Begriffe und Identifikatoren, die zum Template selbst gehören
+# und bereits gültige Werte darstellen (z. B. HCRT, KIM HFS oder
+# educationalLevel), müssen dagegen nicht ersetzt werden.
+# =============================================================================
+
+
+# Metadaten zur Beschreibung, Veröffentlichung und Zitierbarkeit der Präsentation
+# Erforderlich sind Titel, Beschreibung, Schlagwörter, Sprache, Datum, Lizenz und Rechteinhaber:in. Die anderen Angaben sind optional bzw. als Vorgabe des Templates voreingestellt.
+#
+# Quarto-Dokumentation:
+# Metadaten: https://quarto.org/docs/authoring/front-matter.html
+# Zitiermetadaten: https://quarto.org/docs/reference/metadata/citation.html
+# Zitierbare Dokumente: https://quarto.org/docs/authoring/create-citeable-articles.html
+#
+#   ERFORDERLICH = für jede Präsentation ausfüllen
+#   OPTIONAL     = bei Bedarf Kommentarzeichen # entfernen und ausfüllen
+#   VORGABE      = für dieses Template voreingestellt; normalerweise nicht ändern
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# ERFORDERLICH: Titel
+# -----------------------------------------------------------------------------
+
+title: "Titel der Präsentation"
+
+# OPTIONAL: Untertitel
+# Hinweis: hier nicht die Veranstaltung oder das Datum eintragen. Die Angaben werden systematisch unten erhoben
+subtitle: "Untertitel der Präsentation"
+
+# -----------------------------------------------------------------------------
+# ERFORDERLICH: Beschreibung
+# -----------------------------------------------------------------------------
+
+# Kurze Beschreibung von Inhalt und Zweck der Präsentation. Die Beschreibung sollte auch ohne Kenntnis der Präsentation verständlich sein. Sie erscheint im html-Header der Präsentation.
+#
+description: >
+  Kurze Beschreibung der Präsentation.
+
+
+# -----------------------------------------------------------------------------
+# ERFORDERLICH: Schlagwörter
+# -----------------------------------------------------------------------------
+
+# Freie Schlagwörter zur inhaltlichen Beschreibung.
+# Die systematische fachliche Einordnung der Bildungsressource erfolgt zusätzlich in _oer_metadata.yml.
+#
+keywords:
+  - "Schlagwort 1"
+  - "Schlagwort 2"
+
+
+# -----------------------------------------------------------------------------
+# ERFORDERLICH: Sprache
+# -----------------------------------------------------------------------------
+
+# Sprachcode nach BCP 47, z. B. de, en, de-DE oder en-GB. Quarto übernimmt die Angabe auch in die Zitiermetadaten.
+#
+# Informationen und Prüfung von Sprachcodes: https://www.iana.org/assignments/language-subtag-registry/
+#
+lang: de
+
+# -----------------------------------------------------------------------------
+# ERFORDERLICH: Veröffentlichungsdatum
+# -----------------------------------------------------------------------------
+
+# Datum der veröffentlichten bzw. zitierbaren Fassung im Format YYYY-MM-DD.
+# Das Datum einer Veranstaltung wird davon unabhängig unter citation.event-date angegeben.
+#
+date: "2026-08-19"
+
+# OPTIONAL: Datum der letzten inhaltlichen Änderung
+date-modified: last-modified
+
+# -----------------------------------------------------------------------------
+# ZITATIONSSTIL
+# -----------------------------------------------------------------------------
+
+# Literaturangaben und Zitate werden nach APA formatiert. Die CSL-Datei liegt lokal im Template und kann daher auch offline verwendet werden.
+
+bibliography: bibliographie.bib
+csl: assets/csl/apa.csl
+
+# =============================================================================
+# IDENTIFIKATION UND VERÖFFENTLICHUNG
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# OPTIONAL: DOI
+# -----------------------------------------------------------------------------
+
+# DOI der konkreten veröffentlichten Version. Nur eintragen, wenn bereits ein DOI vergeben wurde.
+# DataCite Metadata Schema: https://datacite-metadata-schema.readthedocs.io/en/4.7/
+#
+doi: "10.0000/00000"
+
+# -----------------------------------------------------------------------------
+# OPTIONAL, aber für Web-Veröffentlichung empfohlen: Vorschaubild
+# -----------------------------------------------------------------------------
+
+# Vorschaubild der Präsentation, z. B. für Suchmaschinen, soziale Medien
+# und die Darstellung in OER-Suchdiensten wie OERSI.
+#
+# Für OERSI wird beim Export eine vollständige öffentliche URL erzeugt.
+#
+# image: "img/vorschaubild.png"
+
+# =============================================================================
+# ZITIERMETADATEN
+# =============================================================================
+
+# Quarto verwendet für diese Angaben das Metadatenmodell der Citation Style Language (CSL).
+#
+# CSL besitzt keinen eigenen Typ "presentation". Präsentationen werden als "speech" erfasst; mit genre wird die konkrete Form näher bestimmt.
+# CSL: https://docs.citationstyles.org/en/stable/specification.html
+# Quarto: https://quarto.org/docs/reference/metadata/citation.html
+#
+citation:
+
+  # VORGABE: Typ der Ressource in CSL
+  type: speech
+
+  # VORGABE: nähere Bezeichnung des Präsentationstyps
+  genre: "Presentation"
+
+  # OPTIONAL: URL der veröffentlichten und zitierbaren Präsentation.
+  #
+  # Für eine Veröffentlichung der Präsentation in OERSI ist eine dauerhaft
+  # erreichbare URL erforderlich. Sie wird dort als eindeutiger Identifier
+  # der Bildungsressource verwendet.
+  #
+  url: "https://kacebe.github.io/n4o_oer-praesentation-template/"
+
+  # OPTIONAL: Versionsnummer der Präsentation
+  version: "1.0"
+
+  # OPTIONAL: herausgebende Person oder Organisation
+  # Name der Person oder Organisation, die für die Veröffentlichung der Präsentation verantwortlich ist (https://datacite-metadata-schema.readthedocs.io/en/4.7/properties/publisher/)
+  publisher: "Name der herausgebenden Institution"
+
+  # ===========================================================================
+  # VERANSTALTUNG
+  # ===========================================================================
+
+  # Die folgenden CSL-Felder beschreiben die Veranstaltung, in deren Rahmen die Präsentation gehalten wurde.
+  #
+  # CSL-Variablen: https://docs.citationstyles.org/en/stable/specification.html#appendix-iv-variables
+
+
+  # OPTIONAL: Name der Veranstaltung
+  event-title: "Name der Veranstaltung"
+
+  # OPTIONAL: Veranstaltungsort
+  # Möglich sind beispielsweise Stadt und Land oder eine Institution.
+  event-place: "Veranstaltungsort"
+
+  # OPTIONAL: Datum der Veranstaltung
+  event-date: "2026-08-18"
+
+  # OPTIONAL: Session, Sektion oder vergleichbare Untereinheit
+  # CSL verwendet container-title bei einer Präsentation für die übergeordnete Session, beispielsweise ein Panel oder Symposium.
+  container-title: "Titel der Session"
+
+  # OPTIONAL: Veranstaltungs- oder Vortragsreihe
+  # CSL verwendet collection-title beispielsweise für eine Vortragsreihe.
+  collection-title: "Name der Veranstaltungsreihe"
+
+# ONLINE-BEREITSTELLUNG DES QUELLCODES
+# -----------------------------------------------------------------------------
+
+# OPTIONAL: Repository mit den bearbeitbaren Quarto-Quelldateien. Die URL wird auf der Appendix-Folie als Quelle für die Nachnutzung der Präsentation ausgegeben.
+#
+# Quarto: https://quarto.org/docs/reference/projects/websites.html
+#
+repo-url: "https://github.com/kacebe/n4o_oer-praesentation-template/"
+
+# =============================================================================
+# RECHTE UND LIZENZ
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# ERFORDERLICH: Lizenz
+# -----------------------------------------------------------------------------
+
+# Standardmäßig wird Creative Commons Namensnennung 4.0 verwendet.
+#
+# CC BY 4.0 erlaubt das Teilen und Bearbeiten des Materials für beliebige Zwecke, auch kommerziell. Voraussetzung ist insbesondere eine angemessene Namensnennung.
+#
+# Eine andere offene Lizenz "CC BY-SA 4.0" oder "CC0 1.0" kann hier eingetragen werden. Restriktivere Creative-Commons-Lizenzen, insbesondere solche mit den Bedingungen NC oder ND, werden in diesem Template nicht als Open Access behandelt und sind für OER ungeeignet; für sie ist type: open-access daher nicht geeignet.
+#
+# Quarto: https://quarto.org/docs/authoring/front-matter.html#license
+#
+# Informationen und Auswahl einer Creative-Commons-Lizenz: https://creativecommons.org/share-your-work/cclicenses/
+#
+license:
+  text: "CC BY 4.0"
+  type: open-access
+  url: "https://creativecommons.org/licenses/by/4.0/"
+
+# -----------------------------------------------------------------------------
+# ERFORDERLICH: Rechteinhaber:in und Jahr
+# -----------------------------------------------------------------------------
+
+# holder bezeichnet die Person oder Organisation, die die Rechte an der Präsentation hält und daher lizensieren kann.
+#
+# Quarto: https://quarto.org/docs/authoring/front-matter.html#copyright
+#
+copyright:
+  holder: "Name der Rechteinhaberin / des Rechteinhabers"
+  year: 2026
+
+# -----------------------------------------------------------------------------
+# APPENDIX-FOLIE
+# -----------------------------------------------------------------------------
+
+# OPTIONAL: Automatisch erzeugte Abschlussfolie mit Informationen zu
+# Zitation, Nachnutzung, Kontakt, Lizenz und Quellen.
+#
+# VORGABE = true; normalerweise nicht ändern.
+# Auf false setzen, wenn keine Appendix-Folie erzeugt werden soll.
+#
+# appendix-slide: false

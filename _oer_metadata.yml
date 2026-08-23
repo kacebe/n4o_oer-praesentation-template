@@ -1,0 +1,138 @@
+# OER- und Bildungsmetadaten der Präsentation.
+# Allgemeine Angaben wie Titel, Beschreibung, Sprache, Lizenz und Autor:innen
+# werden in _praesentation.yml bzw. _autor_innen.yml gepflegt.
+#
+# Erforderlich = für jede Präsentation prüfen bzw. anpassen
+# Optional     = bei Bedarf Kommentarzeichen # entfernen und ausfüllen
+# Vorgabe      = für dieses Template voreingestellt; normalerweise nicht ändern
+#
+# Hilfe zur Erfassung: https://oersi.gitlab.io/metadata-form/metadata-generator.html
+
+oer:
+
+  # Erforderliche Angaben
+
+  creativeWorkStatus: Draft # Erforderlich: vor Veröffentlichung auf Published setzen
+
+  # Erforderlich: Fachgebiet anpassen; weitere Fachgebiete als Listeneinträge ergänzen
+  # Hochschulfächersystematik: https://w3id.org/kim/hochschulfaechersystematik/scheme
+  about:
+    - id: "https://w3id.org/kim/hochschulfaechersystematik/n1"
+      type: Concept
+      prefLabel:
+        de: "Geisteswissenschaften"
+        en: "Humanities"
+
+
+  # Vorgaben des Templates
+
+  learningResourceType: # Vorgabe: Präsentation; normalerweise nicht ändern
+    - id: "https://w3id.org/kim/hcrt/slide"
+      type: Concept
+      prefLabel:
+        de: "Präsentation"
+        en: "Presentation"
+
+  educationalLevel: # Vorgabe: Hochschule; bei Bedarf präzisieren
+    - id: "https://w3id.org/kim/educationalLevel/level_A"
+      type: Concept
+      prefLabel:
+        de: "Hochschule"
+        en: "Higher Education"
+
+  isAccessibleForFree: true # Vorgabe: veröffentlichte OER ist kostenfrei zugänglich
+
+  conditionsOfAccess: # Vorgabe: keine Anmeldung erforderlich
+    id: "http://w3id.org/kim/conditionsOfAccess/no_login"
+    type: Concept
+    prefLabel:
+      de: "keine Anmeldung erforderlich"
+      en: "no login required"
+
+
+  # Optionale didaktische Beschreibung
+
+  # audience: # Optional: didaktische Zielgruppe; weitere als Listeneinträge ergänzen
+  #   - id: "http://purl.org/dcx/lrmi-vocabs/educationalAudienceRole/student"
+  #     type: Concept
+  #     prefLabel:
+  #       de: "Studierende"
+  #       en: "student"
+
+  # teaches: # Optional: vermittelte Kompetenzen oder Lernziele
+  #   - id: "URI-DES-LERNZIELS"
+  #     prefLabel:
+  #       de: "Formulierung des Lernziels"
+
+  # competencyRequired: # Optional: vorausgesetzte Kompetenzen oder Vorkenntnisse
+  #   - id: "URI-DER-VORAUSGESETZTEN-KOMPETENZ"
+  #     prefLabel:
+  #       de: "Beschreibung der vorausgesetzten Kompetenz"
+
+  # Optional: vorherrschender Lernmodus; mögliche Werte: active, expositive, mixed
+  # Vokabular: http://purl.org/dcx/lrmi-vocabs/interactivityType/
+  # interactivityType:
+  #   id: "http://purl.org/dcx/lrmi-vocabs/interactivityType/expositive"
+  #   type: Concept
+  #   prefLabel:
+  #     de: "erklärend"
+  #     en: "expositive"
+
+
+  # Optionale Barrierefreiheitsangaben
+
+  # Optional: vorhandene Barrierefreiheitsmerkmale; mehrere Werte möglich
+  # Vokabular: https://www.w3.org/2021/a11y-discov-vocab/latest/#accessibilityFeature-vocabulary
+  # accessibilityFeature:
+  #   - alternativeText
+  #   - structuralNavigation
+  #   - readingOrder
+
+
+  # Optionale Beziehungen zu anderen Ressourcen
+
+  # isBasedOn: # Optional: Ausgangsressource bei Bearbeitung oder Weiterentwicklung
+  #   - id: "URI-DER-AUSGANGSRESSOURCE"
+  #     name: "Titel der Ausgangsressource"
+
+  # isPartOf: # Optional: übergeordnete Ressource, z. B. Kurs oder OER-Sammlung
+  #   - id: "URI-DER-ÜBERGEORDNETEN-RESSOURCE"
+  #     name: "Titel der übergeordneten Ressource"
+
+
+dalia:
+
+  # Vorgabe des Templates
+
+  mediaType: # Vorgabe: Reveal.js-Präsentation; normalerweise nicht ändern
+    - id: "https://schema.org/PresentationDigitalDocument"
+      prefLabel:
+        de: "Präsentation"
+        en: "Presentation"
+
+
+  # Optionale Zielgruppen- und Kompetenzangaben
+
+  # Optional: DALIA-Zielgruppe; weitere als Listeneinträge ergänzen
+  # Auswahl: https://dalia.pages.rwth-aachen.de/dalia-ontology/index-en.html#target-groupc
+  # targetGroup:
+  #   - id: "https://purl.org/ontology/modalia#BachelorStudent"
+  #     prefLabel:
+  #       de: "Bachelor-Studierende"
+  #       en: "Bachelor students"
+
+  # Optional: vorausgesetztes Kompetenzniveau: Novice, Advanced Beginner,
+  # Competent, Proficient oder Expert
+  # proficiencyLevel:
+  #   id: "https://purl.org/ontology/modalia#Novice"
+  #   prefLabel:
+  #     de: "Anfänger:innen"
+  #     en: "Novice"
+
+
+  # Optionale Community-Zuordnung
+
+  # Optional: fachliche oder institutionelle Community in DALIA
+  # Vorhandene Communities: https://search.dalia.education/
+  # community:
+  #   - name: "NFDI4Objects"

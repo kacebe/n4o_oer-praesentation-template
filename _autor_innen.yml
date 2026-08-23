@@ -1,0 +1,56 @@
+# Angaben zu Autor:innen und ihren institutionellen Zugehörigkeiten.
+# Die eingetragenen Personen- und Kontaktdaten sind Beispielwerte und müssen
+# vor der Veröffentlichung geprüft bzw. ersetzt werden.
+#
+# Erforderlich = für jede Person ausfüllen
+# Optional     = bei Bedarf ergänzen bzw. Kommentarzeichen # entfernen
+#
+# Quarto: https://quarto.org/docs/authoring/front-matter.html#author
+
+# Autor:innen
+
+author:
+  - name:
+      given: "Jane" # Erforderlich: Vorname
+      family: "Doe" # Erforderlich: Nachname
+
+    orcid: "0000-0000-0000-0001" # Optional, empfohlen: ORCID ohne URL
+    email: "jane.doe@example.org" # Optional: E-Mail-Adresse
+    url: "https://example.com" # Optional: persönliche oder berufliche Website
+
+    affiliations: # Optional: institutionelle Zugehörigkeit über die unten definierte id
+      - ref: institution-1
+
+    # roles: # Optional: Beiträge der Person nach CRediT; mehrere Rollen möglich
+    #   - conceptualization
+    #   - writing
+    # CRediT: https://credit.niso.org/
+
+  - name:
+      given: "John" # Erforderlich: Vorname
+      family: "Doe" # Erforderlich: Nachname
+
+    orcid: "0000-0000-0000-0002" # Optional, empfohlen: ORCID ohne URL
+    email: "john.doe@example.org" # Optional: E-Mail-Adresse
+    url: "https://example.com" # Optional: persönliche oder berufliche Website
+
+    affiliations:
+      - ref: institution-1
+
+
+# Institutionen
+
+# Optional: nur erforderlich, wenn mindestens eine Person über affiliations darauf verweist.
+# Die lokale id dient ausschließlich zur Referenz innerhalb dieser YAML-Datei.
+affiliations:
+  - id: institution-1
+    name: "Awesome University" # Erforderlich, sobald die Institution verwendet wird
+    department: "Fun and Entertainment with Quarto and Metadata" # Optional: Organisationseinheit
+    city: "City" # Optional: Ort
+    country: "Country" # Optional: Land
+    url: "https://example.com" # Optional: Website der Institution
+    ror: "https://ror.org/00aa00a00" # Optional, empfohlen: vollständige ROR-URI
+
+    # group: "Arbeitsgruppe" # Optional: Arbeits- oder Forschungsgruppe
+
+# ROR-Suche: https://ror.org/search

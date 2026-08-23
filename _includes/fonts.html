@@ -1,0 +1,70 @@
+<style>
+
+/* ==========================================================================
+   Lokale Schriftarten
+   ==========================================================================
+
+   Die Schriftarten werden hier explizit über @font-face eingebunden.
+
+   Hintergrund:
+   Die Einbindung lokaler Fonts über _brand.yml funktioniert bei Reveal.js aufgrund der erzeugten theme-relativen Pfade nicht zuverlässig. _brand.yml übernimmt daher nur die typografische Zuordnung der Schriftfamilien. Die Font-Dateien selbst werden über diese Datei geladen.
+
+   Alle verwendeten Schriftarten liegen lokal im Repository. Dadurch bleibt die Präsentation auch ohne Internetverbindung vollständig nutzbar.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   PT Sans
+   -------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "PT Sans";
+  src: url("assets/fonts/pt_sans/PTSans-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PT Sans";
+  src: url("assets/fonts/pt_sans/PTSans-Italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PT Sans";
+  src: url("assets/fonts/pt_sans/PTSans-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PT Sans";
+  src: url("assets/fonts/pt_sans/PTSans-BoldItalic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+}
+
+
+/* --------------------------------------------------------------------------
+   Noto Sans Mono
+   --------------------------------------------------------------------------
+
+   Variable Schriftart. Eine Datei stellt alle benötigten Schriftgewichte
+   von Thin (100) bis Black (900) bereit.
+   -------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Noto Sans Mono";
+  src: url("assets/fonts/noto_sans_mono/NotoSansMono_variabel.ttf")
+       format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+</style>

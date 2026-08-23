@@ -1,0 +1,35 @@
+# Zentrale Projektkonfiguration des Präsentationstemplates
+# Die inhaltlichen Metadaten und die Reveal.js-Konfiguration werden aus separaten YAML-Dateien eingebunden.
+# Quarto-Projekte:https://quarto.org/docs/projects/quarto-projects.html
+# Metadatendateien: https://quarto.org/docs/projects/quarto-projects.html#metadata-includes
+
+project:
+  type: default
+  output-dir: _site
+
+  # Zusätzliche Ressourcen, die in das Ausgabeverzeichnis kopiert werden.
+
+  resources:
+    - "backgrounds/**"
+    - "assets/fonts/**"
+    - "assets/logos/**"
+
+# -----------------------------------------------------------------------------
+# Einbinden der Metadaten und des Layouts
+# -----------------------------------------------------------------------------
+
+metadata-files:
+  - _autor_innen.yml
+  - _praesentation.yml
+  - _oer_metadata.yml
+  - _layout.yml
+
+# -----------------------------------------------------------------------------
+# Lua-Filter
+# -----------------------------------------------------------------------------
+
+filters:
+  - _filters/title_brand.lua
+  - quarto
+  - _filters/html_metadata.lua
+  - _filters/appendix_slide.lua

@@ -1,0 +1,741 @@
+## Steinbruch für OER-Präsentationen
+
+- Sammlung erprobter Folienbausteine für eigene Präsentationen
+- Beispiele kopieren, kombinieren und an den eigenen Inhalt anpassen
+- Nicht benötigte Folien und Varianten entfernen
+- Metadaten, Layout und Branding zentral über die vorgesehenen YAML-Dateien steuern
+
+## Farbpalette des Templates
+
+<div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:0.35em 0.6em; font-size:0.56em;">
+
+<div style="grid-column:1 / -1; font-weight:700; margin-top:0.1em;">
+Semantische Farbrollen
+</div>
+
+<div style="background:{{< brand color foreground >}}; color:{{< brand color light >}}; padding:0.45em 0.6em;">
+<strong>foreground</strong><br>
+`{{< brand color foreground >}}`
+</div>
+
+<div style="background:{{< brand color background >}}; color:{{< brand color dark >}}; border:1px solid {{< brand color secondary >}}; padding:0.45em 0.6em;">
+<strong>background</strong><br>
+`{{< brand color background >}}`
+</div>
+
+<div style="background:{{< brand color primary >}}; color:{{< brand color dark >}}; padding:0.45em 0.6em;">
+<strong>primary</strong><br>
+`{{< brand color primary >}}`
+</div>
+
+<div style="background:{{< brand color secondary >}}; color:{{< brand color dark >}}; padding:0.45em 0.6em;">
+<strong>secondary</strong><br>
+`{{< brand color secondary >}}`
+</div>
+
+<div style="background:{{< brand color light >}}; color:{{< brand color dark >}}; border:1px solid {{< brand color secondary >}}; padding:0.45em 0.6em;">
+<strong>light</strong><br>
+`{{< brand color light >}}`
+</div>
+
+<div style="background:{{< brand color dark >}}; color:{{< brand color light >}}; padding:0.45em 0.6em;">
+<strong>dark</strong><br>
+`{{< brand color dark >}}`
+</div>
+
+
+<div style="grid-column:1 / -1; font-weight:700; margin-top:0.45em;">
+Corporate-Design-Palette
+</div>
+
+<div style="background:{{< brand color text-logo >}}; color:{{< brand color inverse-content >}}; padding:0.45em 0.6em;">
+<strong>text-logo</strong><br>
+`{{< brand color text-logo >}}`
+</div>
+
+<div style="background:{{< brand color base-background >}}; color:{{< brand color text-logo >}}; border:1px solid {{< brand color companion >}}; padding:0.45em 0.6em;">
+<strong>base-background</strong><br>
+`{{< brand color base-background >}}`
+</div>
+
+<div style="background:{{< brand color companion >}}; color:{{< brand color text-logo >}}; padding:0.45em 0.6em;">
+<strong>companion</strong><br>
+`{{< brand color companion >}}`
+</div>
+
+<div style="background:{{< brand color accent-detail >}}; color:{{< brand color text-logo >}}; padding:0.45em 0.6em;">
+<strong>accent-detail</strong><br>
+`{{< brand color accent-detail >}}`
+</div>
+
+<div style="background:{{< brand color inverse-content >}}; color:{{< brand color text-logo >}}; border:1px solid {{< brand color companion >}}; padding:0.45em 0.6em;">
+<strong>inverse-content</strong><br>
+`{{< brand color inverse-content >}}`
+</div>
+
+<div style="background:{{< brand color extended-soft >}}; color:{{< brand color text-logo >}}; padding:0.45em 0.6em;">
+<strong>extended-soft</strong><br>
+`{{< brand color extended-soft >}}`
+</div>
+
+<div style="background:{{< brand color extended-medium >}}; color:{{< brand color text-logo >}}; padding:0.45em 0.6em;">
+<strong>extended-medium</strong><br>
+`{{< brand color extended-medium >}}`
+</div>
+
+<div style="background:{{< brand color extended-strong >}}; color:{{< brand color text-logo >}}; padding:0.45em 0.6em;">
+<strong>extended-strong</strong><br>
+`{{< brand color extended-strong >}}`
+</div>
+
+<div style="background:{{< brand color extended-dark >}}; color:{{< brand color text-logo >}}; padding:0.45em 0.6em;">
+<strong>extended-dark</strong><br>
+`{{< brand color extended-dark >}}`
+</div>
+
+</div>
+
+# Typografie und Grundelemente
+
+Bausteine für Text, Listen, Tabellen, Hervorhebungen und Callouts.
+
+## Standardfolie
+
+Eine typische Inhaltsfolie kombiniert einen kurzen einleitenden Absatz mit wenigen klaren Aussagen.
+
+- Eine zentrale Aussage pro Punkt
+- Möglichst kurze und gut erfassbare Formulierungen
+- Ergänzende Informationen nur dort, wo sie für das Verständnis notwendig sind
+
+Weiterführende Informationen können als [Link zu Quarto](https://quarto.org/) oder als Literaturverweis [@petersen2023] eingebunden werden.
+
+## Abschnitt {background-color='{{< brand color dark >}}'}
+
+Text auf dunklem Hintergrund.
+
+`Inline-Code`
+
+[Beispiellink](https://quarto.org/)
+
+`## Abschnitt {background-color='{{< brand color dark >}}'}`
+
+## Heller Abschnitt {background-color='{{< brand color background >}}'}
+
+Text auf hellem Hintergrund.
+
+`Inline-Code`
+
+[Beispiellink](https://quarto.org/)
+
+
+## Lange Folienüberschrift zur Prüfung von Zeilenumbruch und Abständen
+
+Längere Überschriften sollten automatisch umbrechen, ohne dass der Abstand zum Folieninhalt verloren geht.
+
+Der Fließtext darunter dient dazu, die verfügbare Textbreite, die Grundschrift und den vertikalen Rhythmus bei mehrzeiligen Überschriften zu beurteilen.
+
+## Textformatierung
+
+Mit Markdown lassen sich Hervorhebungen direkt im Text setzen:
+
+- **fett** für besondere Gewichtung
+- *kursiv* für Begriffe oder leichte Hervorhebungen
+- ***fett und kursiv*** für stärkere Akzentuierung
+- ~~durchgestrichen~~ für verworfene oder korrigierte Inhalte
+- `inline_code()` für Befehle, Variablen oder Dateinamen
+- [Links](https://quarto.org/) für weiterführende Ressourcen
+
+> Eine Hervorhebung sollte die inhaltliche Hierarchie unterstützen und nicht mit ihr konkurrieren.
+
+## Listen
+
+:::: {.columns}
+
+::: {.column width="50%"}
+**Ungeordnete Liste**
+
+- Erster Punkt
+- Zweiter Punkt
+  - Unterpunkt
+  - Weiterer Unterpunkt
+    - Dritte Ebene
+- Dritter Punkt
+:::
+
+::: {.column width="50%"}
+**Geordnete Liste**
+
+1. Vorbereitung
+2. Durchführung
+   1. Arbeitsschritt
+   2. Kontrolle
+3. Ergebnis
+4. Dokumentation
+:::
+
+::::
+
+## Tabelle
+
+| Element | Beispiel | Bedeutung | Status |
+|---|---|---|---|
+| Titel | Präsentation | zentrale Überschrift | erforderlich |
+| Untertitel | Einführung | ergänzende Einordnung | optional |
+| Autor:in | Jane Doe | verantwortliche Person | erforderlich |
+| DOI | 10.0000/00000 | persistenter Identifikator | optional |
+
+: Beispiel für eine Tabelle mit kurzen und längeren Zellinhalten.
+
+## Hervorgehobene Information
+
+> Eine zentrale Aussage, Definition oder Schlussfolgerung sollte sich deutlich vom übrigen Folieninhalt abheben.
+
+Darunter kann ein kurzer erläuternder Satz stehen, der den Kontext der hervorgehobenen Aussage ergänzt.
+
+## Hinweise und Callouts
+
+::: {.callout-note}
+Diese Fläche dient zur Prüfung eines neutralen Hinweises mit mehrzeiligem Text und automatischem Umbruch.
+:::
+
+::: {.callout-tip}
+Ein Tipp hebt eine Empfehlung, einen praktischen Hinweis oder eine hilfreiche Vorgehensweise hervor.
+:::
+
+::: {.callout-warning}
+Eine Warnung weist auf mögliche Probleme, Einschränkungen oder unerwünschte Folgen hin.
+:::
+
+::: {.callout-caution}
+Ein Vorsichtshinweis kennzeichnet Inhalte, bei denen besondere Aufmerksamkeit oder sorgfältiges Vorgehen erforderlich ist.
+:::
+
+::: {.callout-important}
+Eine wichtige Information sollte deutlich hervorgehoben sein, ohne den übrigen Folieninhalt visuell zu dominieren.
+:::
+
+## Hinweise und Callouts {background-color='{{< brand color dark >}}'}
+
+::: {.callout-note}
+Diese Fläche dient zur Prüfung eines neutralen Hinweises mit mehrzeiligem Text und automatischem Umbruch.
+:::
+
+::: {.callout-tip}
+Ein Tipp hebt eine Empfehlung, einen praktischen Hinweis oder eine hilfreiche Vorgehensweise hervor.
+:::
+
+::: {.callout-warning}
+Eine Warnung weist auf mögliche Probleme, Einschränkungen oder unerwünschte Folgen hin.
+:::
+
+::: {.callout-caution}
+Ein Vorsichtshinweis kennzeichnet Inhalte, bei denen besondere Aufmerksamkeit oder sorgfältiges Vorgehen erforderlich ist.
+:::
+
+::: {.callout-important}
+Eine wichtige Information sollte deutlich hervorgehoben sein, ohne den übrigen Folieninhalt visuell zu dominieren.
+:::
+
+## Verschachtelte Elemente – Standard
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+### Callout
+
+Normaler Text vor einem Callout zum Vergleich
+
+::: {.callout-note}
+Ein Hinweis mit **Fettschrift**, *Kursivschrift*, `inline_code()` und einem [externen Link](https://quarto.org/).
+
+Auch ein Dateiname wie `_brand.yml` und ein Befehl wie `quarto render` sollten innerhalb eines Callouts eindeutig erkennbar bleiben.
+:::
+
+### Blockquote
+
+> Ein Zitat mit **Hervorhebung**, `code` und einem [Link zu Reveal.js](https://revealjs.com/).
+
+:::
+
+
+::: {.column width="50%"}
+
+### Bildunterschrift
+
+![Bildunterschrift mit **Hervorhebung**, `code` und einem [Link](https://quarto.org/).](img/placeholder.png){fig-alt="Platzhaltergrafik für den Test verschachtelter Formatierungen." width="55%"}
+
+:::
+::::
+
+
+## Verschachtelte Elemente – dunkler Hintergrund {background-color='{{< brand color dark >}}'}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+### Callout
+
+::: {.callout-note}
+Ein Hinweis mit **Fettschrift**, *Kursivschrift*, `inline_code()` und einem [externen Link](https://quarto.org/).
+
+Auch ein Dateiname wie `_brand.yml` und ein Befehl wie `quarto render` sollten innerhalb eines Callouts eindeutig erkennbar bleiben.
+:::
+
+### Blockquote
+
+> Ein Zitat mit **Hervorhebung**, `code` und einem [Link zu Reveal.js](https://revealjs.com/).
+
+:::
+
+
+::: {.column width="50%"}
+
+### Bildunterschrift
+
+![Bildunterschrift mit **Hervorhebung**, `code` und einem [Link](https://quarto.org/).](img/placeholder.png){fig-alt="Platzhaltergrafik für den Test verschachtelter Formatierungen." width="55%"}
+
+:::
+::::
+
+
+## Verschachtelte Elemente – heller Hintergrund {background-color='{{< brand color background >}}'}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+### Callout
+
+::: {.callout-note}
+Ein Hinweis mit **Fettschrift**, *Kursivschrift*, `inline_code()` und einem [externen Link](https://quarto.org/).
+
+Auch ein Dateiname wie `_brand.yml` und ein Befehl wie `quarto render` sollten innerhalb eines Callouts eindeutig erkennbar bleiben.
+:::
+
+### Blockquote
+
+> Ein Zitat mit **Hervorhebung**, `code` und einem [Link zu Reveal.js](https://revealjs.com/).
+
+:::
+
+
+::: {.column width="50%"}
+
+### Bildunterschrift
+
+![Bildunterschrift mit **Hervorhebung**, `code` und einem [Link](https://quarto.org/).](img/placeholder.png){fig-alt="Platzhaltergrafik für den Test verschachtelter Formatierungen." width="55%"}
+
+:::
+::::
+
+
+## Listen und Tabellen in Spalten
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+### Liste
+
+- Normaler Listeneintrag
+- Eintrag mit `inline_code()`
+- Eintrag mit [Link](https://quarto.org/)
+- Eintrag mit **Fett**, *Kursiv* und `code`
+
+:::
+
+::: {.column width="50%"}
+
+### Tabelle
+
+| Element | Beispiel |
+|---|---|
+| Code | `quarto render` |
+| Link | [Quarto](https://quarto.org/) |
+| Betonung | **wichtiger Text** |
+
+:::
+::::
+
+## Listen und Tabellen – dunkler Hintergrund {background-color='{{< brand color dark >}}'}
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+### Liste
+
+- Normaler Listeneintrag
+- Eintrag mit `inline_code()`
+- Eintrag mit [Link](https://quarto.org/)
+- Eintrag mit **Fett**, *Kursiv* und `code`
+
+:::
+
+::: {.column width="50%"}
+
+### Tabelle
+
+| Element | Beispiel |
+|---|---|
+| Code | `quarto render` |
+| Link | [Quarto](https://quarto.org/) |
+| Betonung | **wichtiger Text** |
+
+:::
+::::
+
+# Layout, Medien und Nachnutzung
+
+Bausteine für Spalten, Abbildungen, Bildunterschriften und offen lizenzierte Medien.
+
+## Zwei Spalten
+
+:::: {.columns}
+
+::: {.column width="50%"}
+**Linke Spalte**
+
+Spalten eignen sich, um zwei Aspekte direkt gegenüberzustellen.
+
+- kurze Aussagen
+- vergleichbare Struktur
+- klare visuelle Trennung
+:::
+
+::: {.column width="50%"}
+**Rechte Spalte**
+
+Auch längerer Text muss innerhalb der Spalte gut lesbar bleiben. Entscheidend sind ausreichende Innenabstände und ein konsistenter Zeilenabstand.
+
+- ergänzende Aussage
+- zweiter Aspekt
+- Ergebnis
+:::
+
+::::
+
+## Text und Abbildung
+
+:::: {.columns}
+
+::: {.column width="55%"}
+Eine häufige Folienform kombiniert einen kurzen Text mit einer Abbildung.
+
+- Text und Bild sollten sich ergänzen.
+- Die Abbildung benötigt ausreichend Raum.
+- Alternativtext und Bildunterschrift bleiben Teil der inhaltlichen Struktur.
+:::
+
+::: {.column width="45%"}
+![](img/placeholder.png){fig-alt="Neutrale Platzhaltergrafik zur Prüfung des Bildlayouts."}
+:::
+
+::::
+
+## Abbildung mit Bildunterschrift
+
+![Beispielabbildung zur visuellen Prüfung von Größe, Zentrierung und Bildunterschrift.](img/placeholder.png){fig-alt="Neutrale Platzhaltergrafik zur Prüfung von Größe, Zentrierung und Bildunterschrift."}
+
+## Offenes Bild mit Quellenangabe
+
+Bei nachgenutzten Medien sollten Quelle, Urheber:in und Lizenz direkt mit der Abbildung dokumentiert werden.
+
+!["[Jubilee and Munin, Ravens, Tower of London](https://commons.wikimedia.org/w/index.php?curid=48615973)" by [Colin](https://commons.wikimedia.org/wiki/User:Colin) from Wikimedia Commons, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)](https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Jubilee_and_Munin%2C_Ravens%2C_Tower_of_London_2016-04-30.jpg/500px-Jubilee_and_Munin%2C_Ravens%2C_Tower_of_London_2016-04-30.jpg){#Raben fig-alt="Jubilee und Munin, zwei der Tower-Raben. Jubilee ist 2012 in Somerset geschlüpft und trägt einen goldenen Ring. Er wurde der Queen zu ihrem Diamantenen Thronjubiläum überreicht. Munin ist 1995 in North Uise geschlüpft und trägt einen hellgrünen Ring. Sie ist der älteste Rabe im Tower. Die Identifikation der Raben wurde von Chris Skaife, dem Ravenmaster („Rabenmeister“), bestätigt."}
+
+## Offenes Bild in zwei Spalten
+
+Die vollständige Attribution bleibt auch bei kombinierten Text-Bild-Layouts erhalten.
+
+:::: {.columns}
+
+::: {.column width="40%"}
+- Jubilee und Munin, zwei der Tower-Raben. 
+  - Jubilee ist 2012 in Somerset geschlüpft und trägt einen goldenen Ring. Er wurde der Queen zu ihrem Diamantenen Thronjubiläum überreicht. 
+  - Munin ist 1995 in North Uise geschlüpft und trägt einen hellgrünen Ring. Sie ist der älteste Rabe im Tower. 
+    - Die Identifikation der Raben wurde von Chris Skaife, dem Ravenmaster („Rabenmeister“), bestätigt.
+:::
+
+::: {.column width="60%"}
+!["[Jubilee and Munin, Ravens, Tower of London](https://commons.wikimedia.org/w/index.php?curid=48615973)" by [Colin](https://commons.wikimedia.org/wiki/User:Colin) from Wikimedia Commons, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0)](https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Jubilee_and_Munin%2C_Ravens%2C_Tower_of_London_2016-04-30.jpg/500px-Jubilee_and_Munin%2C_Ravens%2C_Tower_of_London_2016-04-30.jpg){#Raben fig-alt="Jubilee und Munin, zwei der Tower-Raben. Jubilee ist 2012 in Somerset geschlüpft und trägt einen goldenen Ring. Er wurde der Queen zu ihrem Diamantenen Thronjubiläum überreicht. Munin ist 1995 in North Uise geschlüpft und trägt einen hellgrünen Ring. Sie ist der älteste Rabe im Tower. Die Identifikation der Raben wurde von Chris Skaife, dem Ravenmaster („Rabenmeister“), bestätigt."}
+:::
+
+::::
+
+## Bildgröße kontrollieren
+
+Die Bildgröße lässt sich direkt über die Markdown-Attribute festlegen.
+
+![](img/placeholder.png){width="300"}
+
+`width="300"`
+
+
+## Absolute Positionierung
+
+Die Klasse `.absolute` positioniert ein Element unabhängig vom normalen Inhaltsfluss.
+
+::: {.absolute top="180" left="120"}
+![](img/placeholder.png){width="250"}
+:::
+
+::: {.absolute top="520" left="120"}
+`top="180" · left="120" · width="250"`
+:::
+
+
+## Absolute Positionierung im Folienraster
+
+Diese Folie dient dazu, die Koordinaten des verfügbaren Folienbereichs visuell zu kontrollieren.
+
+::: {.absolute top="100" left="100"}
+![](img/placeholder.png){width="150"}
+:::
+
+::: {.absolute top="100" left="100"}
+`100 / 100`
+:::
+
+::: {.absolute top="100" left="750"}
+![](img/placeholder.png){width="150"}
+:::
+
+::: {.absolute top="100" left="750"}
+`750 / 100`
+:::
+
+::: {.absolute top="450" left="100"}
+![](img/placeholder.png){width="150"}
+:::
+
+::: {.absolute top="450" left="100"}
+`100 / 450`
+:::
+
+::: {.absolute top="450" left="750"}
+![](img/placeholder.png){width="150"}
+:::
+
+::: {.absolute top="450" left="750"}
+`750 / 450`
+:::
+
+## Drei Spalten
+
+:::: {.columns}
+
+::: {.column width="33%"}
+**Erfassen**
+
+Daten und Materialien strukturiert aufnehmen.
+:::
+
+::: {.column width="34%"}
+**Bearbeiten**
+
+Arbeitsschritte nachvollziehbar durchführen.
+:::
+
+::: {.column width="33%"}
+**Bereitstellen**
+
+Ergebnisse dokumentieren und nachnutzbar veröffentlichen.
+:::
+
+::::
+
+# Abschnittsfolie mit einer längeren Überschrift zur Prüfung des Umbruchs
+
+Auch ein längerer Untertitel kann hier verwendet werden, um das Verhalten bei mehrzeiligem Text zu prüfen.
+
+# Verweise und Präsentationsfunktionen
+
+Bausteine für Zitationen, Fußnoten, Randbemerkungen und schrittweise eingeblendete Inhalte.
+
+## Verweise und Fußnoten
+
+Quarto unterstützt Literaturverweise direkt im Fließtext [@petersen2023].
+
+Zusätzliche Informationen können als Fußnote ergänzt werden.[^quarto]
+
+Ein [externer Link](https://quarto.org/docs/presentations/revealjs/) zeigt zugleich, wie Links im Corporate Design dargestellt werden.
+
+[^quarto]: Quarto dokumentiert Reveal.js-Präsentationen unter <https://quarto.org/docs/presentations/revealjs/>.
+
+## Aside
+
+Der Haupttext bleibt Teil des normalen Inhaltsbereichs und sollte unabhängig von ergänzenden Randinformationen gut lesbar sein.
+
+::: aside
+Randbemerkung: Asides stehen typischerweise am unteren Rand der Folie und erhalten eine zurückhaltendere typografische Gestaltung. `inline-code` und [link](https://quarto.org) und ein Literaturverweis [@doe_titel_2026] in aside.
+
+:::
+
+## Schrittweise Aufzählung
+
+::: {.incremental}
+- Zuerst erscheint die Ausgangssituation.
+- Danach folgt eine Beobachtung.
+- Anschließend wird die zentrale Aussage sichtbar.
+- Zum Schluss erscheint die Konsequenz.
+:::
+
+## Längere Inhalte {.smaller .scrollable}
+
+Die Klassen `.smaller` und `.scrollable` zeigen eine mögliche Behandlung dichterer Folieninhalte.
+
+1. Längere Präsentationen enthalten gelegentlich Folien mit mehr Inhalt als ursprünglich geplant.
+2. Solche Folien sollten nicht zum Regelfall werden, müssen aber technisch und gestalterisch funktionieren.
+3. Listen können mehrere Ebenen enthalten und dadurch zusätzlichen vertikalen Raum beanspruchen.
+4. Längere Links oder bibliografische Angaben benötigen ebenfalls ausreichend Platz.
+5. Tabellen, Codeblöcke und Abbildungen können den verfügbaren Inhaltsbereich zusätzlich einschränken.
+6. Die Gestaltung sollte deshalb auch bei dichterem Inhalt stabil bleiben.
+7. Gleichzeitig muss erkennbar bleiben, dass weniger Inhalt pro Folie in der Regel die bessere Lösung ist.
+8. Diese zusätzliche Zeile provoziert bewusst einen höheren Platzbedarf und dient nur dem Layouttest.
+
+## Folie mit Speaker Notes
+
+Der sichtbare Inhalt dieser Folie bleibt bewusst knapp.
+
+- Kernaussage
+- Ergänzende Information
+- Übergang zur nächsten Folie
+
+::: {.notes}
+Diese Hinweise sind nur in der Speaker View sichtbar. Hier können Moderationshinweise, Zeitangaben, Übergänge oder zusätzliche Erläuterungen für die präsentierende Person stehen.
+:::
+
+# Code und Mathematik
+
+Bausteine für Code, ausführbare Zellen und mathematische Notation.
+
+## Python
+
+```python
+data = [2, 4, 6, 8]
+mean = sum(data) / len(data)
+
+print(f"Mittelwert: {mean}")
+```
+
+Ein kurzer Satz unterhalb des Codeblocks zeigt den Abstand zwischen Code und anschließendem Text.
+
+## Hervorgehobene Codezeilen
+
+```{.python code-line-numbers="1-2|4|6-7"}
+from pathlib import Path
+
+source = Path("data/input.csv")
+
+if source.exists():
+    print("Datei gefunden")
+else:
+    print("Datei fehlt")
+```
+
+## Code und Erklärung
+
+:::: {.columns}
+
+::: {.column width="58%"}
+```python
+def normalize(values):
+    minimum = min(values)
+    maximum = max(values)
+
+    return [
+        (value - minimum) /
+        (maximum - minimum)
+        for value in values
+    ]
+```
+:::
+
+::: {.column width="42%"}
+**Zu prüfen**
+
+- Monospace-Schrift
+- Syntaxfarben
+- Zeilenhöhe
+- Innenabstände
+- Verhältnis von Code und Text
+:::
+
+::::
+
+## Ausführbare Codezelle
+
+```{python}
+#| echo: true
+#| output-location: column
+
+werte = [12, 18, 7, 23, 15]
+
+print("Auswertung")
+print("===========")
+print()
+
+for i, wert in enumerate(werte, start=1):
+    print(f"Messung {i}: {wert:>2}")
+
+print()
+print(f"Anzahl:     {len(werte)}")
+print(f"Summe:      {sum(werte)}")
+print(f"Mittelwert: {sum(werte) / len(werte):.1f}")
+print(f"Minimum:    {min(werte)}")
+print(f"Maximum:    {max(werte)}")
+```
+
+
+## Nicht ausführbarer Code
+
+
+
+```{.python}
+x = 21
+print(x * 2)
+```
+
+## Mathematik
+
+Eine Formel kann sowohl inline, beispielsweise $E = mc^2$, als auch als eigener Ausdruck gesetzt werden:
+
+$$
+z = \frac{x - \mu}{\sigma}
+$$
+
+Für mehrzeilige Gleichungen steht ebenfalls ausreichend Raum zur Verfügung:
+
+$$
+\begin{aligned}
+a &= b + c \\
+d &= e - f
+\end{aligned}
+$$
+
+# Abschluss und Transparenz
+
+Bausteine für Zusammenfassung, Literaturverzeichnis und Transparenzhinweise.
+
+## Beispiel: Zusammenfassung
+
+- Die Grundtypografie muss auf kurzen und langen Folien stabil funktionieren.
+- Layout-Komponenten sollen mit möglichst nativen Quarto- und Reveal.js-Mitteln umgesetzt werden.
+- Corporate-Design-Anpassungen sollen zentral konfigurierbar und leicht austauschbar bleiben.
+
+## Bibliographie {.scrollable}
+
+::: {#refs}
+:::
+
+## Transparenzhinweis zu KI und LLM
+
+<!--
+OPTIONAL:
+Diesen Abschnitt an den tatsächlichen Einsatz von KI bzw. LLM anpassen
+oder vollständig entfernen.
+-->
+
+Bei der Erstellung oder Überarbeitung dieser Präsentation können KI- bzw. LLM-Werkzeuge eingesetzt worden sein. Art und Umfang des Einsatzes sollten bei Bedarf transparent dokumentiert werden.
