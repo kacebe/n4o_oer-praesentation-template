@@ -13,7 +13,7 @@ Es eignet sich für browserbasierte Präsentationen, die mit Quarto erstellt, al
 Erstellen Sie ein lokales Verzeichnis und generieren Sie ein neues Quarto-Projekt auf Basis dieses Repositories mit:
 
 ```bash
-quarto use template nfdi4objects/oer-template-praesentation
+quarto use template kacebe/n4o_oer-praesentation-template
 ```
 
 Quarto legt ein neues Projektverzeichnis an und kopiert alle benötigten Dateien.

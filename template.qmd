@@ -1,5 +1,6 @@
 ## Steinbruch für OER-Präsentationen
 
+- Hilfsfolien für die Anpassung des Design
 - Sammlung erprobter Folienbausteine für eigene Präsentationen
 - Beispiele kopieren, kombinieren und an den eigenen Inhalt anpassen
 - Nicht benötigte Folien und Varianten entfernen
@@ -94,6 +95,10 @@ Corporate-Design-Palette
 </div>
 
 </div>
+
+# Abschnittsfolien
+
+Abschnittsfolien werden mit der Hintergrund-Graphik `backgrounds/bg_chapter.svg` gerendert.
 
 # Typografie und Grundelemente
 
@@ -665,9 +670,9 @@ def normalize(values):
 
 ::::
 
-## Ausführbare Codezelle
+## Codebox Python
 
-```{python}
+```{.python}
 #| echo: true
 #| output-location: column
 
@@ -686,16 +691,6 @@ print(f"Summe:      {sum(werte)}")
 print(f"Mittelwert: {sum(werte) / len(werte):.1f}")
 print(f"Minimum:    {min(werte)}")
 print(f"Maximum:    {max(werte)}")
-```
-
-
-## Nicht ausführbarer Code
-
-
-
-```{.python}
-x = 21
-print(x * 2)
 ```
 
 ## Mathematik
