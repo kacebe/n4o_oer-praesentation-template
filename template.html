@@ -354,7 +354,7 @@
         "type": "Person"
       }
     ],
-    "dateModified": "2026-08-23",
+    "dateModified": "2026-08-25",
     "datePublished": "2026-08-19",
     "description": "Kurze Beschreibung der Präsentation.",
     "educationalLevel": [
@@ -495,7 +495,7 @@
         },
         "copyrightNotice": "© 2026 Name der Rechteinhaberin / des Rechteinhabers",
         "copyrightYear": 2026,
-        "dateModified": "2026-08-23",
+        "dateModified": "2026-08-25",
         "datePublished": "2026-08-19",
         "description": "Kurze Beschreibung der Präsentation.",
         "educationalLevel": {
@@ -646,6 +646,7 @@
 <section id="steinbruch-für-oer-präsentationen" class="slide level2">
 <h2>Steinbruch für OER-Präsentationen</h2>
 <ul>
+<li>Hilfsfolien für die Anpassung des Design</li>
 <li>Sammlung erprobter Folienbausteine für eigene Präsentationen</li>
 <li>Beispiele kopieren, kombinieren und an den eigenen Inhalt anpassen</li>
 <li>Nicht benötigte Folien und Varianten entfernen</li>
@@ -708,6 +709,11 @@
 </div>
 </div>
 </section>
+<section id="abschnittsfolien" class="title-slide slide level1">
+<h1>Abschnittsfolien</h1>
+<p>Abschnittsfolien werden mit der Hintergrund-Graphik <code>backgrounds/bg_chapter.svg</code> gerendert.</p>
+</section>
+
 <section>
 <section id="typografie-und-grundelemente" class="title-slide slide level1">
 <h1>Typografie und Grundelemente</h1>
@@ -1391,48 +1397,26 @@
 </ul>
 </div></div>
 </section>
-<section id="ausführbare-codezelle" class="slide level2">
-<h2>Ausführbare Codezelle</h2>
-<div id="dc33733c" class="cell columns column-output-location" data-execution_count="1">
-<div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-label="1"></a>werte <span class="op">=</span> [<span class="dv">12</span>, <span class="dv">18</span>, <span class="dv">7</span>, <span class="dv">23</span>, <span class="dv">15</span>]</span>
-<span id="cb4-2"><a href="" aria-label="2"></a></span>
-<span id="cb4-3"><a href="" aria-label="3"></a><span class="bu">print</span>(<span class="st">"Auswertung"</span>)</span>
-<span id="cb4-4"><a href="" aria-label="4"></a><span class="bu">print</span>(<span class="st">"==========="</span>)</span>
-<span id="cb4-5"><a href="" aria-label="5"></a><span class="bu">print</span>()</span>
-<span id="cb4-6"><a href="" aria-label="6"></a></span>
-<span id="cb4-7"><a href="" aria-label="7"></a><span class="cf">for</span> i, wert <span class="kw">in</span> <span class="bu">enumerate</span>(werte, start<span class="op">=</span><span class="dv">1</span>):</span>
-<span id="cb4-8"><a href="" aria-label="8"></a>    <span class="bu">print</span>(<span class="ss">f"Messung </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>wert<span class="sc">:&gt;2}</span><span class="ss">"</span>)</span>
+<section id="codebox-python" class="slide level2">
+<h2>Codebox Python</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="" aria-label="1"></a><span class="co">#| echo: true</span></span>
+<span id="cb4-2"><a href="" aria-label="2"></a><span class="co">#| output-location: column</span></span>
+<span id="cb4-3"><a href="" aria-label="3"></a></span>
+<span id="cb4-4"><a href="" aria-label="4"></a>werte <span class="op">=</span> [<span class="dv">12</span>, <span class="dv">18</span>, <span class="dv">7</span>, <span class="dv">23</span>, <span class="dv">15</span>]</span>
+<span id="cb4-5"><a href="" aria-label="5"></a></span>
+<span id="cb4-6"><a href="" aria-label="6"></a><span class="bu">print</span>(<span class="st">"Auswertung"</span>)</span>
+<span id="cb4-7"><a href="" aria-label="7"></a><span class="bu">print</span>(<span class="st">"==========="</span>)</span>
+<span id="cb4-8"><a href="" aria-label="8"></a><span class="bu">print</span>()</span>
 <span id="cb4-9"><a href="" aria-label="9"></a></span>
-<span id="cb4-10"><a href="" aria-label="10"></a><span class="bu">print</span>()</span>
-<span id="cb4-11"><a href="" aria-label="11"></a><span class="bu">print</span>(<span class="ss">f"Anzahl:     </span><span class="sc">{</span><span class="bu">len</span>(werte)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb4-12"><a href="" aria-label="12"></a><span class="bu">print</span>(<span class="ss">f"Summe:      </span><span class="sc">{</span><span class="bu">sum</span>(werte)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb4-13"><a href="" aria-label="13"></a><span class="bu">print</span>(<span class="ss">f"Mittelwert: </span><span class="sc">{</span><span class="bu">sum</span>(werte) <span class="op">/</span> <span class="bu">len</span>(werte)<span class="sc">:.1f}</span><span class="ss">"</span>)</span>
-<span id="cb4-14"><a href="" aria-label="14"></a><span class="bu">print</span>(<span class="ss">f"Minimum:    </span><span class="sc">{</span><span class="bu">min</span>(werte)<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb4-15"><a href="" aria-label="15"></a><span class="bu">print</span>(<span class="ss">f"Maximum:    </span><span class="sc">{</span><span class="bu">max</span>(werte)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column">
-<div class="cell-output cell-output-stdout">
-<pre><code>Auswertung
-===========
-
-Messung 1: 12
-Messung 2: 18
-Messung 3:  7
-Messung 4: 23
-Messung 5: 15
-
-Anzahl:     5
-Summe:      75
-Mittelwert: 15.0
-Minimum:    7
-Maximum:    23</code></pre>
-</div>
-</div></div>
-</section>
-<section id="nicht-ausführbarer-code" class="slide level2">
-<h2>Nicht ausführbarer Code</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="" aria-label="1"></a>x <span class="op">=</span> <span class="dv">21</span></span>
-<span id="cb6-2"><a href="" aria-label="2"></a><span class="bu">print</span>(x <span class="op">*</span> <span class="dv">2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-10"><a href="" aria-label="10"></a><span class="cf">for</span> i, wert <span class="kw">in</span> <span class="bu">enumerate</span>(werte, start<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb4-11"><a href="" aria-label="11"></a>    <span class="bu">print</span>(<span class="ss">f"Messung </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>wert<span class="sc">:&gt;2}</span><span class="ss">"</span>)</span>
+<span id="cb4-12"><a href="" aria-label="12"></a></span>
+<span id="cb4-13"><a href="" aria-label="13"></a><span class="bu">print</span>()</span>
+<span id="cb4-14"><a href="" aria-label="14"></a><span class="bu">print</span>(<span class="ss">f"Anzahl:     </span><span class="sc">{</span><span class="bu">len</span>(werte)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-15"><a href="" aria-label="15"></a><span class="bu">print</span>(<span class="ss">f"Summe:      </span><span class="sc">{</span><span class="bu">sum</span>(werte)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-16"><a href="" aria-label="16"></a><span class="bu">print</span>(<span class="ss">f"Mittelwert: </span><span class="sc">{</span><span class="bu">sum</span>(werte) <span class="op">/</span> <span class="bu">len</span>(werte)<span class="sc">:.1f}</span><span class="ss">"</span>)</span>
+<span id="cb4-17"><a href="" aria-label="17"></a><span class="bu">print</span>(<span class="ss">f"Minimum:    </span><span class="sc">{</span><span class="bu">min</span>(werte)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-18"><a href="" aria-label="18"></a><span class="bu">print</span>(<span class="ss">f"Maximum:    </span><span class="sc">{</span><span class="bu">max</span>(werte)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="mathematik" class="slide level2">
 <h2>Mathematik</h2>
