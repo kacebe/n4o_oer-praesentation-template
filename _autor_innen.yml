@@ -21,9 +21,9 @@ author:
     affiliations: # Optional: institutionelle Zugehörigkeit über die unten definierte id
       - ref: institution-1
 
-    # roles: # Optional: Beiträge der Person nach CRediT; mehrere Rollen möglich
-    #   - conceptualization
-    #   - writing
+    roles: # Optional: Beiträge der Person nach CRediT; mehrere Rollen möglich
+      - conceptualization
+      - writing
     # CRediT: https://credit.niso.org/
 
   - name:
@@ -36,6 +36,9 @@ author:
 
     affiliations:
       - ref: institution-1
+    roles: # Optional: Beiträge der Person nach CRediT; mehrere Rollen möglich
+      - conceptualization
+    # CRediT: https://credit.niso.org/
 
 
 # Institutionen

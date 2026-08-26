@@ -20,15 +20,8 @@ $presentation-h2-font-size: 1.55em;
 
 /*-- scss:rules --*/
 
-#title-slide {
-  height: 100%;
-  box-sizing: border-box;
-  padding-top: 5.5em;
-  text-align: center;
-}
-
 /* ==========================================================================
-   LINKS
+   GLOBAL
    ========================================================================== */
 
 .reveal .slides section a,
@@ -36,37 +29,71 @@ $presentation-h2-font-size: 1.55em;
   color: inherit;
 }
 
+.reveal {
+  letter-spacing: 0.01em;
+}
+
+/* ==========================================================================
+   TITELFOLIE
+   ========================================================================== */
+
+
+#title-slide {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  text-align: center;
+  overflow: hidden;
+}
+
 
 /* ==========================================================================
    TITELFOLIE: PROJEKT- UND INSTITUTIONSLOGO
 
-   Die Logos stammen aus _brand.yml und werden durch title_brand.lua
-   für title-slide.html bereitgestellt.
+   Beide Logos besitzen denselben Abstand zum äußeren Folienrand.
+   Die Bildhöhe wird vereinheitlicht; unterschiedliche Seitenverhältnisse
+   bleiben erhalten.
    ========================================================================== */
 
-#title-slide .n4o-title-brand-logo {
-  position: absolute;
-  top: -20px;
-  left: -40px;
+#title-slide .n4o-title-brand-logo,
+#title-slide .n4o-title-institution-logo {
+  grid-row: 1;
+  width: 52%;
+  height: 4.5em;
+  display: flex;
+  align-items: center;
+  margin-top: 0.4em;
+  position: relative;
+  z-index: 1;
 }
 
+#title-slide .n4o-title-brand-logo {
+  grid-column: 1;
+
+  justify-self: start;
+  justify-content: flex-start;
+
+  margin-left: 0.2em;
+}
 
 #title-slide .n4o-title-institution-logo {
-  position: absolute;
-  top: -20px;
-  right: -40px;
-}
+  grid-column: 2;
 
+  justify-self: end;
+  justify-content: flex-end;
+
+  margin-right: 0.2em;
+}
 
 #title-slide .n4o-title-brand-logo img,
 #title-slide .n4o-title-institution-logo img {
   display: block;
 
   width: auto;
-  height: auto;
+  height: 100%;
+  max-width: 100%;
 
-  max-width: 320px;
-  max-height: 180px;
+  object-fit: contain;
 }
 
 
@@ -78,8 +105,32 @@ $presentation-h2-font-size: 1.55em;
    ========================================================================== */
 
 #title-slide .n4o-title-main {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  align-self: center;
   width: 100%;
-  margin: 0 auto;
+  position: relative;
+  z-index: 0;
+}
+
+#title-slide .n4o-title-layout {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 5em minmax(0, 1fr) auto;
+
+  width: 100%;
+  height: 100%;
+
+  box-sizing: border-box;
+
+  isolation: isolate;
+}
+
+#title-slide .n4o-title-main > * {
+  position: relative;
+  z-index: 1;
 }
 
 
@@ -88,23 +139,19 @@ $presentation-h2-font-size: 1.55em;
    ========================================================================== */
 
 #title-slide .n4o-title-heading {
-  margin-bottom: 0.7em;
+  width: 76%;
+  max-width: 800px;
+
+  margin: 0 auto 0.7em;
 }
 
+#title-slide .n4o-title-heading .title,
+#title-slide .n4o-title-heading .subtitle {
+  width: 100%;
+  max-width: 100%;
 
-#title-slide h1.title {
-  margin: 0;
-
-  font-size: $presentation-h1-font-size;
-  line-height: 1.08;
-}
-
-
-#title-slide .subtitle {
-  margin: 0.35em 0 0;
-
-  font-size: 0.95em;
-  line-height: 1.2;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
@@ -118,7 +165,6 @@ $presentation-h2-font-size: 1.55em;
   margin: 0.7em 0;
 }
 
-
 #title-slide .n4o-title-event-name {
   margin: 0;
 
@@ -127,15 +173,14 @@ $presentation-h2-font-size: 1.55em;
 }
 
 #title-slide .n4o-title-event-place {
-  margin: 0.35em 0 0;
+  margin: 0.12em 0 0;
 
   font-size: 0.65em;
   line-height: 1.2;
 }
 
-
 #title-slide .n4o-title-event-date {
-  margin: 0.45em 0 0;
+  margin: 0.5em 0 0;
 
   font-size: 0.45em;
   line-height: 1.2;
@@ -149,7 +194,7 @@ $presentation-h2-font-size: 1.55em;
    ========================================================================== */
 
 #title-slide .quarto-title-authors {
-  margin: 0.7em 0 0;
+  margin: 2em 0 0;
 
   justify-content: center;
 }
@@ -202,6 +247,7 @@ $presentation-h2-font-size: 1.55em;
   position: absolute;
   right: 0;
   bottom: 10px;
+  z-index: 1;
 }
 
 #title-slide .n4o-title-license-badge a {
@@ -221,35 +267,44 @@ $presentation-h2-font-size: 1.55em;
    Veranstaltungs- und Partnerlogos werden am unteren Folienrand positioniert.
    ========================================================================== */
 
-#title-slide .n4o-title-logo-strip {
-  position: absolute;
+#title-slide .n4o-title-logo-strip:not(:has(.n4o-title-logo)) {
+  display: none;
+}
 
-  left: 0;
-  right: 0;
-  bottom: 10px;
+#title-slide .n4o-title-logo-strip {
+  grid-row: 3;
+  grid-column: 1 / -1;
+
+  position: relative;
+  z-index: 1;
 
   display: flex;
-  align-items: center;
   justify-content: center;
-
+  align-items: center;
   gap: 1.5em;
+
+  min-height: 0;
+  margin: 0 auto 1.1em;
+
+  width: 70%;
 }
 
 #title-slide .n4o-title-logo-strip .n4o-title-logo {
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
+  width: 7em;
+  height: 4.5em;
+}
 
 #title-slide .n4o-title-logo-strip .n4o-title-logo img {
   display: block;
 
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
 
-  max-width: 200px;
-  max-height: 120px;
+  object-fit: contain;
 }
 
 
@@ -471,6 +526,7 @@ $presentation-h2-font-size: 1.55em;
 .reveal.has-dark-background .slide-number {
   color: $dark-bg-text-color;
 }
+
 
 /* ==========================================================================
    APPENDIX-FOLIE

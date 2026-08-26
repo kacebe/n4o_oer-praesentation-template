@@ -6,6 +6,8 @@
 --
 -- Abhängigkeiten:
 -- - by-author wird vom eingebauten Quarto-Filter bereitgestellt.
+-- - n4o-title-authors wird von title_authors.lua aus den Writing-Rollen
+--   abgeleitet und für Titelfolie, Zitierempfehlung und Kontakt verwendet.
 -- - title-license-badge-* wird zuvor von title_brand.lua erzeugt.
 --
 -- Die Appendix ist standardmäßig aktiv und kann mit
@@ -95,7 +97,7 @@ end
 local function make_authors(meta)
 
   local source =
-    meta["by-author"]
+    meta["n4o-title-authors"]
 
   if source == nil then
     return nil
@@ -574,12 +576,17 @@ local function make_sources_block(meta)
 
 end
 
--- Kontaktdaten aus den von Quarto normalisierten by-author-Daten ausgeben.
+-- Kontaktpersonen aus den für die Titelfolie ausgewählten
+-- Writing-Autor:innen ausgeben.
+--
+-- n4o-title-authors wird zuvor von title_authors.lua erzeugt.
+-- Die Person wird auch dann genannt, wenn keine E-Mail-Adresse
+-- oder persönliche URL angegeben ist.
 
 local function make_contact_block(meta)
 
   local authors =
-    meta["by-author"]
+    meta["n4o-title-authors"]
 
 
   if authors == nil then
@@ -599,42 +606,34 @@ local function make_contact_block(meta)
     local url =
       text(author.url)
 
+    local name =
+      nil
+
 
     if
-      email ~= nil
-      or url ~= nil
+      author.name ~= nil
+      and author.name.literal ~= nil
     then
+
+      name =
+        text(author.name.literal)
+
+    end
+
+
+    if name ~= nil then
 
       local person =
         pandoc.Blocks{}
 
 
-      local name =
-        nil
-
-
-      if
-        author.name ~= nil
-        and author.name.literal ~= nil
-      then
-
-        name =
-          text(author.name.literal)
-
-      end
-
-
-      if name ~= nil then
-
-        person:insert(
-          pandoc.Para{
-            pandoc.Strong{
-              pandoc.Str(name)
-            }
+      person:insert(
+        pandoc.Para{
+          pandoc.Strong{
+            pandoc.Str(name)
           }
-        )
-
-      end
+        }
+      )
 
 
       if email ~= nil then

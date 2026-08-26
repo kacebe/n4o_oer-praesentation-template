@@ -6,113 +6,132 @@
   class="quarto-title-block n4o-title-slide"
 >
 
-  $if(title-brand-logo-path)$
-  <div class="n4o-title-brand-logo">
-    <img
-      src="$title-brand-logo-path$"
-      alt="$if(title-brand-logo-alt)$$title-brand-logo-alt$$endif$"
-    >
-  </div>
-  $endif$
+  <div class="n4o-title-layout">
 
-  $if(title-institution-logo-path)$
-  <div class="n4o-title-institution-logo">
-    <img
-      src="$title-institution-logo-path$"
-      alt="$if(title-institution-logo-alt)$$title-institution-logo-alt$$endif$"
-    >
-  </div>
-  $endif$
-
-  <div class="n4o-title-main">
-
-    <div class="n4o-title-heading">
-      <h1 class="title">$title$</h1>
-
-      $if(subtitle)$
-      <p class="subtitle">$subtitle$</p>
-      $endif$
-    </div>
-
-    $if(citation.event-title)$
-    <div class="n4o-title-event">
-      <p class="n4o-title-event-name">$citation.event-title$</p>
-      $if(citation.event-date)$
-      <p class="n4o-title-event-date">$citation.event-date$</p>
-      $endif$
-    </div>
-    $elseif(citation.event-date)$
-    <div class="n4o-title-event">
-      <p class="n4o-title-event-date">$citation.event-date$</p>
+    $if(title-brand-logo-path)$
+    <div class="n4o-title-brand-logo">
+      <img
+        src="$title-brand-logo-path$"
+        alt="$if(title-brand-logo-alt)$$title-brand-logo-alt$$endif$"
+      >
     </div>
     $endif$
 
-    $if(by-author)$
-    <div class="quarto-title-authors n4o-title-authors">
-      $for(by-author)$
-      <div class="quarto-title-author n4o-title-author">
+    $if(title-institution-logo-path)$
+    <div class="n4o-title-institution-logo">
+      <img
+        src="$title-institution-logo-path$"
+        alt="$if(title-institution-logo-alt)$$title-institution-logo-alt$$endif$"
+      >
+    </div>
+    $endif$
 
-        <div class="quarto-title-author-name n4o-title-author-name">$if(by-author.url)$<a href="$by-author.url$">$endif$$by-author.name.literal$$if(by-author.url)$</a>$endif$$if(by-author.orcid)$ <a href="https://orcid.org/$by-author.orcid$" class="quarto-title-author-orcid n4o-title-orcid" aria-label="ORCID von $by-author.name.literal$"><img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjEyIiBmaWxsPSIjQTZDRTM5Ii8+Cjx0ZXh0IHg9IjEyIiB5PSIxNS43IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiI+aUQ8L3RleHQ+Cjwvc3ZnPg=="></a>$endif$</div>
+    <div class="n4o-title-main">
 
-        $if(by-author.affiliations)$
-        <div class="quarto-title-affiliations n4o-title-affiliations">
-          $for(by-author.affiliations)$
-          <p class="quarto-title-affiliation n4o-title-affiliation">$if(it.url)$<a href="$it.url$">$endif$$it.name$$if(it.url)$</a>$endif$</p>
-          $endfor$
-        </div>
+      <div class="n4o-title-heading">
+        <h1 class="title">$title$</h1>
+
+        $if(subtitle)$
+        <p class="subtitle">$subtitle$</p>
         $endif$
-
       </div>
-      $endfor$
-    </div>
+
+  $if(citation.event-title)$
+  <div class="n4o-title-event">
+    <p class="n4o-title-event-name">$citation.event-title$</p>
+
+    $if(citation.event-place)$
+    <p class="n4o-title-event-place">$citation.event-place$</p>
     $endif$
 
+    $if(citation.event-date)$
+    <p class="n4o-title-event-date">$citation.event-date$</p>
+    $endif$
   </div>
 
-  $if(title-license-badge-path)$
-  <div class="n4o-title-license-badge">
-    $if(license.url)$<a href="$license.url$">$endif$
-    <img
-      src="$title-license-badge-path$"
-      alt="$if(title-license-badge-alt)$$title-license-badge-alt$$else$$license.text$$endif$"
-    >
-    $if(license.url)$</a>$endif$
+  $elseif(citation.event-place)$
+  <div class="n4o-title-event">
+    <p class="n4o-title-event-place">$citation.event-place$</p>
+
+    $if(citation.event-date)$
+    <p class="n4o-title-event-date">$citation.event-date$</p>
+    $endif$
   </div>
-  $elseif(license.text)$
-  <div class="n4o-title-license">
-    $if(license.url)$<a href="$license.url$">$endif$$license.text$$if(license.url)$</a>$endif$
+
+  $elseif(citation.event-date)$
+  <div class="n4o-title-event">
+    <p class="n4o-title-event-date">$citation.event-date$</p>
   </div>
   $endif$
 
-  <div class="n4o-title-logo-strip">
+      $if(n4o-title-authors)$
+      <div class="quarto-title-authors n4o-title-authors">
+        $for(n4o-title-authors)$
+        <div class="quarto-title-author n4o-title-author">
 
-    $if(title-event-logo-path)$
-    <div class="n4o-title-logo n4o-title-logo-event">
+          <div class="quarto-title-author-name n4o-title-author-name">$if(n4o-title-authors.url)$<a href="$n4o-title-authors.url$">$endif$$n4o-title-authors.name.literal$$if(n4o-title-authors.url)$</a>$endif$$if(n4o-title-authors.orcid)$ <a href="https://orcid.org/$n4o-title-authors.orcid$" class="quarto-title-author-orcid n4o-title-orcid" aria-label="ORCID von $n4o-title-authors.name.literal$"><img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiB5PSIxMiIgcj0iMTIiIGZpbGw9IiNBNkNFMzkiLz4KPHRleHQgeD0iMTIiIHk9IjE1LjciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5pRDwvdGV4dD4KPC9zdmc+"></a>$endif$</div>
+
+          $if(n4o-title-authors.affiliations)$
+          <div class="quarto-title-affiliations n4o-title-affiliations">
+            $for(n4o-title-authors.affiliations)$
+            <p class="quarto-title-affiliation n4o-title-affiliation">$if(it.url)$<a href="$it.url$">$endif$$it.name$$if(it.url)$</a>$endif$</p>
+            $endfor$
+          </div>
+          $endif$
+
+        </div>
+        $endfor$
+      </div>
+$endif$
+
+    </div>
+
+    $if(title-license-badge-path)$
+    <div class="n4o-title-license-badge">
+      $if(license.url)$<a href="$license.url$">$endif$
       <img
-        src="$title-event-logo-path$"
-        alt="$if(title-event-logo-alt)$$title-event-logo-alt$$endif$"
+        src="$title-license-badge-path$"
+        alt="$if(title-license-badge-alt)$$title-license-badge-alt$$else$$license.text$$endif$"
       >
+      $if(license.url)$</a>$endif$
+    </div>
+    $elseif(license.text)$
+    <div class="n4o-title-license">
+      $if(license.url)$<a href="$license.url$">$endif$$license.text$$if(license.url)$</a>$endif$
     </div>
     $endif$
 
-    $if(title-partner-1-logo-path)$
-    <div class="n4o-title-logo n4o-title-logo-partner n4o-title-logo-partner-1">
-      <img
-        src="$title-partner-1-logo-path$"
-        alt="$if(title-partner-1-logo-alt)$$title-partner-1-logo-alt$$endif$"
-      >
-    </div>
-    $endif$
+    <div class="n4o-title-logo-strip">
 
-    $if(title-partner-2-logo-path)$
-    <div class="n4o-title-logo n4o-title-logo-partner n4o-title-logo-partner-2">
-      <img
-        src="$title-partner-2-logo-path$"
-        alt="$if(title-partner-2-logo-alt)$$title-partner-2-logo-alt$$endif$"
-      >
-    </div>
-    $endif$
+      $if(title-event-logo-path)$
+      <div class="n4o-title-logo n4o-title-logo-event">
+        <img
+          src="$title-event-logo-path$"
+          alt="$if(title-event-logo-alt)$$title-event-logo-alt$$endif$"
+        >
+      </div>
+      $endif$
 
-  </div>
+      $if(title-partner-1-logo-path)$
+      <div class="n4o-title-logo n4o-title-logo-partner n4o-title-logo-partner-1">
+        <img
+          src="$title-partner-1-logo-path$"
+          alt="$if(title-partner-1-logo-alt)$$title-partner-1-logo-alt$$endif$"
+        >
+      </div>
+      $endif$
+
+      $if(title-partner-2-logo-path)$
+      <div class="n4o-title-logo n4o-title-logo-partner n4o-title-logo-partner-2">
+        <img
+          src="$title-partner-2-logo-path$"
+          alt="$if(title-partner-2-logo-alt)$$title-partner-2-logo-alt$$endif$"
+        >
+      </div>
+      $endif$
+
+    </div>
+  </div><!-- /.n4o-title-layout -->
+
 
 </section>

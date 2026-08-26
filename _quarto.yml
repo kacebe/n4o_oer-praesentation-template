@@ -31,5 +31,6 @@ metadata-files:
 filters:
   - _filters/title_brand.lua
   - quarto
+  - _filters/title_authors.lua
   - _filters/html_metadata.lua
   - _filters/appendix_slide.lua
