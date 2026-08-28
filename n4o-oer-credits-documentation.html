@@ -634,7 +634,9 @@
 
                 <p class="n4o-title-event-place">Veranstaltungsort</p>
         
-                <p class="n4o-title-event-date">2026-08-18</p>
+                <time class="n4o-title-event-date" datetime="2026-08-18" data-n4o-event-date="2026-08-18">
+          2026-08-18
+        </time>
               </div>
 
       
@@ -727,6 +729,68 @@
     </div>
 
   </div><!-- /.n4o-title-layout -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const locale =
+        document.documentElement.lang || "de";
+
+      document
+        .querySelectorAll("[data-n4o-event-date]")
+        .forEach(function (element) {
+
+          const value =
+            element.dataset.n4oEventDate;
+
+          const parts =
+            value.split("-");
+
+          if (parts.length !== 3) {
+            return;
+          }
+
+          const year =
+            Number(parts[0]);
+
+          const month =
+            Number(parts[1]);
+
+          const day =
+            Number(parts[2]);
+
+          if (
+            !Number.isInteger(year)
+            || !Number.isInteger(month)
+            || !Number.isInteger(day)
+          ) {
+            return;
+          }
+
+          const date =
+            new Date(
+              Date.UTC(
+                year,
+                month - 1,
+                day
+              )
+            );
+
+          element.textContent =
+            new Intl.DateTimeFormat(
+              locale,
+              {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                timeZone: "UTC"
+              }
+            ).format(date);
+
+        });
+
+    });
+  </script>
 
 </section>
 <section>
@@ -897,7 +961,7 @@ Doe, J., Doe, J., &amp; Musterfrau, M. (2026, August 19). Titel der Präsentatio
 <div class="n4o-appendix-event">
 <p><strong>Name der Veranstaltung</strong></p>
 <p>Titel der Session</p>
-<p>Veranstaltungsort, 2026-08-18</p>
+<p>Veranstaltungsort, <span class="n4o-appendix-event-date" data-n4o-event-date="2026-08-18">2026-08-18</span></p>
 <p>Name der Veranstaltungsreihe</p>
 </div>
 <div class="n4o-appendix-sources">

@@ -646,6 +646,68 @@
 
   </div><!-- /.n4o-title-layout -->
 
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const locale =
+        document.documentElement.lang || "de";
+
+      document
+        .querySelectorAll("[data-n4o-event-date]")
+        .forEach(function (element) {
+
+          const value =
+            element.dataset.n4oEventDate;
+
+          const parts =
+            value.split("-");
+
+          if (parts.length !== 3) {
+            return;
+          }
+
+          const year =
+            Number(parts[0]);
+
+          const month =
+            Number(parts[1]);
+
+          const day =
+            Number(parts[2]);
+
+          if (
+            !Number.isInteger(year)
+            || !Number.isInteger(month)
+            || !Number.isInteger(day)
+          ) {
+            return;
+          }
+
+          const date =
+            new Date(
+              Date.UTC(
+                year,
+                month - 1,
+                day
+              )
+            );
+
+          element.textContent =
+            new Intl.DateTimeFormat(
+              locale,
+              {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                timeZone: "UTC"
+              }
+            ).format(date);
+
+        });
+
+    });
+  </script>
+
 </section>
 <section id="voraussetzungen" class="slide level2">
 <h2>1. Voraussetzungen</h2>
