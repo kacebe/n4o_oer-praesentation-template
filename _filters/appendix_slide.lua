@@ -46,32 +46,27 @@ local SELF_ID =
   "n4o-presentation-self"
 
 
+local filter_dir =
+  pandoc.path.directory(PANDOC_SCRIPT_FILE)
+
+package.path =
+  pandoc.path.join({filter_dir, "modules", "?.lua"})
+  .. ";"
+  .. package.path
+
+local utils =
+  require("n4o.utils")
+
+local text =
+  utils.text
+
+local author_name =
+  utils.author_name
+
+
 -- ============================================================================
 -- ALLGEMEINE HILFSFUNKTIONEN
 -- ============================================================================
-
-
--- Pandoc-Metadaten als Text lesen.
-
-local function text(value)
-
-  if value == nil then
-    return nil
-  end
-
-
-  local result =
-    pandoc.utils.stringify(value)
-
-
-  if result == "" then
-    return nil
-  end
-
-
-  return result
-
-end
 
 
 -- Prüfen, ob die Appendix erzeugt werden soll.
@@ -149,58 +144,6 @@ end
 -- ============================================================================
 -- AUTOR:INNEN
 -- ============================================================================
-
-
--- Vollständigen Namen aus den von Quarto normalisierten
--- Autor:innendaten lesen.
-
-local function author_name(author)
-
-  if
-    author == nil
-    or author.name == nil
-  then
-    return nil
-  end
-
-
-  -- Quarto stellt normalerweise bereits einen vollständigen
-  -- Namen unter name.literal bereit.
-
-  local literal =
-    text(author.name.literal)
-
-
-  if literal ~= nil then
-    return literal
-  end
-
-
-  -- Fallback für nicht vollständig normalisierte Angaben.
-
-  local given =
-    text(author.name.given)
-
-  local family =
-    text(author.name.family)
-
-
-  if
-    given ~= nil
-    and family ~= nil
-  then
-    return
-      given
-      .. " "
-      .. family
-  end
-
-
-  return
-    given
-    or family
-
-end
 
 
 -- Rollenbezeichnung aus Quartos normalisierten
@@ -785,8 +728,31 @@ local function make_formatted_reference(meta)
   end
 
 
-  local processed =
-    pandoc.utils.citeproc(temp)
+  local ok, processed =
+    pcall(
+      pandoc.utils.citeproc,
+      temp
+    )
+
+
+  if not ok then
+
+    if
+      quarto ~= nil
+      and quarto.log ~= nil
+      and quarto.log.warning ~= nil
+    then
+
+      quarto.log.warning(
+        "N4O: Die Zitierempfehlung konnte nicht mit Citeproc erzeugt werden: "
+        .. tostring(processed)
+      )
+
+    end
+
+    return nil
+
+  end
 
 
   for _, block in ipairs(processed.blocks) do

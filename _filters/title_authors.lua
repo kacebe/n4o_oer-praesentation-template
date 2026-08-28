@@ -46,254 +46,32 @@
 
 
 -- ============================================================================
--- CRediT-VOKABULAR
+-- GEMEINSAME MODULE
 -- ============================================================================
 
 
-local credit_roles = {
+local filter_dir =
+  pandoc.path.directory(PANDOC_SCRIPT_FILE)
 
-  ["conceptualization"] =
-    true,
+package.path =
+  pandoc.path.join({filter_dir, "modules", "?.lua"})
+  .. ";"
+  .. package.path
 
-  ["data curation"] =
-    true,
+local utils =
+  require("n4o.utils")
 
-  ["formal analysis"] =
-    true,
-
-  ["funding acquisition"] =
-    true,
-
-  ["investigation"] =
-    true,
-
-  ["methodology"] =
-    true,
-
-  ["project administration"] =
-    true,
-
-  ["resources"] =
-    true,
-
-  ["software"] =
-    true,
-
-  ["supervision"] =
-    true,
-
-  ["validation"] =
-    true,
-
-  ["visualization"] =
-    true,
-
-  ["writing – original draft"] =
-    true,
-
-  ["writing – review & editing"] =
-    true
-
-}
+local credit =
+  require("n4o.credit")
 
 
--- Von Quarto unterstützte Kurzformen beziehungsweise Aliase.
---
--- Diese Zuordnungen dienen als Fallback, wenn der Filter
--- nicht vollständig normalisierte Rollenwerte erhält.
-
-local credit_aliases = {
-
-  ["analysis"] =
-    "formal analysis",
-
-  ["funding"] =
-    "funding acquisition",
-
-  ["writing"] =
-    "writing – original draft",
-
-  ["editing"] =
-    "writing – review & editing"
-
-}
-
-
-local title_roles = {
-
-  ["writing – original draft"] =
-    true,
-
-  ["writing – review & editing"] =
-    true
-
-}
-
-
--- ============================================================================
--- ALLGEMEINE HILFSFUNKTIONEN
--- ============================================================================
-
-
-local function text(value)
-
-  if value == nil then
-    return nil
-  end
-
-
-  local result =
-    pandoc.utils.stringify(value)
-
-
-  if result == "" then
-    return nil
-  end
-
-
-  return result
-
-end
-
-
-local function normalize(value)
-
-  local result =
-    text(value)
-
-
-  if result == nil then
-    return nil
-  end
-
-
-  return
-    string.lower(result)
-      :gsub("^%s+", "")
-      :gsub("%s+$", "")
-
-end
-
-
--- ============================================================================
--- AUTOR:INNENNAMEN
--- ============================================================================
-
-
+-- Für Fehlermeldungen wird bei fehlenden Namensdaten ein expliziter
+-- Platzhalter verwendet. Die gemeinsame Namensauflösung selbst liefert nil.
 local function author_name(author)
 
-  if
-    author == nil
-    or author.name == nil
-  then
-    return "unbekannte Person"
-  end
-
-
-  local literal =
-    text(
-      author.name.literal
-    )
-
-
-  if literal ~= nil then
-    return literal
-  end
-
-
-  local given =
-    text(
-      author.name.given
-    )
-
-  local family =
-    text(
-      author.name.family
-    )
-
-
-  if
-    given ~= nil
-    and family ~= nil
-  then
-
-    return
-      given
-      .. " "
-      .. family
-
-  end
-
-
   return
-    given
-    or family
+    utils.author_name(author)
     or "unbekannte Person"
-
-end
-
-
--- ============================================================================
--- ROLLEN
--- ============================================================================
-
-
-local function raw_role_name(role)
-
-  if role == nil then
-    return nil
-  end
-
-
-  if type(role) == "table" then
-
-    local vocab_term =
-      normalize(
-        role["vocab-term"]
-      )
-
-
-    if vocab_term ~= nil then
-      return vocab_term
-    end
-
-
-    local role_value =
-      normalize(
-        role.role
-      )
-
-
-    if role_value ~= nil then
-      return role_value
-    end
-
-  end
-
-
-  return normalize(role)
-
-end
-
-
-local function credit_role_name(role)
-
-  local name =
-    raw_role_name(role)
-
-
-  if name == nil then
-    return nil
-  end
-
-
-  if credit_roles[name] then
-    return name
-  end
-
-
-  return
-    credit_aliases[name]
 
 end
 
@@ -359,13 +137,13 @@ local function validate_credit_roles(author)
   for _, role in ipairs(author.roles) do
 
     local canonical =
-      credit_role_name(role)
+      credit.canonical_name(role)
 
 
     if canonical == nil then
 
       local supplied =
-        raw_role_name(role)
+        credit.raw_name(role)
         or "unbekannte Rolle"
 
 
@@ -404,14 +182,7 @@ local function has_title_role(author)
 
   for _, role in ipairs(author.roles) do
 
-    local name =
-      credit_role_name(role)
-
-
-    if
-      name ~= nil
-      and title_roles[name]
-    then
+    if credit.is_title_role(role) then
       return true
     end
 

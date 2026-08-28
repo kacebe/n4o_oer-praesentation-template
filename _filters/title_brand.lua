@@ -6,95 +6,92 @@
 --
 -- Die Darstellung und Positionierung erfolgen in title-slide.html und SCSS.
 
-local brand = require("modules/brand/brand")
+local brand =
+  require("modules/brand/brand")
 
+local filter_dir =
+  pandoc.path.directory(PANDOC_SCRIPT_FILE)
 
--- Pandoc-Metadaten als Text lesen.
-local function text(value)
+package.path =
+  pandoc.path.join({filter_dir, "modules", "?.lua"})
+  .. ";"
+  .. package.path
 
-  if value == nil then
-    return nil
-  end
+local utils =
+  require("n4o.utils")
 
-  return pandoc.utils.stringify(value)
-
-end
+local license =
+  require("n4o.license")
 
 
 -- Ein Brand-Logo als Metadaten für title-slide.html bereitstellen.
-local function add_logo(meta, brand_name, meta_name)
+local function add_logo(
+  meta,
+  brand_name,
+  meta_name
+)
 
-  local logo = brand.get_logo("light", brand_name)
+  local logo =
+    brand.get_logo(
+      "light",
+      brand_name
+    )
 
   if logo == nil then
     return
   end
 
-  if logo.path ~= nil then
+  local path =
+    utils.text(
+      logo.path
+    )
+
+  local alt =
+    utils.text(
+      logo.alt
+    )
+
+  if path ~= nil then
 
     meta[meta_name .. "-path"] =
-      pandoc.MetaString(
-        pandoc.utils.stringify(logo.path)
-      )
+      pandoc.MetaString(path)
 
   end
 
-  if logo.alt ~= nil then
+  if alt ~= nil then
 
     meta[meta_name .. "-alt"] =
-      pandoc.MetaString(
-        pandoc.utils.stringify(logo.alt)
-      )
+      pandoc.MetaString(alt)
 
   end
 
 end
 
 
--- Creative-Commons-Badge anhand der kanonischen Lizenz-URL bestimmen.
--- Dadurch bleibt die Zuordnung unabhängig von frei formuliertem license.text.
+-- Creative-Commons-Badge anhand der Lizenzmetadaten bestimmen.
+--
+-- Die Zuordnung wird zentral in modules/n4o/license.lua gepflegt und
+-- bleibt dadurch zwischen Titel-, Appendix- und HTML-Metadaten konsistent.
 local function add_license_badge(meta)
 
-  if meta.license == nil or meta.license.url == nil then
-    return
-  end
-
-  local license_url = text(meta.license.url)
-
-  if license_url == nil then
-    return
-  end
-
-  local badges = {
-
-    ["https://creativecommons.org/licenses/by/4.0/"] = {
-      path = "assets/logos/licenses/cc-by.svg",
-      alt  = "Creative Commons Namensnennung 4.0 International"
-    },
-
-    ["https://creativecommons.org/licenses/by-sa/4.0/"] = {
-      path = "assets/logos/licenses/cc-by-sa.svg",
-      alt  = "Creative Commons Namensnennung – Weitergabe unter gleichen Bedingungen 4.0 International"
-    },
-
-    ["https://creativecommons.org/publicdomain/zero/1.0/"] = {
-      path = "assets/logos/licenses/cc0.svg",
-      alt  = "Creative Commons CC0 1.0 Universell"
-    }
-
-  }
-
-  local badge = badges[license_url]
+  local badge =
+    license.badge(
+      meta.license
+    )
 
   if badge == nil then
     return
   end
 
   meta["title-license-badge-path"] =
-    pandoc.MetaString(badge.path)
+    pandoc.MetaString(
+      badge.path
+    )
 
   meta["title-license-badge-alt"] =
-    pandoc.MetaString(badge.alt)
+    pandoc.MetaString(
+      badge.alt
+    )
 
 end
 

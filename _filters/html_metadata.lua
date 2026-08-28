@@ -48,188 +48,54 @@
 
 
 -- ============================================================================
--- ALLGEMEINE HILFSFUNKTIONEN
+-- GEMEINSAME MODULE UND HILFSFUNKTIONEN
 -- ============================================================================
 
 
-local function text(value)
+local filter_dir =
+  pandoc.path.directory(PANDOC_SCRIPT_FILE)
 
-  if value == nil then
-    return nil
-  end
+package.path =
+  pandoc.path.join({filter_dir, "modules", "?.lua"})
+  .. ";"
+  .. package.path
 
-  local ok, result =
-    pcall(
-      pandoc.utils.stringify,
-      value
-    )
+local utils =
+  require("n4o.utils")
 
-  if
-    not ok
-    or result == nil
-  then
-    return nil
-  end
+local credit =
+  require("n4o.credit")
 
-  result =
-    tostring(result)
-      :gsub("^%s+", "")
-      :gsub("%s+$", "")
-
-  if result == "" then
-    return nil
-  end
-
-  return result
-
-end
+local license_data =
+  require("n4o.license")
 
 
-local function normalize_space(value)
+local text =
+  utils.text
 
-  if value == nil then
-    return nil
-  end
+local normalize_space =
+  utils.normalize_space
 
-  return tostring(value)
-    :gsub("%s+", " ")
-    :gsub("^%s+", "")
-    :gsub("%s+$", "")
+local normalize_key =
+  utils.normalize_key
 
-end
+local html_escape =
+  utils.html_escape
 
+local is_url =
+  utils.is_url
 
-local function normalize_key(value)
+local as_array =
+  utils.as_array
 
-  local value_text =
-    text(value)
+local string_array =
+  utils.string_array
 
-  if value_text == nil then
-    return nil
-  end
+local boolean_value =
+  utils.boolean_value
 
-  return
-    string.lower(
-      normalize_space(value_text)
-    )
-
-end
-
-
-local function html_escape(value)
-
-  if value == nil then
-    return nil
-  end
-
-  return tostring(value)
-    :gsub("&", "&amp;")
-    :gsub('"', "&quot;")
-    :gsub("<", "&lt;")
-    :gsub(">", "&gt;")
-
-end
-
-
-local function is_url(value)
-
-  if value == nil then
-    return false
-  end
-
-  return
-    tostring(value):match("^https?://") ~= nil
-
-end
-
-
-local function as_array(value)
-
-  if value == nil then
-    return {}
-  end
-
-  if type(value) ~= "table" then
-    return { value }
-  end
-
-  local value_type =
-    pandoc.utils.type(value)
-
-  if
-    value_type == "Inlines"
-    or value_type == "Blocks"
-    or value_type == "MetaInlines"
-    or value_type == "MetaBlocks"
-  then
-    return { value }
-  end
-
-  if
-    value_type == "List"
-    or value_type == "MetaList"
-  then
-    return value
-  end
-
-  if value[1] ~= nil then
-    return value
-  end
-
-  return { value }
-
-end
-
-
-local function string_array(value)
-
-  local result = {}
-
-  for _, item in ipairs(
-    as_array(value)
-  ) do
-
-    local item_text =
-      text(item)
-
-    if item_text ~= nil then
-      table.insert(
-        result,
-        item_text
-      )
-    end
-
-  end
-
-  return result
-
-end
-
-
-local function boolean_value(value)
-
-  if value == nil then
-    return nil
-  end
-
-  if type(value) == "boolean" then
-    return value
-  end
-
-  local value_text =
-    normalize_key(value)
-
-  if value_text == "true" then
-    return true
-  end
-
-  if value_text == "false" then
-    return false
-  end
-
-  return nil
-
-end
+local author_name =
+  utils.author_name
 
 
 local function localized_value(value)
@@ -331,21 +197,6 @@ local function set_values(
   elseif #values > 1 then
     object[property] =
       values
-  end
-
-end
-
-
-local function append_value(
-  values,
-  value
-)
-
-  if value ~= nil then
-    table.insert(
-      values,
-      value
-    )
   end
 
 end
@@ -493,60 +344,10 @@ end
 
 local function license_url(meta)
 
-  local license =
-    meta.license
-
-  if license == nil then
-    return nil
-  end
-
-  if
-    type(license) == "table"
-    and license.url ~= nil
-  then
-    return text(
-      license.url
+  return
+    license_data.url(
+      meta.license
     )
-  end
-
-  local value =
-    text(license)
-
-  if value == nil then
-    return nil
-  end
-
-  if is_url(value) then
-    return value
-  end
-
-  local key =
-    string.upper(
-      normalize_space(value)
-    )
-
-  local licenses = {
-
-    ["CC BY"] =
-      "https://creativecommons.org/licenses/by/4.0/",
-
-    ["CC BY 4.0"] =
-      "https://creativecommons.org/licenses/by/4.0/",
-
-    ["CC BY-SA"] =
-      "https://creativecommons.org/licenses/by-sa/4.0/",
-
-    ["CC BY-SA 4.0"] =
-      "https://creativecommons.org/licenses/by-sa/4.0/",
-
-    ["CC0"] =
-      "https://creativecommons.org/publicdomain/zero/1.0/",
-
-    ["CC0 1.0"] =
-      "https://creativecommons.org/publicdomain/zero/1.0/"
-  }
-
-  return licenses[key]
 
 end
 
@@ -575,59 +376,6 @@ local function contributor_source(meta)
 
   return
     meta.contributors
-
-end
-
-
-local function author_name(person)
-
-  if
-    person == nil
-    or type(person) ~= "table"
-  then
-    return text(person)
-  end
-
-  if type(person.name) == "table" then
-
-    local literal =
-      text(
-        person.name.literal
-      )
-
-    if literal ~= nil then
-      return literal
-    end
-
-    local given =
-      text(
-        person.name.given
-      )
-
-    local family =
-      text(
-        person.name.family
-      )
-
-    if
-      given ~= nil
-      and family ~= nil
-    then
-      return
-        given
-        .. " "
-        .. family
-    end
-
-    return
-      given
-      or family
-
-  end
-
-  return text(
-    person.name
-  )
 
 end
 
@@ -1197,181 +945,8 @@ end
 -- ============================================================================
 
 
-local credit_roles = {
-
-  ["conceptualization"] = {
-    label =
-      "Conceptualization",
-    url =
-      "https://credit.niso.org/contributor-roles/conceptualization/"
-  },
-
-  ["data curation"] = {
-    label =
-      "Data curation",
-    url =
-      "https://credit.niso.org/contributor-roles/data-curation/"
-  },
-
-  ["formal analysis"] = {
-    label =
-      "Formal analysis",
-    url =
-      "https://credit.niso.org/contributor-roles/formal-analysis/"
-  },
-
-  ["funding acquisition"] = {
-    label =
-      "Funding acquisition",
-    url =
-      "https://credit.niso.org/contributor-roles/funding-acquisition/"
-  },
-
-  ["investigation"] = {
-    label =
-      "Investigation",
-    url =
-      "https://credit.niso.org/contributor-roles/investigation/"
-  },
-
-  ["methodology"] = {
-    label =
-      "Methodology",
-    url =
-      "https://credit.niso.org/contributor-roles/methodology/"
-  },
-
-  ["project administration"] = {
-    label =
-      "Project administration",
-    url =
-      "https://credit.niso.org/contributor-roles/project-administration/"
-  },
-
-  ["resources"] = {
-    label =
-      "Resources",
-    url =
-      "https://credit.niso.org/contributor-roles/resources/"
-  },
-
-  ["software"] = {
-    label =
-      "Software",
-    url =
-      "https://credit.niso.org/contributor-roles/software/"
-  },
-
-  ["supervision"] = {
-    label =
-      "Supervision",
-    url =
-      "https://credit.niso.org/contributor-roles/supervision/"
-  },
-
-  ["validation"] = {
-    label =
-      "Validation",
-    url =
-      "https://credit.niso.org/contributor-roles/validation/"
-  },
-
-  ["visualization"] = {
-    label =
-      "Visualization",
-    url =
-      "https://credit.niso.org/contributor-roles/visualization/"
-  },
-
-  ["writing – original draft"] = {
-    label =
-      "Writing – original draft",
-    url =
-      "https://credit.niso.org/contributor-roles/writing-original-draft/"
-  },
-
-  ["writing – review & editing"] = {
-    label =
-      "Writing – review & editing",
-    url =
-      "https://credit.niso.org/contributor-roles/writing-review-editing/"
-  }
-}
-
-
-local credit_aliases = {
-
-  ["analysis"] =
-    "formal analysis",
-
-  ["funding"] =
-    "funding acquisition",
-
-  ["writing"] =
-    "writing – original draft",
-
-  ["editing"] =
-    "writing – review & editing"
-}
-
-
-local function credit_role_info(role)
-
-  if role == nil then
-    return nil
-  end
-
-  local name =
-    nil
-
-  local identifier =
-    nil
-
-  if type(role) == "table" then
-
-    name =
-      normalize_key(
-        role["vocab-term"]
-        or role.role
-      )
-
-    identifier =
-      text(
-        role["vocab-term-identifier"]
-        or role["vocab-term-indentifier"]
-      )
-
-  else
-
-    name =
-      normalize_key(role)
-
-  end
-
-  if name == nil then
-    return nil
-  end
-
-  name =
-    credit_aliases[name]
-    or name
-
-  local definition =
-    credit_roles[name]
-
-  if definition == nil then
-    return nil
-  end
-
-  return {
-    label =
-      definition.label,
-    url =
-      identifier
-      or definition.url
-  }
-
-end
+local credit_role_info =
+  credit.info
 
 
 local function schema_credit_roles(
@@ -2942,13 +2517,7 @@ local function build_schema_presentation(meta)
     contribution_roles
   )
 
-  local publishers =
-    schema_people(
-      {},
-      meta
-    )
-
-  publishers = {}
+  local publishers = {}
 
   local publisher_source =
     citation.publisher
