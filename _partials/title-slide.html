@@ -45,7 +45,13 @@
         $endif$
 
         $if(citation.event-date)$
-        <p class="n4o-title-event-date">$citation.event-date$</p>
+        <time
+          class="n4o-title-event-date"
+          datetime="$citation.event-date$"
+          data-n4o-event-date="$citation.event-date$"
+        >
+          $citation.event-date$
+        </time>
         $endif$
       </div>
 
@@ -54,13 +60,25 @@
         <p class="n4o-title-event-place">$citation.event-place$</p>
 
         $if(citation.event-date)$
-        <p class="n4o-title-event-date">$citation.event-date$</p>
+        <time
+          class="n4o-title-event-date"
+          datetime="$citation.event-date$"
+          data-n4o-event-date="$citation.event-date$"
+        >
+          $citation.event-date$
+        </time>
         $endif$
       </div>
 
       $elseif(citation.event-date)$
       <div class="n4o-title-event">
-        <p class="n4o-title-event-date">$citation.event-date$</p>
+        <time
+        class="n4o-title-event-date"
+        datetime="$citation.event-date$"
+        data-n4o-event-date="$citation.event-date$"
+      >
+        $citation.event-date$
+      </time>
       </div>
       $endif$
 
@@ -170,5 +188,67 @@
     </div>
 
   </div><!-- /.n4o-title-layout -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const locale =
+        document.documentElement.lang || "de";
+
+      document
+        .querySelectorAll("[data-n4o-event-date]")
+        .forEach(function (element) {
+
+          const value =
+            element.dataset.n4oEventDate;
+
+          const parts =
+            value.split("-");
+
+          if (parts.length !== 3) {
+            return;
+          }
+
+          const year =
+            Number(parts[0]);
+
+          const month =
+            Number(parts[1]);
+
+          const day =
+            Number(parts[2]);
+
+          if (
+            !Number.isInteger(year)
+            || !Number.isInteger(month)
+            || !Number.isInteger(day)
+          ) {
+            return;
+          }
+
+          const date =
+            new Date(
+              Date.UTC(
+                year,
+                month - 1,
+                day
+              )
+            );
+
+          element.textContent =
+            new Intl.DateTimeFormat(
+              locale,
+              {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                timeZone: "UTC"
+              }
+            ).format(date);
+
+        });
+
+    });
+  </script>
 
 </section>

@@ -943,8 +943,24 @@ local function make_event_block(meta)
     if event_date ~= nil then
 
       line:insert(
-        pandoc.Str(
-          event_date
+        pandoc.Span(
+          {
+            pandoc.Str(
+              event_date
+            )
+          },
+          pandoc.Attr(
+            "",
+            {
+              "n4o-appendix-event-date"
+            },
+            {
+              {
+                "data-n4o-event-date",
+                event_date
+              }
+            }
+          )
         )
       )
 
