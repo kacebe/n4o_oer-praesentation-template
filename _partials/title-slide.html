@@ -36,53 +36,89 @@
         $endif$
       </div>
 
-  $if(citation.event-title)$
-  <div class="n4o-title-event">
-    <p class="n4o-title-event-name">$citation.event-title$</p>
+      $if(citation.event-title)$
+      <div class="n4o-title-event">
+        <p class="n4o-title-event-name">$citation.event-title$</p>
 
-    $if(citation.event-place)$
-    <p class="n4o-title-event-place">$citation.event-place$</p>
-    $endif$
+        $if(citation.event-place)$
+        <p class="n4o-title-event-place">$citation.event-place$</p>
+        $endif$
 
-    $if(citation.event-date)$
-    <p class="n4o-title-event-date">$citation.event-date$</p>
-    $endif$
-  </div>
+        $if(citation.event-date)$
+        <p class="n4o-title-event-date">$citation.event-date$</p>
+        $endif$
+      </div>
 
-  $elseif(citation.event-place)$
-  <div class="n4o-title-event">
-    <p class="n4o-title-event-place">$citation.event-place$</p>
+      $elseif(citation.event-place)$
+      <div class="n4o-title-event">
+        <p class="n4o-title-event-place">$citation.event-place$</p>
 
-    $if(citation.event-date)$
-    <p class="n4o-title-event-date">$citation.event-date$</p>
-    $endif$
-  </div>
+        $if(citation.event-date)$
+        <p class="n4o-title-event-date">$citation.event-date$</p>
+        $endif$
+      </div>
 
-  $elseif(citation.event-date)$
-  <div class="n4o-title-event">
-    <p class="n4o-title-event-date">$citation.event-date$</p>
-  </div>
-  $endif$
+      $elseif(citation.event-date)$
+      <div class="n4o-title-event">
+        <p class="n4o-title-event-date">$citation.event-date$</p>
+      </div>
+      $endif$
 
       $if(n4o-title-authors)$
       <div class="quarto-title-authors n4o-title-authors">
+
         $for(n4o-title-authors)$
         <div class="quarto-title-author n4o-title-author">
 
-          <div class="quarto-title-author-name n4o-title-author-name">$if(n4o-title-authors.url)$<a href="$n4o-title-authors.url$">$endif$$n4o-title-authors.name.literal$$if(n4o-title-authors.url)$</a>$endif$$if(n4o-title-authors.orcid)$ <a href="https://orcid.org/$n4o-title-authors.orcid$" class="quarto-title-author-orcid n4o-title-orcid" aria-label="ORCID von $n4o-title-authors.name.literal$"><img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiB5PSIxMiIgcj0iMTIiIGZpbGw9IiNBNkNFMzkiLz4KPHRleHQgeD0iMTIiIHk9IjE1LjciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5pRDwvdGV4dD4KPC9zdmc+"></a>$endif$</div>
+          <div class="quarto-title-author-name n4o-title-author-name">
+
+            $n4o-title-authors.name.literal$
+
+            $if(n4o-title-authors.orcid)$
+            <a
+              href="https://orcid.org/$n4o-title-authors.orcid$"
+              class="quarto-title-author-orcid n4o-title-orcid"
+              target="orcid.widget"
+              rel="me noopener noreferrer"
+              aria-label="ORCID von $n4o-title-authors.name.literal$"
+            >
+              <img
+                src="assets/icons/ORCID-iD_icon_vector.svg"
+                alt="ORCID iD icon"
+                class="n4o-title-orcid-icon"
+              >
+            </a>
+            $endif$
+
+          </div>
+
+          $if(n4o-title-authors.email)$
+            <div class="quarto-title-author-email n4o-title-author-email">
+              <a href="mailto:$n4o-title-authors.email$">
+                $n4o-title-authors.email$
+              </a>
+            </div>
+          $endif$
 
           $if(n4o-title-authors.affiliations)$
           <div class="quarto-title-affiliations n4o-title-affiliations">
+
             $for(n4o-title-authors.affiliations)$
-            <p class="quarto-title-affiliation n4o-title-affiliation">$if(it.url)$<a href="$it.url$">$endif$$it.name$$if(it.url)$</a>$endif$</p>
+            <p class="quarto-title-affiliation n4o-title-affiliation">
+              $if(it.url)$<a href="$it.url$">$endif$
+              $it.name$
+              $if(it.url)$</a>$endif$
+            </p>
             $endfor$
+
           </div>
           $endif$
 
         </div>
         $endfor$
+
       </div>
-$endif$
+      $endif$
 
     </div>
 
@@ -95,6 +131,7 @@ $endif$
       >
       $if(license.url)$</a>$endif$
     </div>
+
     $elseif(license.text)$
     <div class="n4o-title-license">
       $if(license.url)$<a href="$license.url$">$endif$$license.text$$if(license.url)$</a>$endif$
@@ -131,7 +168,7 @@ $endif$
       $endif$
 
     </div>
-  </div><!-- /.n4o-title-layout -->
 
+  </div><!-- /.n4o-title-layout -->
 
 </section>

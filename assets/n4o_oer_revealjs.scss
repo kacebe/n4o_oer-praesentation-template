@@ -205,26 +205,48 @@ $presentation-h2-font-size: 1.55em;
 }
 
 
-#title-slide .quarto-title-author-name {
-  font-size: 0.70em;
-  line-height: 1.2;
+/* Autor:innenname und ORCID ---------------------------------------------- */
+
+#title-slide .n4o-title-author-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.18em;
 }
 
 
-#title-slide .quarto-title-author-orcid {
-  display: inline-block;
+/* ORCID ------------------------------------------------------------------ */
 
-  margin-left: 0.15em;
+#title-slide .n4o-title-orcid {
+  display: inline-flex;
+  align-items: center;
 
-  vertical-align: middle;
+  line-height: 1;
+  text-decoration: none;
 }
 
+#title-slide .n4o-title-orcid-icon {
+  display: block;
 
-#title-slide .quarto-title-author-orcid img {
   width: 0.8em;
   height: 0.8em;
 
-  vertical-align: baseline;
+  margin: 0;
+
+  max-width: none;
+  max-height: none;
+}
+
+/* Links in Autor:innenangaben --------------------------------------------- */
+
+/*
+ * Quarto entfernt Links innerhalb des Title-Blocks standardmäßig
+ * die Unterstreichung. Für sichtbare Textlinks soll dagegen die
+ * in _brand.yml definierte Link-Dekoration gelten.
+ */
+
+#title-slide .quarto-title-authors .quarto-title-author a {
+  text-decoration: $link-decoration;
 }
 
 
@@ -543,7 +565,7 @@ $presentation-h2-font-size: 1.55em;
 
 .n4o-appendix-citation {
   width: 100%;
-  margin-bottom: 0.9em;
+  margin-bottom: 0.8em;
 }
 
 .n4o-appendix-citation-reference {
@@ -569,12 +591,19 @@ $presentation-h2-font-size: 1.55em;
   margin: 0;
 
   font-size: 1em;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.2;
 }
 
 
 /* Autor:innen und CRediT-Beiträge ---------------------------------------- */
+
+.n4o-appendix-authors
+.n4o-appendix-heading {
+  width: 88%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .n4o-appendix-authors {
   width: 100%;
@@ -667,12 +696,14 @@ section.n4o-appendix-slide
   margin-bottom: 0;
 }
 
-.n4o-appendix-author-roles {
-  display: block;
-
+.n4o-appendix-author-roles,
+.n4o-appendix-sources {
   font-size: 0.68em;
   line-height: 1.2;
+}
 
+.n4o-appendix-author-roles {
+  display: block;
   overflow-wrap: anywhere;
 }
 
@@ -694,6 +725,14 @@ section.n4o-appendix-slide
 }
 
 
+/* Allgemeine Absatzabstände ---------------------------------------------- */
+
+.reveal .slides
+section.n4o-appendix-slide p {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
 /* Unterer Bereich --------------------------------------------------------- */
 
 .n4o-appendix-grid,
@@ -701,12 +740,13 @@ section.n4o-appendix-slide
   display: grid;
 
   grid-template-columns:
-    minmax(0, 1fr)
+    minmax(0, 3fr)
     minmax(0, 1fr);
 
-  column-gap: 4em;
+  column-gap: 3em;
 
-  align-items: start;
+  /* Beide Spalten erhalten die Höhe der gesamten Grid-Zeile. */
+  align-items: stretch;
 
   width: 88%;
   margin: 0 auto;
@@ -717,16 +757,11 @@ section.n4o-appendix-slide
 }
 
 
-/* Allgemeine Absatzabstände ---------------------------------------------- */
-
-.reveal .slides
-section.n4o-appendix-slide p {
-  margin-top: 0.25em;
-  margin-bottom: 0.25em;
-}
-
-
 /* Veranstaltung ---------------------------------------------------------- */
+
+.n4o-appendix-column-left {
+  min-width: 0;
+}
 
 .n4o-appendix-event {
   margin: 0;
@@ -746,39 +781,6 @@ section.n4o-appendix-slide
   margin-bottom: 0.2em;
 }
 
-
-/* Lizenz und Rechte ------------------------------------------------------- */
-
-.n4o-appendix-rights {
-  margin-top: 0;
-
-  font-size: 0.65em;
-  line-height: 1.2;
-}
-
-.n4o-appendix-rights img {
-  display: block;
-
-  width: 88px;
-  height: auto;
-}
-
-.reveal .slides
-section.n4o-appendix-slide
-.n4o-appendix-rights p {
-  margin-top: 0.15em;
-  margin-bottom: 0.15em;
-}
-
-
-/* Links ------------------------------------------------------------------ */
-
-.reveal .slides
-section.n4o-appendix-slide a {
-  overflow-wrap: anywhere;
-}
-
-
 /* Icons vor Präsentations- und Repository-Link --------------------------- */
 
 .reveal .slides
@@ -789,7 +791,49 @@ img.n4o-appendix-link-icon {
   width: 1em;
   height: 1em;
 
+  max-width: none;
+  max-height: none;
+
   margin: 0;
 
   vertical-align: -0.125em;
+}
+
+
+/* Lizenz und Rechte ------------------------------------------------------- */
+
+.n4o-appendix-column-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.n4o-appendix-rights {
+  margin: 0;
+
+  font-size: 0.58em;
+  line-height: 1.22;
+}
+
+.n4o-appendix-rights img {
+  display: block;
+
+  width: 88px;
+  height: auto;
+
+  margin: 0 0 0.35em;
+}
+
+.reveal .slides
+section.n4o-appendix-slide
+.n4o-appendix-rights p {
+  margin-top: 0.15em;
+  margin-bottom: 0.15em;
+}
+
+/* Links ------------------------------------------------------------------ */
+
+.reveal .slides
+section.n4o-appendix-slide a {
+  overflow-wrap: anywhere;
 }
