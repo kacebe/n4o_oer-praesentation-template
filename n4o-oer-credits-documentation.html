@@ -11,6 +11,7 @@
 
   <meta name="author" content="Jane Doe">
   <meta name="author" content="John Doe">
+  <meta name="author" content="Max Musterfrau">
   <meta name="dcterms.date" content="2026-08-19">
   <meta name="keywords" content="Schlagwort 1, Schlagwort 2">
   <title>Titel der Präsentation</title>
@@ -58,7 +59,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="n4o-oer-credits-documentation_files/libs/revealjs/dist/theme/quarto-b776237bd20c3d2a3c207b81ec988ce9.css">
+  <link rel="stylesheet" href="n4o-oer-credits-documentation_files/libs/revealjs/dist/theme/quarto-13e8067fe5285798b1cbdccd6587011b.css">
   <link rel="stylesheet" href="backgrounds/background.css">
   <link href="n4o-oer-credits-documentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="n4o-oer-credits-documentation_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -228,7 +229,8 @@
   <meta name="dc:title" content="Titel der Präsentation">
   <meta name="dcterms:abstract" content="Kurze Beschreibung der Präsentation.">
   <meta name="eprints:creators_name" content="Doe, Jane">
-  <meta name="eprints:creators_name" content="Doe, John">
+  <meta name="eprints:contributors_name" content="Doe, John">
+  <meta name="eprints:contributors_name" content="Musterfrau, Max">
   <meta name="dcterms:issued" content="2026-08-18">
   <meta name="z:presentationType" content="Presentation">
   <meta name="z:meetingName" content="Name der Veranstaltung">
@@ -286,9 +288,19 @@
         "id": "https://orcid.org/0000-0000-0000-0002",
         "name": "John Doe",
         "type": "Person"
+      },
+      {
+        "affiliation": {
+          "id": "https://ror.org/00aa00a11",
+          "name": "Dreamworld University",
+          "type": "Organization"
+        },
+        "id": "https://orcid.org/0000-0000-0000-0003",
+        "name": "Max Musterfrau",
+        "type": "Person"
       }
     ],
-    "dateModified": "2026-08-27",
+    "dateModified": "2026-08-28",
     "datePublished": "2026-08-19",
     "description": "Kurze Beschreibung der Präsentation.",
     "educationalLevel": [
@@ -421,15 +433,99 @@
             "name": "John Doe",
             "sameAs": "https://orcid.org/0000-0000-0000-0002",
             "url": "https://example.com"
+          },
+          {
+            "@id": "https://orcid.org/0000-0000-0000-0003",
+            "@type": "Person",
+            "affiliation": {
+              "@id": "https://ror.org/00aa00a11",
+              "@type": "Organization",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "Country",
+                "addressLocality": "City"
+              },
+              "identifier": {
+                "@type": "PropertyValue",
+                "propertyID": "ROR",
+                "url": "https://ror.org/00aa00a11",
+                "value": "00aa00a11"
+              },
+              "name": "Dreamworld University",
+              "sameAs": "https://ror.org/00aa00a11",
+              "url": "https://example.com"
+            },
+            "email": "john.doe@example.org",
+            "familyName": "Musterfrau",
+            "givenName": "Max",
+            "identifier": {
+              "@type": "PropertyValue",
+              "propertyID": "ORCID",
+              "url": "https://orcid.org/0000-0000-0000-0003",
+              "value": "0000-0000-0000-0003"
+            },
+            "name": "Max Musterfrau",
+            "sameAs": "https://orcid.org/0000-0000-0000-0003",
+            "url": "https://example.com"
           }
         ],
         "conditionsOfAccess": "keine Anmeldung erforderlich",
+        "contributor": [
+          {
+            "@type": "Role",
+            "contributor": {
+              "@id": "https://orcid.org/0000-0000-0000-0001"
+            },
+            "roleName": "Conceptualization",
+            "url": "https://credit.niso.org/contributor-roles/conceptualization/"
+          },
+          {
+            "@type": "Role",
+            "contributor": {
+              "@id": "https://orcid.org/0000-0000-0000-0001"
+            },
+            "roleName": "Writing – original draft",
+            "url": "https://credit.niso.org/contributor-roles/writing-original-draft/"
+          },
+          {
+            "@type": "Role",
+            "contributor": {
+              "@id": "https://orcid.org/0000-0000-0000-0001"
+            },
+            "roleName": "Speaker",
+            "url": "https://purl.org/ontology/modalia#Speaker"
+          },
+          {
+            "@type": "Role",
+            "contributor": {
+              "@id": "https://orcid.org/0000-0000-0000-0002"
+            },
+            "roleName": "Conceptualization",
+            "url": "https://credit.niso.org/contributor-roles/conceptualization/"
+          },
+          {
+            "@type": "Role",
+            "contributor": {
+              "@id": "https://orcid.org/0000-0000-0000-0003"
+            },
+            "roleName": "Writing – review & editing",
+            "url": "https://credit.niso.org/contributor-roles/writing-review-editing/"
+          },
+          {
+            "@type": "Role",
+            "contributor": {
+              "@id": "https://orcid.org/0000-0000-0000-0003"
+            },
+            "roleName": "Investigation",
+            "url": "https://credit.niso.org/contributor-roles/investigation/"
+          }
+        ],
         "copyrightHolder": {
           "name": "Name der Rechteinhaberin / des Rechteinhabers"
         },
         "copyrightNotice": "© 2026 Name der Rechteinhaberin / des Rechteinhabers",
         "copyrightYear": 2026,
-        "dateModified": "2026-08-27",
+        "dateModified": "2026-08-28",
         "datePublished": "2026-08-19",
         "description": "Kurze Beschreibung der Präsentation.",
         "educationalLevel": {
@@ -482,17 +578,22 @@
         },
         "name": "Name der Veranstaltung",
         "startDate": "2026-08-18",
-        "subEvent": {
-          "@id": "https://kacebe.github.io/n4o_oer-praesentation-template/#session"
-        },
         "superEvent": {
           "@id": "https://kacebe.github.io/n4o_oer-praesentation-template/#event-series"
+        },
+        "workFeatured": {
+          "@id": "https://kacebe.github.io/n4o_oer-praesentation-template/"
         }
       },
       {
         "@id": "https://kacebe.github.io/n4o_oer-praesentation-template/#session",
         "@type": "Event",
+        "location": {
+          "@type": "Place",
+          "name": "Veranstaltungsort"
+        },
         "name": "Titel der Session",
+        "startDate": "2026-08-18",
         "superEvent": {
           "@id": "https://kacebe.github.io/n4o_oer-praesentation-template/#event"
         },
@@ -544,6 +645,15 @@
 
                     <div class="quarto-title-affiliations n4o-title-affiliations">
                         <p class="quarto-title-affiliation n4o-title-affiliation"><a href="https://example.com">Awesome University</a></p>
+                      </div>
+          
+        </div>
+                <div class="quarto-title-author n4o-title-author">
+
+          <div class="quarto-title-author-name n4o-title-author-name"><a href="https://example.com">Max Musterfrau</a> <a href="https://orcid.org/0000-0000-0000-0003" class="quarto-title-author-orcid n4o-title-orcid" aria-label="ORCID von Max Musterfrau"><img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiB5PSIxMiIgcj0iMTIiIGZpbGw9IiNBNkNFMzkiLz4KPHRleHQgeD0iMTIiIHk9IjE1LjciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5pRDwvdGV4dD4KPC9zdmc+"></a></div>
+
+                    <div class="quarto-title-affiliations n4o-title-affiliations">
+                        <p class="quarto-title-affiliation n4o-title-affiliation"><a href="https://example.com">Dreamworld University</a></p>
                       </div>
           
         </div>
@@ -718,11 +828,28 @@
 <p><span class="n4o-appendix-heading" role="heading" aria-level="3">Zitierempfehlung für diese Präsentation</span></p>
 <div class="references csl-bib-body hanging-indent n4o-appendix-citation-reference" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-n4o-presentation-self" class="csl-entry" role="listitem">
-Doe, J. (2026, August 19). Titel der Präsentation. In <em>Titel der Session</em> [Presentation]. Name der herausgebenden Institution. Name der Veranstaltung, Veranstaltungsort, 18. August 2026. <a href="https://doi.org/10.0000/00000">https://doi.org/10.0000/00000</a>
+Doe, J., Doe, J., &amp; Musterfrau, M. (2026, August 19). Titel der Präsentation. In <em>Titel der Session</em> [Presentation]. Name der herausgebenden Institution. Name der Veranstaltung, Veranstaltungsort, 18. August 2026. <a href="https://doi.org/10.0000/00000">https://doi.org/10.0000/00000</a>
 </div>
 </div>
 </div>
-<div class="n4o-appendix-grid">
+<div class="n4o-appendix-authors n4o-appendix-authors-two-columns">
+<p><span class="n4o-appendix-heading" role="heading" aria-level="3">Autor:innen und Beiträge</span></p>
+<div class="n4o-appendix-authors-grid">
+<div class="n4o-appendix-author">
+<p><span class="n4o-appendix-author-name"><strong>Jane Doe</strong></span></p>
+<p><span class="n4o-appendix-author-roles">conceptualization · writing – original draft</span></p>
+</div>
+<div class="n4o-appendix-author">
+<p><span class="n4o-appendix-author-name"><strong>John Doe</strong></span></p>
+<p><span class="n4o-appendix-author-roles">conceptualization</span></p>
+</div>
+<div class="n4o-appendix-author">
+<p><span class="n4o-appendix-author-name"><strong>Max Musterfrau</strong></span></p>
+<p><span class="n4o-appendix-author-roles">writing – review &amp; editing · investigation</span></p>
+</div>
+</div>
+</div>
+<div class="n4o-appendix-grid n4o-appendix-bottom-grid">
 <div class="n4o-appendix-column n4o-appendix-column-left">
 <div class="n4o-appendix-event">
 <p><strong>Name der Veranstaltung</strong></p>
@@ -736,13 +863,6 @@ Doe, J. (2026, August 19). Titel der Präsentation. In <em>Titel der Session</em
 </div>
 </div>
 <div class="n4o-appendix-column n4o-appendix-column-right">
-<div class="n4o-appendix-contact">
-<div class="n4o-appendix-contact-person">
-<p><strong>Jane Doe</strong></p>
-<p><img data-src="assets/icons/envelope.svg" class="n4o-appendix-link-icon"> <a href="mailto:jane.doe@example.org">jane.doe@example.org</a></p>
-<p><img data-src="assets/icons/globe2.svg" class="n4o-appendix-link-icon"> <a href="https://example.com">https://example.com</a></p>
-</div>
-</div>
 <div class="n4o-appendix-rights">
 <p>© 2026 Name der Rechteinhaberin / des Rechteinhabers</p>
 <p><a href="https://creativecommons.org/licenses/by/4.0/"><img data-src="assets/logos/licenses/cc-by.svg" alt="Creative Commons Namensnennung 4.0 International"></a></p>

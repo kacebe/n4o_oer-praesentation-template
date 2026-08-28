@@ -11,6 +11,7 @@
 
   <meta name="author" content="Jane Doe">
   <meta name="author" content="John Doe">
+  <meta name="author" content="Max Musterfrau">
   <meta name="dcterms.date" content="2026-08-19">
   <meta name="keywords" content="Schlagwort 1, Schlagwort 2">
   <title>N4O OER-Präsentationstemplate</title>
@@ -38,7 +39,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-b776237bd20c3d2a3c207b81ec988ce9.css">
+  <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto-13e8067fe5285798b1cbdccd6587011b.css">
   <link rel="stylesheet" href="backgrounds/background.css">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="index_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -208,7 +209,8 @@
   <meta name="dc:title" content="N4O OER-Präsentationstemplate">
   <meta name="dcterms:abstract" content="Kurzanleitung zum Laden und Anpassen des N4O OER-Präsentationstemplates.">
   <meta name="eprints:creators_name" content="Doe, Jane">
-  <meta name="eprints:creators_name" content="Doe, John">
+  <meta name="eprints:contributors_name" content="Doe, John">
+  <meta name="eprints:contributors_name" content="Musterfrau, Max">
   <meta name="dcterms:issued" content="2026-08-19">
   <meta name="dc:identifier.DOI" content="10.0000/00000">
   <meta name="z:url" content="https://kacebe.github.io/n4o_oer-praesentation-template/">
@@ -261,9 +263,19 @@
         "id": "https://orcid.org/0000-0000-0000-0002",
         "name": "John Doe",
         "type": "Person"
+      },
+      {
+        "affiliation": {
+          "id": "https://ror.org/00aa00a11",
+          "name": "Dreamworld University",
+          "type": "Organization"
+        },
+        "id": "https://orcid.org/0000-0000-0000-0003",
+        "name": "Max Musterfrau",
+        "type": "Person"
       }
     ],
-    "dateModified": "2026-08-27",
+    "dateModified": "2026-08-28",
     "datePublished": "2026-08-19",
     "description": "Kurzanleitung zum Laden und Anpassen des N4O OER-Präsentationstemplates.",
     "educationalLevel": [
@@ -390,15 +402,99 @@
             "name": "John Doe",
             "sameAs": "https://orcid.org/0000-0000-0000-0002",
             "url": "https://example.com"
+          },
+          {
+            "@id": "https://orcid.org/0000-0000-0000-0003",
+            "@type": "Person",
+            "affiliation": {
+              "@id": "https://ror.org/00aa00a11",
+              "@type": "Organization",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "Country",
+                "addressLocality": "City"
+              },
+              "identifier": {
+                "@type": "PropertyValue",
+                "propertyID": "ROR",
+                "url": "https://ror.org/00aa00a11",
+                "value": "00aa00a11"
+              },
+              "name": "Dreamworld University",
+              "sameAs": "https://ror.org/00aa00a11",
+              "url": "https://example.com"
+            },
+            "email": "john.doe@example.org",
+            "familyName": "Musterfrau",
+            "givenName": "Max",
+            "identifier": {
+              "@type": "PropertyValue",
+              "propertyID": "ORCID",
+              "url": "https://orcid.org/0000-0000-0000-0003",
+              "value": "0000-0000-0000-0003"
+            },
+            "name": "Max Musterfrau",
+            "sameAs": "https://orcid.org/0000-0000-0000-0003",
+            "url": "https://example.com"
           }
         ],
         "conditionsOfAccess": "keine Anmeldung erforderlich",
+        "contributor": [
+          {
+            "@type": "Role",
+            "contributor": {
+              "@id": "https://orcid.org/0000-0000-0000-0001"
+            },
+            "roleName": "Conceptualization",
+            "url": "https://credit.niso.org/contributor-roles/conceptualization/"
+          },
+          {
+            "@type": "Role",
+            "contributor": {
+              "@id": "https://orcid.org/0000-0000-0000-0001"
+            },
+            "roleName": "Writing – original draft",
+            "url": "https://credit.niso.org/contributor-roles/writing-original-draft/"
+          },
+          {
+            "@type": "Role",
+            "contributor": {
+              "@id": "https://orcid.org/0000-0000-0000-0001"
+            },
+            "roleName": "Speaker",
+            "url": "https://purl.org/ontology/modalia#Speaker"
+          },
+          {
+            "@type": "Role",
+            "contributor": {
+              "@id": "https://orcid.org/0000-0000-0000-0002"
+            },
+            "roleName": "Conceptualization",
+            "url": "https://credit.niso.org/contributor-roles/conceptualization/"
+          },
+          {
+            "@type": "Role",
+            "contributor": {
+              "@id": "https://orcid.org/0000-0000-0000-0003"
+            },
+            "roleName": "Writing – review & editing",
+            "url": "https://credit.niso.org/contributor-roles/writing-review-editing/"
+          },
+          {
+            "@type": "Role",
+            "contributor": {
+              "@id": "https://orcid.org/0000-0000-0000-0003"
+            },
+            "roleName": "Investigation",
+            "url": "https://credit.niso.org/contributor-roles/investigation/"
+          }
+        ],
         "copyrightHolder": {
           "name": "Name der Rechteinhaberin / des Rechteinhabers"
         },
         "copyrightNotice": "© 2026 Name der Rechteinhaberin / des Rechteinhabers",
         "copyrightYear": 2026,
-        "dateModified": "2026-08-27",
+        "dateModified": "2026-08-28",
         "datePublished": "2026-08-19",
         "description": "Kurzanleitung zum Laden und Anpassen des N4O OER-Präsentationstemplates.",
         "educationalLevel": {
@@ -467,6 +563,15 @@
 
                     <div class="quarto-title-affiliations n4o-title-affiliations">
                         <p class="quarto-title-affiliation n4o-title-affiliation"><a href="https://example.com">Awesome University</a></p>
+                      </div>
+          
+        </div>
+                <div class="quarto-title-author n4o-title-author">
+
+          <div class="quarto-title-author-name n4o-title-author-name"><a href="https://example.com">Max Musterfrau</a> <a href="https://orcid.org/0000-0000-0000-0003" class="quarto-title-author-orcid n4o-title-orcid" aria-label="ORCID von Max Musterfrau"><img alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CjxjaXJjbGUgY3g9IjEyIiB5PSIxMiIgcj0iMTIiIGZpbGw9IiNBNkNFMzkiLz4KPHRleHQgeD0iMTIiIHk9IjE1LjciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjExIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5pRDwvdGV4dD4KPC9zdmc+"></a></div>
+
+                    <div class="quarto-title-affiliations n4o-title-affiliations">
+                        <p class="quarto-title-affiliation n4o-title-affiliation"><a href="https://example.com">Dreamworld University</a></p>
                       </div>
           
         </div>
