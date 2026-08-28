@@ -1,22 +1,55 @@
 -- html_metadata.lua
 --
--- Ergänzt maschinenlesbare Metadaten im HTML-Header einer
--- Quarto-Reveal.js-Präsentation:
+-- Erzeugt maschinenlesbare Metadaten im HTML-Header der
+-- N4O-Quarto-Reveal.js-Präsentation.
+--
+-- Ausgaben:
 -- - description, canonical und license
 -- - AMB/OERSI-JSON-LD
 -- - ergänzendes Schema.org-JSON-LD
 -- - Embedded Metadata für den Zotero Connector
 --
 -- Erwartete Filterreihenfolge:
--- title_brand.lua -> quarto -> html_metadata.lua -> appendix_slide.lua
--- Dadurch stehen die von Quarto normalisierten by-author-Daten zur Verfügung.
+-- title_brand.lua -> quarto -> title_authors.lua
+-- -> html_metadata.lua -> appendix_slide.lua
 --
--- Die kanonische URL stammt aus citation.url; OER-Angaben aus oer:.
+-- Personenmodell:
 --
--- Entwickelt im August 2026 mit Unterstützung von ChatGPT
--- (OpenAI, GPT-5.6 Sol) und lokal mit Quarto geprüft.
+-- author
+--   bibliografische Autor:innen der OER
+--
+-- roles
+--   Beiträge nach CRediT
+--   Die Rollen bestimmen nicht den Autor:innenstatus.
+--
+-- contributors
+--   weitere Mitwirkende, die nicht als Autor:innen geführt werden
+--
+-- functions
+--   zusätzliche Funktionen einer Person gegenüber der Ressource,
+--   z. B. speaker. Diese Ebene ist von CRediT getrennt.
+--
+-- Für das RevealJS-Template gilt:
+-- - title_authors.lua erzeugt n4o-authors als zentrale Liste
+--   aller Personen mit mindestens einer gültigen CRediT-Rolle.
+-- - Ausschließlich n4o-authors wird für Autor:innenmetadaten
+--   dieses Filters verwendet.
+-- - Personen ohne gültige roles werden weder als AMB creator,
+--   Schema.org author noch in Zotero ausgegeben.
+-- - Alle gültigen N4O-Autor:innen werden in AMB als creator
+--   und in Schema.org als author ausgegeben.
+-- - CRediT-Rollen werden zusätzlich als Schema.org Role ausgegeben.
+-- - Zotero Presenter wird nicht aus CRediT abgeleitet.
+-- - Nur eine explizite Funktion speaker wird für Zotero Presentation
+--   auf Presenter abgebildet.
+--
+-- Quarto erzeugt native <meta name="author">-Elemente selbst.
+-- Dieser Filter erzeugt deshalb keine konkurrierenden author-Meta-Tags.
 
--- Allgemeine Hilfsfunktionen
+
+-- ============================================================================
+-- ALLGEMEINE HILFSFUNKTIONEN
+-- ============================================================================
 
 
 local function text(value)
@@ -58,10 +91,27 @@ local function normalize_space(value)
     return nil
   end
 
-  return value
+  return tostring(value)
     :gsub("%s+", " ")
     :gsub("^%s+", "")
     :gsub("%s+$", "")
+
+end
+
+
+local function normalize_key(value)
+
+  local value_text =
+    text(value)
+
+  if value_text == nil then
+    return nil
+  end
+
+  return
+    string.lower(
+      normalize_space(value_text)
+    )
 
 end
 
@@ -72,7 +122,7 @@ local function html_escape(value)
     return nil
   end
 
-  return value
+  return tostring(value)
     :gsub("&", "&amp;")
     :gsub('"', "&quot;")
     :gsub("<", "&lt;")
@@ -88,7 +138,7 @@ local function is_url(value)
   end
 
   return
-    value:match("^https?://") ~= nil
+    tostring(value):match("^https?://") ~= nil
 
 end
 
@@ -99,19 +149,12 @@ local function as_array(value)
     return {}
   end
 
-
   if type(value) ~= "table" then
-
-    return {
-      value
-    }
-
+    return { value }
   end
-
 
   local value_type =
     pandoc.utils.type(value)
-
 
   if
     value_type == "Inlines"
@@ -119,34 +162,21 @@ local function as_array(value)
     or value_type == "MetaInlines"
     or value_type == "MetaBlocks"
   then
-
-    return {
-      value
-    }
-
+    return { value }
   end
-
 
   if
     value_type == "List"
     or value_type == "MetaList"
   then
-
     return value
-
   end
-
 
   if value[1] ~= nil then
-
     return value
-
   end
 
-
-  return {
-    value
-  }
+  return { value }
 
 end
 
@@ -163,12 +193,10 @@ local function string_array(value)
       text(item)
 
     if item_text ~= nil then
-
       table.insert(
         result,
         item_text
       )
-
     end
 
   end
@@ -189,16 +217,7 @@ local function boolean_value(value)
   end
 
   local value_text =
-    text(value)
-
-  if value_text == nil then
-    return nil
-  end
-
-  value_text =
-    string.lower(
-      normalize_space(value_text)
-    )
+    normalize_key(value)
 
   if value_text == "true" then
     return true
@@ -211,8 +230,6 @@ local function boolean_value(value)
   return nil
 
 end
-
--- Mehrsprachige Bezeichnungen aus kontrollierten Vokabularen auswerten.
 
 
 local function localized_value(value)
@@ -233,10 +250,8 @@ local function localized_value(value)
           text(item)
 
         if item_text ~= nil then
-
           result[key] =
             item_text
-
         end
 
       end
@@ -293,52 +308,52 @@ local function preferred_label(
 
 end
 
--- Mehrfachwerte ergänzen, ohne vorhandene Einzelwerte zu überschreiben.
 
-
-local function append_property(
+local function set_values(
   object,
   property,
-  value
+  values
 )
 
-  if value == nil then
+  if values == nil then
     return
   end
 
-  if object[property] == nil then
-
+  if type(values) ~= "table" then
     object[property] =
-      value
-
+      values
     return
   end
 
-  local current =
-    object[property]
-
-  if
-    type(current) == "table"
-    and current[1] ~= nil
-  then
-
-    table.insert(
-      current,
-      value
-    )
-
-  else
-
-    object[property] = {
-      current,
-      value
-    }
-
+  if #values == 1 then
+    object[property] =
+      values[1]
+  elseif #values > 1 then
+    object[property] =
+      values
   end
 
 end
 
--- Persistente Identifikatoren normalisieren.
+
+local function append_value(
+  values,
+  value
+)
+
+  if value ~= nil then
+    table.insert(
+      values,
+      value
+    )
+  end
+
+end
+
+
+-- ============================================================================
+-- IDENTIFIKATOREN UND URLS
+-- ============================================================================
 
 
 local function normalize_doi(value)
@@ -352,17 +367,8 @@ local function normalize_doi(value)
 
   doi =
     normalize_space(doi)
-
-  doi =
-    doi
-      :gsub(
-        "^https?://doi%.org/",
-        ""
-      )
-      :gsub(
-        "^doi:%s*",
-        ""
-      )
+      :gsub("^https?://doi%.org/", "")
+      :gsub("^doi:%s*", "")
 
   if doi == "" then
     return nil, nil
@@ -384,14 +390,9 @@ local function normalize_orcid(value)
     return nil, nil
   end
 
-  orcid =
-    normalize_space(orcid)
-
   local identifier =
-    orcid:gsub(
-      "^https?://orcid%.org/",
-      ""
-    )
+    normalize_space(orcid)
+      :gsub("^https?://orcid%.org/", "")
 
   if identifier == "" then
     return nil, nil
@@ -413,14 +414,9 @@ local function normalize_ror(value)
     return nil, nil
   end
 
-  ror =
-    normalize_space(ror)
-
   local identifier =
-    ror:gsub(
-      "^https?://ror%.org/",
-      ""
-    )
+    normalize_space(ror)
+      :gsub("^https?://ror%.org/", "")
 
   if identifier == "" then
     return nil, nil
@@ -431,8 +427,6 @@ local function normalize_ror(value)
     "https://ror.org/" .. identifier
 
 end
-
--- Relative Ressourcen-URLs anhand der kanonischen URL auflösen.
 
 
 local function resolve_url(
@@ -458,7 +452,6 @@ local function resolve_url(
     return url
   end
 
-
   if url:match("^/") then
 
     local origin =
@@ -467,25 +460,19 @@ local function resolve_url(
       )
 
     if origin ~= nil then
-
       return
         origin
         .. "/"
         .. url:gsub("^/+", "")
-
     end
 
   end
 
-
   if canonical:match("/$") then
-
     return
       canonical
       .. url:gsub("^/+", "")
-
   end
-
 
   local directory =
     canonical:match(
@@ -493,20 +480,15 @@ local function resolve_url(
     )
 
   if directory ~= nil then
-
     return
       directory
       .. "/"
       .. url:gsub("^/+", "")
-
   end
-
 
   return url
 
 end
-
--- Lizenzangaben auf eine kanonische URL abbilden.
 
 
 local function license_url(meta)
@@ -518,19 +500,14 @@ local function license_url(meta)
     return nil
   end
 
-
   if
     type(license) == "table"
     and license.url ~= nil
   then
-
-    return
-      text(
-        license.url
-      )
-
+    return text(
+      license.url
+    )
   end
-
 
   local value =
     text(license)
@@ -539,17 +516,14 @@ local function license_url(meta)
     return nil
   end
 
-
   if is_url(value) then
     return value
   end
-
 
   local key =
     string.upper(
       normalize_space(value)
     )
-
 
   local licenses = {
 
@@ -572,83 +546,190 @@ local function license_url(meta)
       "https://creativecommons.org/publicdomain/zero/1.0/"
   }
 
-
   return licenses[key]
 
 end
 
--- Autor:innen und Institutionen für AMB und Schema.org aufbereiten.
+
+-- ============================================================================
+-- PERSONEN UND INSTITUTIONEN
+-- ============================================================================
 
 
-local function author_name(author)
+local function author_source(meta)
+
+  -- Keine Fallbacks auf by-author, authors oder author.
+  --
+  -- Dadurch können Personen, die von title_authors.lua wegen
+  -- fehlender oder ungültiger CRediT-Rollen ausgeschlossen
+  -- wurden, nicht über einen alternativen Datenpfad wieder in
+  -- AMB-, Schema.org- oder Zotero-Metadaten gelangen.
+
+  return
+    meta["n4o-authors"]
+
+end
+
+
+local function contributor_source(meta)
+
+  return
+    meta.contributors
+
+end
+
+
+local function author_name(person)
 
   if
-    author == nil
-    or type(author) ~= "table"
+    person == nil
+    or type(person) ~= "table"
   then
-    return text(author)
+    return text(person)
   end
 
-
-  if type(author.name) == "table" then
+  if type(person.name) == "table" then
 
     local literal =
       text(
-        author.name.literal
+        person.name.literal
       )
 
     if literal ~= nil then
       return literal
     end
 
-
-    local parts = {}
-
     local given =
       text(
-        author.name.given
+        person.name.given
       )
 
     local family =
       text(
-        author.name.family
+        person.name.family
       )
 
-
-    if given ~= nil then
-
-      table.insert(
-        parts,
-        given
-      )
-
-    end
-
-
-    if family ~= nil then
-
-      table.insert(
-        parts,
-        family
-      )
-
-    end
-
-
-    if #parts > 0 then
-
+    if
+      given ~= nil
+      and family ~= nil
+    then
       return
-        table.concat(
-          parts,
-          " "
+        given
+        .. " "
+        .. family
+    end
+
+    return
+      given
+      or family
+
+  end
+
+  return text(
+    person.name
+  )
+
+end
+
+
+local function affiliation_index(meta)
+
+  local result = {}
+
+  for _, affiliation in ipairs(
+    as_array(meta.affiliations)
+  ) do
+
+    if type(affiliation) == "table" then
+
+      local id =
+        text(
+          affiliation.id
         )
+
+      if id ~= nil then
+        result[id] =
+          affiliation
+      end
 
     end
 
   end
 
+  return result
 
-  return text(author.name)
+end
+
+
+local function resolve_affiliation(
+  affiliation,
+  meta
+)
+
+  if
+    affiliation == nil
+    or type(affiliation) ~= "table"
+  then
+    return affiliation
+  end
+
+  local ref =
+    text(
+      affiliation.ref
+    )
+
+  if ref == nil then
+    return affiliation
+  end
+
+  local index =
+    affiliation_index(meta)
+
+  return
+    index[ref]
+    or affiliation
+
+end
+
+
+local function person_affiliations(
+  person,
+  meta
+)
+
+  local result = {}
+
+  if
+    person == nil
+    or type(person) ~= "table"
+  then
+    return result
+  end
+
+  local source =
+    person.affiliations
+    or person.affiliation
+
+  for _, affiliation in ipairs(
+    as_array(source)
+  ) do
+
+    local resolved =
+      resolve_affiliation(
+        affiliation,
+        meta
+      )
+
+    if resolved ~= nil then
+      table.insert(
+        result,
+        resolved
+      )
+    end
+
+  end
+
+  return result
 
 end
 
@@ -661,7 +742,6 @@ local function amb_organization(
     return nil
   end
 
-
   if type(affiliation) ~= "table" then
 
     local name =
@@ -672,12 +752,13 @@ local function amb_organization(
     end
 
     return {
-      type = "Organization",
-      name = name
+      type =
+        "Organization",
+      name =
+        name
     }
 
   end
-
 
   local name =
     text(
@@ -688,43 +769,32 @@ local function amb_organization(
     return nil
   end
 
-
   local organization = {
-
     type =
       "Organization",
-
     name =
       name
   }
 
-
   local ror_value =
     affiliation.ror
-
 
   if
     ror_value == nil
     and type(affiliation.metadata) == "table"
   then
-
     ror_value =
       affiliation.metadata.ror
-
   end
-
 
   local _, ror_url =
     normalize_ror(
       ror_value
     )
 
-
   if ror_url ~= nil then
-
     organization.id =
       ror_url
-
   else
 
     local url =
@@ -736,122 +806,13 @@ local function amb_organization(
       url ~= nil
       and is_url(url)
     then
-
       organization.id =
         url
-
     end
 
   end
-
 
   return organization
-
-end
-
-
-local function amb_person(author)
-
-  local name =
-    author_name(author)
-
-  if name == nil then
-    return nil
-  end
-
-
-  local person = {
-
-    type =
-      "Person",
-
-    name =
-      name
-  }
-
-
-  if type(author) ~= "table" then
-    return person
-  end
-
-
-  local _, orcid_url =
-    normalize_orcid(
-      author.orcid
-    )
-
-
-  if orcid_url ~= nil then
-
-    person.id =
-      orcid_url
-
-  end
-
-  -- AMB erlaubt hier nur eine einzelne affiliation; verwendet wird die erste Zuordnung.
-
-  local affiliations =
-    as_array(
-      author.affiliations
-      or author.affiliation
-    )
-
-
-  if #affiliations > 0 then
-
-    local affiliation =
-      amb_organization(
-        affiliations[1]
-      )
-
-
-    if affiliation ~= nil then
-
-      person.affiliation =
-        affiliation
-
-    end
-
-  end
-
-
-  return person
-
-end
-
-
-local function amb_creators(meta)
-
-  local result = {}
-
-
-  local source =
-    meta["by-author"]
-    or meta.authors
-    or meta.author
-
-
-  for _, author in ipairs(
-    as_array(source)
-  ) do
-
-    local person =
-      amb_person(author)
-
-
-    if person ~= nil then
-
-      table.insert(
-        result,
-        person
-      )
-
-    end
-
-  end
-
-
-  return result
 
 end
 
@@ -864,7 +825,6 @@ local function schema_organization(
     return nil
   end
 
-
   if type(affiliation) ~= "table" then
 
     local name =
@@ -874,25 +834,19 @@ local function schema_organization(
       return nil
     end
 
-
     return {
-
       ["@type"] =
         "Organization",
-
       name =
         name
     }
 
   end
 
-
   local organization = {
-
     ["@type"] =
       "Organization"
   }
-
 
   local name =
     text(
@@ -904,43 +858,31 @@ local function schema_organization(
       affiliation.url
     )
 
-
   if name ~= nil then
-
     organization.name =
       name
-
   end
-
 
   if url ~= nil then
-
     organization.url =
       url
-
   end
-
 
   local ror_value =
     affiliation.ror
-
 
   if
     ror_value == nil
     and type(affiliation.metadata) == "table"
   then
-
     ror_value =
       affiliation.metadata.ror
-
   end
-
 
   local ror_id, ror_url =
     normalize_ror(
       ror_value
     )
-
 
   if ror_url ~= nil then
 
@@ -951,22 +893,17 @@ local function schema_organization(
       ror_url
 
     organization.identifier = {
-
       ["@type"] =
         "PropertyValue",
-
       propertyID =
         "ROR",
-
       value =
         ror_id,
-
       url =
         ror_url
     }
 
   end
-
 
   local street =
     text(
@@ -995,7 +932,6 @@ local function schema_organization(
       affiliation.country
     )
 
-
   if
     street ~= nil
     or city ~= nil
@@ -1005,185 +941,202 @@ local function schema_organization(
   then
 
     local address = {
-
       ["@type"] =
         "PostalAddress"
     }
 
-
     if street ~= nil then
-
       address.streetAddress =
         street
-
     end
-
 
     if city ~= nil then
-
       address.addressLocality =
         city
-
     end
-
 
     if region ~= nil then
-
       address.addressRegion =
         region
-
     end
-
 
     if postal_code ~= nil then
-
       address.postalCode =
         postal_code
-
     end
-
 
     if country ~= nil then
-
       address.addressCountry =
         country
-
     end
-
 
     organization.address =
       address
 
   end
 
-
   return organization
 
 end
 
 
-local function schema_person(author)
+local function amb_person(
+  person,
+  meta
+)
 
   local name =
-    author_name(author)
+    author_name(person)
 
   if name == nil then
     return nil
   end
 
-
-  local person = {
-
-    ["@type"] =
+  local result = {
+    type =
       "Person",
-
     name =
       name
   }
 
-
-  if type(author) ~= "table" then
-    return person
+  if type(person) ~= "table" then
+    return result
   end
 
+  local _, orcid_url =
+    normalize_orcid(
+      person.orcid
+    )
 
-  if type(author.name) == "table" then
+  if orcid_url ~= nil then
+    result.id =
+      orcid_url
+  end
+
+  local affiliations =
+    person_affiliations(
+      person,
+      meta
+    )
+
+  if #affiliations > 0 then
+
+    local organization =
+      amb_organization(
+        affiliations[1]
+      )
+
+    if organization ~= nil then
+      result.affiliation =
+        organization
+    end
+
+  end
+
+  return result
+
+end
+
+
+local function schema_person(
+  person,
+  meta
+)
+
+  local name =
+    author_name(person)
+
+  if name == nil then
+    return nil
+  end
+
+  local result = {
+    ["@type"] =
+      "Person",
+    name =
+      name
+  }
+
+  if type(person) ~= "table" then
+    return result
+  end
+
+  if type(person.name) == "table" then
 
     local given =
       text(
-        author.name.given
+        person.name.given
       )
 
     local family =
       text(
-        author.name.family
+        person.name.family
       )
 
-
     if given ~= nil then
-
-      person.givenName =
+      result.givenName =
         given
-
     end
 
-
     if family ~= nil then
-
-      person.familyName =
+      result.familyName =
         family
-
     end
 
   end
 
-
   local email =
     text(
-      author.email
+      person.email
     )
 
   local url =
     text(
-      author.url
+      person.url
     )
 
-
   if email ~= nil then
-
-    person.email =
+    result.email =
       email
-
   end
-
 
   if url ~= nil then
-
-    person.url =
+    result.url =
       url
-
   end
-
 
   local orcid_id, orcid_url =
     normalize_orcid(
-      author.orcid
+      person.orcid
     )
-
 
   if orcid_url ~= nil then
 
-    person["@id"] =
+    result["@id"] =
       orcid_url
 
-    person.sameAs =
+    result.sameAs =
       orcid_url
 
-    person.identifier = {
-
+    result.identifier = {
       ["@type"] =
         "PropertyValue",
-
       propertyID =
         "ORCID",
-
       value =
         orcid_id,
-
       url =
         orcid_url
     }
 
   end
 
-
   local organizations = {}
 
-
   for _, affiliation in ipairs(
-    as_array(
-      author.affiliations
-      or author.affiliation
+    person_affiliations(
+      person,
+      meta
     )
   ) do
 
@@ -1192,102 +1145,444 @@ local function schema_person(author)
         affiliation
       )
 
-
     if organization ~= nil then
-
       table.insert(
         organizations,
         organization
       )
-
     end
 
   end
 
-
-  if #organizations == 1 then
-
-    person.affiliation =
-      organizations[1]
-
-  elseif #organizations > 1 then
-
-    person.affiliation =
-      organizations
-
-  end
-
-
-  return person
-
-end
-
--- Herausgebende Institutionen aufbereiten.
-
-
-local function amb_publishers(meta)
-
-  local citation =
-    meta.citation or {}
-
-
-  local source =
-    citation.publisher
-    or meta.publisher
-
-
-  local result = {}
-
-
-  for _, publisher in ipairs(
-    as_array(source)
-  ) do
-
-    local organization =
-      amb_organization(
-        publisher
-      )
-
-
-    if organization == nil then
-
-      local name =
-        text(publisher)
-
-
-      if name ~= nil then
-
-        organization = {
-
-          type =
-            "Organization",
-
-          name =
-            name
-        }
-
-      end
-
-    end
-
-
-    if organization ~= nil then
-
-      table.insert(
-        result,
-        organization
-      )
-
-    end
-
-  end
-
+  set_values(
+    result,
+    "affiliation",
+    organizations
+  )
 
   return result
 
 end
 
--- Kontrollierte Begriffe für AMB abbilden.
+
+local function person_reference(
+  person,
+  meta
+)
+
+  local schema =
+    schema_person(
+      person,
+      meta
+    )
+
+  if schema == nil then
+    return nil
+  end
+
+  if schema["@id"] ~= nil then
+    return {
+      ["@id"] =
+        schema["@id"]
+    }
+  end
+
+  return schema
+
+end
+
+
+-- ============================================================================
+-- CRediT
+-- ============================================================================
+
+
+local credit_roles = {
+
+  ["conceptualization"] = {
+    label =
+      "Conceptualization",
+    url =
+      "https://credit.niso.org/contributor-roles/conceptualization/"
+  },
+
+  ["data curation"] = {
+    label =
+      "Data curation",
+    url =
+      "https://credit.niso.org/contributor-roles/data-curation/"
+  },
+
+  ["formal analysis"] = {
+    label =
+      "Formal analysis",
+    url =
+      "https://credit.niso.org/contributor-roles/formal-analysis/"
+  },
+
+  ["funding acquisition"] = {
+    label =
+      "Funding acquisition",
+    url =
+      "https://credit.niso.org/contributor-roles/funding-acquisition/"
+  },
+
+  ["investigation"] = {
+    label =
+      "Investigation",
+    url =
+      "https://credit.niso.org/contributor-roles/investigation/"
+  },
+
+  ["methodology"] = {
+    label =
+      "Methodology",
+    url =
+      "https://credit.niso.org/contributor-roles/methodology/"
+  },
+
+  ["project administration"] = {
+    label =
+      "Project administration",
+    url =
+      "https://credit.niso.org/contributor-roles/project-administration/"
+  },
+
+  ["resources"] = {
+    label =
+      "Resources",
+    url =
+      "https://credit.niso.org/contributor-roles/resources/"
+  },
+
+  ["software"] = {
+    label =
+      "Software",
+    url =
+      "https://credit.niso.org/contributor-roles/software/"
+  },
+
+  ["supervision"] = {
+    label =
+      "Supervision",
+    url =
+      "https://credit.niso.org/contributor-roles/supervision/"
+  },
+
+  ["validation"] = {
+    label =
+      "Validation",
+    url =
+      "https://credit.niso.org/contributor-roles/validation/"
+  },
+
+  ["visualization"] = {
+    label =
+      "Visualization",
+    url =
+      "https://credit.niso.org/contributor-roles/visualization/"
+  },
+
+  ["writing – original draft"] = {
+    label =
+      "Writing – original draft",
+    url =
+      "https://credit.niso.org/contributor-roles/writing-original-draft/"
+  },
+
+  ["writing – review & editing"] = {
+    label =
+      "Writing – review & editing",
+    url =
+      "https://credit.niso.org/contributor-roles/writing-review-editing/"
+  }
+}
+
+
+local credit_aliases = {
+
+  ["analysis"] =
+    "formal analysis",
+
+  ["funding"] =
+    "funding acquisition",
+
+  ["writing"] =
+    "writing – original draft",
+
+  ["editing"] =
+    "writing – review & editing"
+}
+
+
+local function credit_role_info(role)
+
+  if role == nil then
+    return nil
+  end
+
+  local name =
+    nil
+
+  local identifier =
+    nil
+
+  if type(role) == "table" then
+
+    name =
+      normalize_key(
+        role["vocab-term"]
+        or role.role
+      )
+
+    identifier =
+      text(
+        role["vocab-term-identifier"]
+        or role["vocab-term-indentifier"]
+      )
+
+  else
+
+    name =
+      normalize_key(role)
+
+  end
+
+  if name == nil then
+    return nil
+  end
+
+  name =
+    credit_aliases[name]
+    or name
+
+  local definition =
+    credit_roles[name]
+
+  if definition == nil then
+    return nil
+  end
+
+  return {
+    label =
+      definition.label,
+    url =
+      identifier
+      or definition.url
+  }
+
+end
+
+
+local function schema_credit_roles(
+  person,
+  meta
+)
+
+  local result = {}
+
+  if
+    person == nil
+    or type(person) ~= "table"
+    or person.roles == nil
+  then
+    return result
+  end
+
+  local reference =
+    person_reference(
+      person,
+      meta
+    )
+
+  if reference == nil then
+    return result
+  end
+
+  for _, role in ipairs(
+    as_array(person.roles)
+  ) do
+
+    local credit =
+      credit_role_info(
+        role
+      )
+
+    if credit ~= nil then
+
+      table.insert(
+        result,
+        {
+          ["@type"] =
+            "Role",
+          roleName =
+            credit.label,
+          url =
+            credit.url,
+          contributor =
+            reference
+        }
+      )
+
+    end
+
+  end
+
+  return result
+
+end
+
+
+-- ============================================================================
+-- ZUSÄTZLICHE FUNKTIONEN
+-- ============================================================================
+
+
+local function person_functions(person)
+
+  if
+    person == nil
+    or type(person) ~= "table"
+  then
+    return {}
+  end
+
+  local source =
+    person.functions
+
+  if
+    source == nil
+    and type(person.metadata) == "table"
+  then
+    source =
+      person.metadata.functions
+  end
+
+  return
+    string_array(source)
+
+end
+
+
+local function has_function(
+  person,
+  expected
+)
+
+  local expected_key =
+    normalize_key(expected)
+
+  if expected_key == nil then
+    return false
+  end
+
+  for _, value in ipairs(
+    person_functions(person)
+  ) do
+
+    if normalize_key(value) == expected_key then
+      return true
+    end
+
+  end
+
+  return false
+
+end
+
+
+local function function_info(value)
+
+  local key =
+    normalize_key(value)
+
+  if key == nil then
+    return nil
+  end
+
+  if key == "speaker" then
+
+    return {
+      label =
+        "Speaker",
+      url =
+        "https://purl.org/ontology/modalia#Speaker",
+      zotero =
+        "presenter"
+    }
+
+  end
+
+  -- Noch nicht abschließend gemappte Funktionen werden
+  -- semantisch erhalten, aber ohne externe URI ausgegeben.
+
+  return {
+    label =
+      text(value)
+  }
+
+end
+
+
+local function schema_function_roles(
+  person,
+  meta
+)
+
+  local result = {}
+
+  local reference =
+    person_reference(
+      person,
+      meta
+    )
+
+  if reference == nil then
+    return result
+  end
+
+  for _, value in ipairs(
+    person_functions(person)
+  ) do
+
+    local info =
+      function_info(
+        value
+      )
+
+    if info ~= nil then
+
+      local role = {
+        ["@type"] =
+          "Role",
+        roleName =
+          info.label,
+        contributor =
+          reference
+      }
+
+      if info.url ~= nil then
+        role.url =
+          info.url
+      end
+
+      table.insert(
+        result,
+        role
+      )
+
+    end
+
+  end
+
+  return result
+
+end
+
+
+-- ============================================================================
+-- AMB / OERSI
+-- ============================================================================
 
 
 local function amb_concept(
@@ -1299,29 +1594,24 @@ local function amb_concept(
     return nil
   end
 
-
   if type(value) ~= "table" then
 
     local identifier =
       text(value)
 
-
     if
       identifier ~= nil
       and is_url(identifier)
     then
-
       return {
-        id = identifier
+        id =
+          identifier
       }
-
     end
-
 
     return nil
 
   end
-
 
   local identifier =
     text(
@@ -1340,14 +1630,12 @@ local function amb_concept(
       value.type
     )
 
-
   if
     require_id
     and identifier == nil
   then
     return nil
   end
-
 
   if
     identifier == nil
@@ -1356,38 +1644,25 @@ local function amb_concept(
     return nil
   end
 
-
   local concept = {}
 
-
   if identifier ~= nil then
-
     concept.id =
       identifier
-
   end
-
 
   if concept_type ~= nil then
-
     concept.type =
       concept_type
-
   elseif identifier ~= nil then
-
     concept.type =
       "Concept"
-
   end
-
 
   if pref_label ~= nil then
-
     concept.prefLabel =
       pref_label
-
   end
-
 
   return concept
 
@@ -1401,7 +1676,6 @@ local function amb_concept_array(
 
   local result = {}
 
-
   for _, item in ipairs(
     as_array(value)
   ) do
@@ -1412,29 +1686,21 @@ local function amb_concept_array(
         require_id
       )
 
-
     if concept ~= nil then
-
       table.insert(
         result,
         concept
       )
-
     end
 
   end
-
 
   return result
 
 end
 
--- Beziehungen zu anderen Ressourcen für AMB abbilden.
 
-
-local function amb_resource_reference(
-  value
-)
+local function amb_resource_reference(value)
 
   if
     value == nil
@@ -1443,25 +1709,20 @@ local function amb_resource_reference(
     return nil
   end
 
-
   local identifier =
     text(
       value.id
       or value.url
     )
 
-
   if identifier == nil then
     return nil
   end
 
-
   local result = {
-
     id =
       identifier
   }
-
 
   local name =
     text(
@@ -1469,14 +1730,10 @@ local function amb_resource_reference(
       or value.title
     )
 
-
   if name ~= nil then
-
     result.name =
       name
-
   end
-
 
   return result
 
@@ -1487,7 +1744,6 @@ local function amb_resource_array(value)
 
   local result = {}
 
-
   for _, item in ipairs(
     as_array(value)
   ) do
@@ -1497,25 +1753,101 @@ local function amb_resource_array(value)
         item
       )
 
-
     if resource ~= nil then
-
       table.insert(
         result,
         resource
       )
-
     end
 
   end
-
 
   return result
 
 end
 
--- AMB/OERSI-JSON-LD erzeugen.
--- Fehlen kanonische URL, Titel oder Sprache, wird kein unvollständiger AMB-Datensatz ausgegeben.
+
+local function amb_people(
+  source,
+  meta
+)
+
+  local result = {}
+
+  for _, person in ipairs(
+    as_array(source)
+  ) do
+
+    local mapped =
+      amb_person(
+        person,
+        meta
+      )
+
+    if mapped ~= nil then
+      table.insert(
+        result,
+        mapped
+      )
+    end
+
+  end
+
+  return result
+
+end
+
+
+local function amb_publishers(meta)
+
+  local citation =
+    meta.citation or {}
+
+  local source =
+    citation.publisher
+    or meta.publisher
+
+  local result = {}
+
+  for _, publisher in ipairs(
+    as_array(source)
+  ) do
+
+    local organization =
+      amb_organization(
+        publisher
+      )
+
+    if organization == nil then
+
+      local name =
+        text(publisher)
+
+      if name ~= nil then
+
+        organization = {
+          type =
+            "Organization",
+          name =
+            name
+        }
+
+      end
+
+    end
+
+    if organization ~= nil then
+      table.insert(
+        result,
+        organization
+      )
+    end
+
+  end
+
+  return result
+
+end
 
 
 local function build_amb_metadata(meta)
@@ -1525,7 +1857,6 @@ local function build_amb_metadata(meta)
 
   local oer =
     meta.oer or {}
-
 
   local canonical =
     text(
@@ -1542,7 +1873,6 @@ local function build_amb_metadata(meta)
       meta.lang
     )
 
-
   if
     canonical == nil
     or title == nil
@@ -1551,52 +1881,40 @@ local function build_amb_metadata(meta)
     return nil
   end
 
-
   local amb = {
 
     ["@context"] = {
-
       "https://w3id.org/kim/amb/context.jsonld",
-
       "https://schema.org",
-
       {
         ["@language"] =
           lang
       }
     },
 
-
     id =
       canonical,
-
 
     type = {
       "LearningResource",
       "PresentationDigitalDocument"
     },
 
-
     name =
       title
   }
-
 
   local description =
     text(
       meta.description
     )
 
-
   if description ~= nil then
-
     amb.description =
       normalize_space(
         description
       )
-
   end
-
 
   local about =
     amb_concept_array(
@@ -1604,33 +1922,24 @@ local function build_amb_metadata(meta)
       true
     )
 
-
   if #about > 0 then
-
     amb.about =
       about
-
   end
-
 
   local keywords =
     string_array(
       meta.keywords
     )
 
-
   if #keywords > 0 then
-
     amb.keywords =
       keywords
-
   end
-
 
   amb.inLanguage = {
     lang
   }
-
 
   local image =
     resolve_url(
@@ -1638,28 +1947,32 @@ local function build_amb_metadata(meta)
       canonical
     )
 
-
   if image ~= nil then
-
     amb.image =
       image
-
   end
 
-
   local creators =
-    amb_creators(
+    amb_people(
+      author_source(meta),
       meta
     )
 
-
   if #creators > 0 then
-
     amb.creator =
       creators
-
   end
 
+  local contributors =
+    amb_people(
+      contributor_source(meta),
+      meta
+    )
+
+  if #contributors > 0 then
+    amb.contributor =
+      contributors
+  end
 
   local date_published =
     text(
@@ -1677,74 +1990,52 @@ local function build_amb_metadata(meta)
       meta["date-modified"]
     )
 
-
   if date_created ~= nil then
-
     amb.dateCreated =
       date_created
-
   end
-
 
   if date_published ~= nil then
-
     amb.datePublished =
       date_published
-
   end
-
 
   if date_modified ~= nil then
-
     amb.dateModified =
       date_modified
-
   end
-
 
   local publishers =
     amb_publishers(
       meta
     )
 
-
   if #publishers > 0 then
-
     amb.publisher =
       publishers
-
   end
-
 
   local accessible =
     boolean_value(
       oer.isAccessibleForFree
     )
 
-
   if accessible ~= nil then
-
     amb.isAccessibleForFree =
       accessible
-
   end
-
 
   local license =
     license_url(
       meta
     )
 
-
   if license ~= nil then
-
     amb.license = {
       id =
         license
     }
-
   end
-
 
   local conditions =
     amb_concept(
@@ -1752,14 +2043,10 @@ local function build_amb_metadata(meta)
       true
     )
 
-
   if conditions ~= nil then
-
     amb.conditionsOfAccess =
       conditions
-
   end
-
 
   local resource_types =
     amb_concept_array(
@@ -1767,14 +2054,10 @@ local function build_amb_metadata(meta)
       true
     )
 
-
   if #resource_types > 0 then
-
     amb.learningResourceType =
       resource_types
-
   end
-
 
   local audience =
     amb_concept_array(
@@ -1782,14 +2065,10 @@ local function build_amb_metadata(meta)
       true
     )
 
-
   if #audience > 0 then
-
     amb.audience =
       audience
-
   end
-
 
   local teaches =
     amb_concept_array(
@@ -1797,14 +2076,10 @@ local function build_amb_metadata(meta)
       false
     )
 
-
   if #teaches > 0 then
-
     amb.teaches =
       teaches
-
   end
-
 
   local assesses =
     amb_concept_array(
@@ -1812,14 +2087,10 @@ local function build_amb_metadata(meta)
       false
     )
 
-
   if #assesses > 0 then
-
     amb.assesses =
       assesses
-
   end
-
 
   local competency_required =
     amb_concept_array(
@@ -1827,14 +2098,10 @@ local function build_amb_metadata(meta)
       false
     )
 
-
   if #competency_required > 0 then
-
     amb.competencyRequired =
       competency_required
-
   end
-
 
   local educational_level =
     amb_concept_array(
@@ -1842,16 +2109,12 @@ local function build_amb_metadata(meta)
       true
     )
 
-
   if #educational_level > 0 then
-
     amb.educationalLevel =
       educational_level
-
   end
 
-
-  if type(oer.interactivityType) == "table" then
+  if oer.interactivityType ~= nil then
 
     local interactivity =
       amb_concept(
@@ -1859,64 +2122,186 @@ local function build_amb_metadata(meta)
         true
       )
 
-
     if interactivity ~= nil then
-
       amb.interactivityType =
         interactivity
-
     end
 
   end
-
 
   local is_based_on =
     amb_resource_array(
       oer.isBasedOn
     )
 
-
   if #is_based_on > 0 then
-
     amb.isBasedOn =
       is_based_on
-
   end
-
 
   local is_part_of =
     amb_resource_array(
       oer.isPartOf
     )
 
-
   if #is_part_of > 0 then
-
     amb.isPartOf =
       is_part_of
-
   end
-
 
   local has_part =
     amb_resource_array(
       oer.hasPart
     )
 
-
   if #has_part > 0 then
-
     amb.hasPart =
       has_part
-
   end
-
 
   return amb
 
 end
 
--- Copyright-Angaben in Schema.org-Eigenschaften übertragen.
+
+-- ============================================================================
+-- SCHEMA.ORG
+-- ============================================================================
+
+
+local function schema_term(
+  value,
+  lang
+)
+
+  if value == nil then
+    return nil
+  end
+
+  if type(value) ~= "table" then
+
+    local value_text =
+      text(value)
+
+    if value_text == nil then
+      return nil
+    end
+
+    if is_url(value_text) then
+
+      return {
+        ["@type"] =
+          "DefinedTerm",
+        ["@id"] =
+          value_text,
+        url =
+          value_text
+      }
+
+    end
+
+    return value_text
+
+  end
+
+  local identifier =
+    text(
+      value.id
+      or value["@id"]
+    )
+
+  local label =
+    preferred_label(
+      value.prefLabel
+      or value.name,
+      lang
+    )
+
+  local term_code =
+    text(
+      value.termCode
+    )
+
+  local vocabulary =
+    text(
+      value.inDefinedTermSet
+      or value.scheme
+    )
+
+  if
+    identifier == nil
+    and label == nil
+    and term_code == nil
+  then
+    return nil
+  end
+
+  local result = {
+    ["@type"] =
+      "DefinedTerm"
+  }
+
+  if identifier ~= nil then
+
+    result["@id"] =
+      identifier
+
+    if is_url(identifier) then
+      result.url =
+        identifier
+    end
+
+  end
+
+  if label ~= nil then
+    result.name =
+      label
+  end
+
+  if term_code ~= nil then
+    result.termCode =
+      term_code
+  end
+
+  if vocabulary ~= nil then
+    result.inDefinedTermSet =
+      vocabulary
+  end
+
+  return result
+
+end
+
+
+local function schema_terms(
+  value,
+  lang
+)
+
+  local result = {}
+
+  for _, item in ipairs(
+    as_array(value)
+  ) do
+
+    local term =
+      schema_term(
+        item,
+        lang
+      )
+
+    if term ~= nil then
+      table.insert(
+        result,
+        term
+      )
+    end
+
+  end
+
+  return result
+
+end
 
 
 local function apply_schema_copyright(
@@ -1927,30 +2312,23 @@ local function apply_schema_copyright(
   local copyright =
     meta.copyright
 
-
   if copyright == nil then
     return
   end
-
 
   if type(copyright) ~= "table" then
 
     local notice =
       text(copyright)
 
-
     if notice ~= nil then
-
       object.copyrightNotice =
         notice
-
     end
-
 
     return
 
   end
-
 
   local holder =
     text(
@@ -1958,7 +2336,7 @@ local function apply_schema_copyright(
     )
 
   local holder_type =
-    text(
+    normalize_key(
       copyright["holder-type"]
       or copyright.holder_type
     )
@@ -1974,53 +2352,31 @@ local function apply_schema_copyright(
       or copyright.notice
     )
 
-
   if holder ~= nil then
 
     local holder_node = {
-
       name =
         holder
     }
 
-
-    if holder_type ~= nil then
-
-      local normalized =
-        string.lower(
-          holder_type
-        )
-
-
-      if normalized == "person" then
-
-        holder_node["@type"] =
-          "Person"
-
-      elseif normalized == "organization" then
-
-        holder_node["@type"] =
-          "Organization"
-
-      end
-
+    if holder_type == "person" then
+      holder_node["@type"] =
+        "Person"
+    elseif holder_type == "organization" then
+      holder_node["@type"] =
+        "Organization"
     end
-
 
     object.copyrightHolder =
       holder_node
 
   end
 
-
   if year ~= nil then
-
     object.copyrightYear =
       tonumber(year)
       or year
-
   end
-
 
   if notice ~= nil then
 
@@ -2036,26 +2392,19 @@ local function apply_schema_copyright(
       "©"
     }
 
-
     if year ~= nil then
-
       table.insert(
         parts,
         year
       )
-
     end
 
-
     if holder ~= nil then
-
       table.insert(
         parts,
         holder
       )
-
     end
-
 
     object.copyrightNotice =
       table.concat(
@@ -2067,7 +2416,181 @@ local function apply_schema_copyright(
 
 end
 
--- DALIA-Angaben in ergänzende Schema.org-Strukturen überführen.
+
+local function schema_people(
+  source,
+  meta
+)
+
+  local result = {}
+
+  for _, person in ipairs(
+    as_array(source)
+  ) do
+
+    local mapped =
+      schema_person(
+        person,
+        meta
+      )
+
+    if mapped ~= nil then
+      table.insert(
+        result,
+        mapped
+      )
+    end
+
+  end
+
+  return result
+
+end
+
+
+local function schema_contribution_roles(
+  source,
+  meta
+)
+
+  local result = {}
+
+  for _, person in ipairs(
+    as_array(source)
+  ) do
+
+    for _, role in ipairs(
+      schema_credit_roles(
+        person,
+        meta
+      )
+    ) do
+
+      table.insert(
+        result,
+        role
+      )
+
+    end
+
+    for _, role in ipairs(
+      schema_function_roles(
+        person,
+        meta
+      )
+    ) do
+
+      table.insert(
+        result,
+        role
+      )
+
+    end
+
+  end
+
+  return result
+
+end
+
+
+local function schema_resource_reference(
+  value
+)
+
+  if value == nil then
+    return nil
+  end
+
+  if type(value) ~= "table" then
+
+    local identifier =
+      text(value)
+
+    if identifier == nil then
+      return nil
+    end
+
+    if is_url(identifier) then
+
+      return {
+        ["@type"] =
+          "CreativeWork",
+        ["@id"] =
+          identifier,
+        url =
+          identifier
+      }
+
+    end
+
+    return nil
+
+  end
+
+  local identifier =
+    text(
+      value.id
+      or value.url
+    )
+
+  if identifier == nil then
+    return nil
+  end
+
+  local result = {
+    ["@type"] =
+      "CreativeWork",
+    ["@id"] =
+      identifier
+  }
+
+  if is_url(identifier) then
+    result.url =
+      identifier
+  end
+
+  local name =
+    text(
+      value.name
+      or value.title
+    )
+
+  if name ~= nil then
+    result.name =
+      name
+  end
+
+  return result
+
+end
+
+
+local function schema_resource_array(value)
+
+  local result = {}
+
+  for _, item in ipairs(
+    as_array(value)
+  ) do
+
+    local resource =
+      schema_resource_reference(
+        item
+      )
+
+    if resource ~= nil then
+      table.insert(
+        result,
+        resource
+      )
+    end
+
+  end
+
+  return result
+
+end
 
 
 local function build_dalia_audience(
@@ -2076,7 +2599,6 @@ local function build_dalia_audience(
 )
 
   local result = {}
-
 
   for _, item in ipairs(
     as_array(value)
@@ -2087,7 +2609,6 @@ local function build_dalia_audience(
 
     local label =
       nil
-
 
     if type(item) == "table" then
 
@@ -2111,26 +2632,20 @@ local function build_dalia_audience(
 
     end
 
-
     if
       identifier ~= nil
       or label ~= nil
     then
 
       local audience = {
-
         ["@type"] =
           "EducationalAudience"
       }
 
-
       if identifier ~= nil then
-
         audience["@id"] =
           identifier
-
       end
-
 
       if label ~= nil then
 
@@ -2142,7 +2657,6 @@ local function build_dalia_audience(
 
       end
 
-
       table.insert(
         result,
         audience
@@ -2152,32 +2666,26 @@ local function build_dalia_audience(
 
   end
 
-
   return result
 
 end
 
 
-local function apply_dalia_related_works(
+local function apply_related_works(
   object,
   value
 )
 
   local relation_map = {
-
     isTranslationOf =
       "translationOfWork",
-
     hasTranslation =
       "workTranslation",
-
     isPartOf =
       "isPartOf",
-
     hasPart =
       "hasPart"
   }
-
 
   for _, item in ipairs(
     as_array(value)
@@ -2190,60 +2698,45 @@ local function apply_dalia_related_works(
           item.relation
         )
 
-      local identifier =
-        text(
-          item.id
-          or item.url
-        )
-
-
       local property =
         relation_map[relation]
 
+      local work =
+        schema_resource_reference(
+          item
+        )
 
       if
         property ~= nil
-        and identifier ~= nil
+        and work ~= nil
       then
 
-        local work = {
+        local existing =
+          object[property]
 
-          ["@type"] =
-            "CreativeWork",
+        if existing == nil then
 
-          ["@id"] =
-            identifier
-        }
+          object[property] =
+            work
 
+        elseif
+          type(existing) == "table"
+          and existing[1] ~= nil
+        then
 
-        if is_url(identifier) then
-
-          work.url =
-            identifier
-
-        end
-
-
-        local name =
-          text(
-            item.name
-            or item.title
+          table.insert(
+            existing,
+            work
           )
 
+        else
 
-        if name ~= nil then
-
-          work.name =
-            name
+          object[property] = {
+            existing,
+            work
+          }
 
         end
-
-
-        append_property(
-          object,
-          property,
-          work
-        )
 
       end
 
@@ -2253,12 +2746,8 @@ local function apply_dalia_related_works(
 
 end
 
--- Ergänzende Schema.org-Beschreibung der Präsentation erzeugen.
 
-
-local function build_schema_presentation(
-  meta
-)
+local function build_schema_presentation(meta)
 
   local citation =
     meta.citation or {}
@@ -2279,193 +2768,15 @@ local function build_schema_presentation(
       citation.url
     )
 
-
-  local function schema_term(value)
-
-    if value == nil then
-      return nil
-    end
-
-
-    if type(value) ~= "table" then
-
-      local value_text =
-        text(value)
-
-      if value_text == nil then
-        return nil
-      end
-
-
-      if is_url(value_text) then
-
-        return {
-          ["@type"] =
-            "DefinedTerm",
-
-          ["@id"] =
-            value_text,
-
-          url =
-            value_text
-        }
-
-      end
-
-
-      return value_text
-
-    end
-
-
-    local identifier =
-      text(
-        value.id
-        or value["@id"]
-    )
-
-    local label =
-      preferred_label(
-        value.prefLabel
-        or value.name,
-        lang
-      )
-
-    local term_code =
-      text(
-        value.termCode
-    )
-
-    local vocabulary =
-      text(
-        value.inDefinedTermSet
-        or value.scheme
-    )
-
-
-    if
-      identifier == nil
-      and label == nil
-      and term_code == nil
-    then
-      return nil
-    end
-
-
-    local term = {
-      ["@type"] =
-        "DefinedTerm"
-    }
-
-
-    if identifier ~= nil then
-
-      term["@id"] =
-        identifier
-
-      if is_url(identifier) then
-        term.url =
-          identifier
-      end
-
-    end
-
-
-    if label ~= nil then
-
-      term.name =
-        label
-
-    end
-
-
-    if term_code ~= nil then
-
-      term.termCode =
-        term_code
-
-    end
-
-
-    if vocabulary ~= nil then
-
-      term.inDefinedTermSet =
-        vocabulary
-
-    end
-
-
-    return term
-
-  end
-
-
-  local function schema_terms(value)
-
-    local result = {}
-
-
-    for _, item in ipairs(
-      as_array(value)
-    ) do
-
-      local term =
-        schema_term(
-          item
-        )
-
-
-      if term ~= nil then
-
-        table.insert(
-          result,
-          term
-        )
-
-      end
-
-    end
-
-
-    return result
-
-  end
-
-
-  local function set_values(
-    object,
-    property,
-    values
-  )
-
-    if #values == 1 then
-
-      object[property] =
-        values[1]
-
-    elseif #values > 1 then
-
-      object[property] =
-        values
-
-    end
-
-  end
-
-  -- Grundstruktur und stabile Identifikation
-
-
   local doi, doi_url =
     normalize_doi(
       meta.doi
       or citation.doi
     )
 
-
   local presentation_id =
     canonical
     or doi_url
-
 
   local presentation = {
 
@@ -2478,24 +2789,15 @@ local function build_schema_presentation(
       "text/html"
   }
 
-
   if presentation_id ~= nil then
-
     presentation["@id"] =
       presentation_id
-
   end
-
 
   if canonical ~= nil then
-
     presentation.url =
       canonical
-
   end
-
-  -- Titel und Beschreibung
-
 
   local title =
     text(
@@ -2512,60 +2814,37 @@ local function build_schema_presentation(
       meta.description
     )
 
-
   if title ~= nil then
-
     presentation.name =
       title
-
   end
-
 
   if subtitle ~= nil then
-
     presentation.alternativeHeadline =
       subtitle
-
   end
 
-
   if description ~= nil then
-
     presentation.description =
       normalize_space(
         description
       )
-
   end
-
-  -- Sprache
-
 
   if lang ~= nil then
-
     presentation.inLanguage =
       lang
-
   end
-
-  -- Schlagwörter
-
 
   local keywords =
     string_array(
       meta.keywords
     )
 
-
   if #keywords > 0 then
-
     presentation.keywords =
       keywords
-
   end
-
-  -- Datum
-
 
   local date_published =
     text(
@@ -2583,84 +2862,97 @@ local function build_schema_presentation(
       meta["date-modified"]
     )
 
-
   if date_created ~= nil then
-
     presentation.dateCreated =
       date_created
-
   end
-
 
   if date_published ~= nil then
-
     presentation.datePublished =
       date_published
-
   end
-
 
   if date_modified ~= nil then
-
     presentation.dateModified =
       date_modified
-
   end
 
-  -- Autor:innen
+  local authors =
+    schema_people(
+      author_source(meta),
+      meta
+    )
 
+  set_values(
+    presentation,
+    "author",
+    authors
+  )
 
-  local authors = {}
+  local contributors =
+    schema_people(
+      contributor_source(meta),
+      meta
+    )
 
-  local author_source =
-    meta["by-author"]
-    or meta.authors
-    or meta.author
+  local contribution_roles = {}
 
-
-  for _, author in ipairs(
-    as_array(author_source)
+  for _, role in ipairs(
+    schema_contribution_roles(
+      author_source(meta),
+      meta
+    )
   ) do
 
-    local person =
-      schema_person(
-        author
-      )
-
-
-    if person ~= nil then
-
-      table.insert(
-        authors,
-        person
-      )
-
-    end
+    table.insert(
+      contribution_roles,
+      role
+    )
 
   end
 
+  for _, role in ipairs(
+    schema_contribution_roles(
+      contributor_source(meta),
+      meta
+    )
+  ) do
 
-  if #authors == 1 then
-
-    presentation.author =
-      authors[1]
-
-  elseif #authors > 1 then
-
-    presentation.author =
-      authors
+    table.insert(
+      contribution_roles,
+      role
+    )
 
   end
 
-  -- Publisher
+  for _, person in ipairs(
+    contributors
+  ) do
 
+    table.insert(
+      contribution_roles,
+      person
+    )
+
+  end
+
+  set_values(
+    presentation,
+    "contributor",
+    contribution_roles
+  )
+
+  local publishers =
+    schema_people(
+      {},
+      meta
+    )
+
+  publishers = {}
 
   local publisher_source =
     citation.publisher
     or meta.publisher
-
-  local publishers = {}
-
 
   for _, publisher in ipairs(
     as_array(publisher_source)
@@ -2668,7 +2960,6 @@ local function build_schema_presentation(
 
     local organization =
       nil
-
 
     if
       type(publisher) == "table"
@@ -2691,14 +2982,11 @@ local function build_schema_presentation(
           publisher
         )
 
-
       if publisher_name ~= nil then
 
         organization = {
-
           ["@type"] =
             "Organization",
-
           name =
             publisher_name
         }
@@ -2707,224 +2995,154 @@ local function build_schema_presentation(
 
     end
 
-
     if organization ~= nil then
-
       table.insert(
         publishers,
         organization
       )
-
     end
 
   end
 
-
-  if #publishers == 1 then
-
-    presentation.publisher =
-      publishers[1]
-
-  elseif #publishers > 1 then
-
-    presentation.publisher =
-      publishers
-
-  end
-
-  -- DOI
-
+  set_values(
+    presentation,
+    "publisher",
+    publishers
+  )
 
   if doi ~= nil then
 
     presentation.identifier = {
-
       ["@type"] =
         "PropertyValue",
-
       propertyID =
         "DOI",
-
       value =
         doi,
-
       url =
         doi_url
     }
-
 
     presentation.sameAs =
       doi_url
 
   end
 
-  -- Version und Genre
-
-
   local version =
     text(
       citation.version
+      or dalia.version
     )
 
-
-  if
-    version == nil
-    and type(dalia) == "table"
-  then
-
-    version =
-      text(
-        dalia.version
-      )
-
-  end
-
-
   if version ~= nil then
-
     presentation.version =
       version
-
   end
-
 
   local genre =
     text(
       citation.genre
     )
 
-
   if genre ~= nil then
-
     presentation.genre =
       genre
-
   end
-
-  -- Lizenz und Copyright
-
 
   local license =
     license_url(
       meta
     )
 
-
   if license ~= nil then
-
     presentation.license =
       license
-
   end
-
 
   apply_schema_copyright(
     presentation,
     meta
   )
 
-  -- Freier Zugang
-
-
   local accessible =
     boolean_value(
       oer.isAccessibleForFree
     )
 
-
   if accessible ~= nil then
-
     presentation.isAccessibleForFree =
       accessible
-
   end
-
-  -- Publikationsstatus
-
 
   local status =
     schema_term(
-      oer.creativeWorkStatus
+      oer.creativeWorkStatus,
+      lang
     )
 
-
   if status ~= nil then
-
     presentation.creativeWorkStatus =
       status
-
   end
-
-  -- Fachliche Einordnung
-
 
   set_values(
     presentation,
     "about",
     schema_terms(
-      oer.about
+      oer.about,
+      lang
     )
   )
-
-  -- Lernressourcentyp
-
 
   set_values(
     presentation,
     "learningResourceType",
     schema_terms(
-      oer.learningResourceType
+      oer.learningResourceType,
+      lang
     )
   )
-
-  -- Bildungsstufe
-
 
   set_values(
     presentation,
     "educationalLevel",
     schema_terms(
-      oer.educationalLevel
+      oer.educationalLevel,
+      lang
     )
   )
-
-  -- Lernziele und Kompetenzen
-
 
   set_values(
     presentation,
     "teaches",
     schema_terms(
-      oer.teaches
+      oer.teaches,
+      lang
     )
   )
-
 
   set_values(
     presentation,
     "assesses",
     schema_terms(
-      oer.assesses
+      oer.assesses,
+      lang
     )
   )
-
 
   set_values(
     presentation,
     "competencyRequired",
     schema_terms(
-      oer.competencyRequired
+      oer.competencyRequired,
+      lang
     )
   )
-
-  -- Zugangsbedingungen
-
 
   if oer.conditionsOfAccess ~= nil then
 
     local conditions =
       nil
-
 
     if type(oer.conditionsOfAccess) == "table" then
 
@@ -2944,24 +3162,17 @@ local function build_schema_presentation(
 
     end
 
-
     if conditions ~= nil then
-
       presentation.conditionsOfAccess =
         conditions
-
     end
 
   end
-
-  -- Interaktivität
-
 
   if oer.interactivityType ~= nil then
 
     local interactivity =
       nil
-
 
     if type(oer.interactivityType) == "table" then
 
@@ -2981,42 +3192,25 @@ local function build_schema_presentation(
 
     end
 
-
     if interactivity ~= nil then
-
       presentation.interactivityType =
         interactivity
-
     end
 
   end
-
-  -- Barrierefreiheit
-
 
   local accessibility =
     string_array(
       oer.accessibilityFeature
     )
 
-
-  if #accessibility == 1 then
-
-    presentation.accessibilityFeature =
-      accessibility[1]
-
-  elseif #accessibility > 1 then
-
-    presentation.accessibilityFeature =
-      accessibility
-
-  end
-
-  -- Zielgruppen
-
+  set_values(
+    presentation,
+    "accessibilityFeature",
+    accessibility
+  )
 
   local audiences = {}
-
 
   for _, item in ipairs(
     as_array(
@@ -3029,7 +3223,6 @@ local function build_schema_presentation(
 
     local label =
       nil
-
 
     if type(item) == "table" then
 
@@ -3049,12 +3242,9 @@ local function build_schema_presentation(
     else
 
       label =
-        text(
-          item
-        )
+        text(item)
 
     end
-
 
     if
       identifier ~= nil
@@ -3062,19 +3252,14 @@ local function build_schema_presentation(
     then
 
       local audience = {
-
         ["@type"] =
           "EducationalAudience"
       }
 
-
       if identifier ~= nil then
-
         audience["@id"] =
           identifier
-
       end
-
 
       if label ~= nil then
 
@@ -3086,7 +3271,6 @@ local function build_schema_presentation(
 
       end
 
-
       table.insert(
         audiences,
         audience
@@ -3096,16 +3280,11 @@ local function build_schema_presentation(
 
   end
 
-
-  local dalia_audiences =
+  for _, audience in ipairs(
     build_dalia_audience(
       dalia.targetGroup,
       lang
     )
-
-
-  for _, audience in ipairs(
-    dalia_audiences
   ) do
 
     table.insert(
@@ -3115,21 +3294,11 @@ local function build_schema_presentation(
 
   end
 
-
-  if #audiences == 1 then
-
-    presentation.audience =
-      audiences[1]
-
-  elseif #audiences > 1 then
-
-    presentation.audience =
-      audiences
-
-  end
-
-  -- Vorschaubild
-
+  set_values(
+    presentation,
+    "audience",
+    audiences
+  )
 
   local image =
     resolve_url(
@@ -3137,30 +3306,45 @@ local function build_schema_presentation(
       canonical
     )
 
-
   if image ~= nil then
-
     presentation.image =
       image
-
   end
 
-  -- Beziehungen zu anderen Werken
+  set_values(
+    presentation,
+    "isBasedOn",
+    schema_resource_array(
+      oer.isBasedOn
+    )
+  )
 
+  set_values(
+    presentation,
+    "isPartOf",
+    schema_resource_array(
+      oer.isPartOf
+    )
+  )
 
-  apply_dalia_related_works(
+  set_values(
+    presentation,
+    "hasPart",
+    schema_resource_array(
+      oer.hasPart
+    )
+  )
+
+  apply_related_works(
     presentation,
     dalia.relatedWorks
   )
-
 
   return
     presentation,
     presentation_id
 
 end
-
--- Veranstaltung, Session und Veranstaltungsreihe als Schema.org-Graph erzeugen.
 
 
 local function build_event_nodes(
@@ -3170,15 +3354,12 @@ local function build_event_nodes(
 
   local result = {}
 
-
   if presentation_id == nil then
     return result
   end
 
-
   local citation =
     meta.citation or {}
-
 
   local event_title =
     text(
@@ -3205,17 +3386,13 @@ local function build_event_nodes(
       citation["collection-title"]
     )
 
-
   if
     event_title == nil
     and session_title == nil
     and series_title == nil
   then
-
     return result
-
   end
-
 
   local series_id =
     presentation_id
@@ -3229,21 +3406,16 @@ local function build_event_nodes(
     presentation_id
     .. "#session"
 
-
   if series_title ~= nil then
 
     local series = {
-
-      ["@id"] =
-        series_id,
-
       ["@type"] =
         "EventSeries",
-
+      ["@id"] =
+        series_id,
       name =
         series_title
     }
-
 
     table.insert(
       result,
@@ -3252,70 +3424,43 @@ local function build_event_nodes(
 
   end
 
-
   if event_title ~= nil then
 
     local event = {
-
-      ["@id"] =
-        event_id,
-
       ["@type"] =
         "Event",
-
+      ["@id"] =
+        event_id,
       name =
-        event_title
+        event_title,
+      workFeatured = {
+        ["@id"] =
+          presentation_id
+      }
     }
 
+    if event_date ~= nil then
+      event.startDate =
+        event_date
+    end
 
     if event_place ~= nil then
 
       event.location = {
-
         ["@type"] =
           "Place",
-
         name =
           event_place
       }
 
     end
 
-
-    if event_date ~= nil then
-
-      event.startDate =
-        event_date
-
-    end
-
-
     if series_title ~= nil then
-
       event.superEvent = {
         ["@id"] =
           series_id
       }
-
     end
-
-
-    if session_title ~= nil then
-
-      event.subEvent = {
-        ["@id"] =
-          session_id
-      }
-
-    else
-
-      event.workFeatured = {
-        ["@id"] =
-          presentation_id
-      }
-
-    end
-
 
     table.insert(
       result,
@@ -3324,69 +3469,48 @@ local function build_event_nodes(
 
   end
 
-
   if session_title ~= nil then
 
     local session = {
-
-      ["@id"] =
-        session_id,
-
       ["@type"] =
         "Event",
-
+      ["@id"] =
+        session_id,
       name =
         session_title,
-
       workFeatured = {
         ["@id"] =
           presentation_id
       }
     }
 
+    if event_date ~= nil then
+      session.startDate =
+        event_date
+    end
+
+    if event_place ~= nil then
+
+      session.location = {
+        ["@type"] =
+          "Place",
+        name =
+          event_place
+      }
+
+    end
 
     if event_title ~= nil then
-
       session.superEvent = {
         ["@id"] =
           event_id
       }
-
     elseif series_title ~= nil then
-
       session.superEvent = {
         ["@id"] =
           series_id
       }
-
     end
-
-
-    if event_title == nil then
-
-      if event_place ~= nil then
-
-        session.location = {
-
-          ["@type"] =
-            "Place",
-
-          name =
-            event_place
-        }
-
-      end
-
-
-      if event_date ~= nil then
-
-        session.startDate =
-          event_date
-
-      end
-
-    end
-
 
     table.insert(
       result,
@@ -3395,26 +3519,9 @@ local function build_event_nodes(
 
   end
 
-
-  if
-    series_title ~= nil
-    and event_title == nil
-    and session_title == nil
-  then
-
-    result[1].workFeatured = {
-      ["@id"] =
-        presentation_id
-    }
-
-  end
-
-
   return result
 
 end
-
--- Präsentation und optionale Veranstaltungsobjekte zu Schema.org-JSON-LD zusammenführen.
 
 
 local function build_schema_metadata(meta)
@@ -3425,20 +3532,16 @@ local function build_schema_metadata(meta)
       meta
     )
 
-
   local graph = {
     presentation
   }
 
-
-  local events =
+  for _, event in ipairs(
     build_event_nodes(
       meta,
       presentation_id
     )
-
-
-  for _, event in ipairs(events) do
+  ) do
 
     table.insert(
       graph,
@@ -3447,58 +3550,48 @@ local function build_schema_metadata(meta)
 
   end
 
-
   return {
-
     ["@context"] =
       "https://schema.org",
-
     ["@graph"] =
       graph
   }
 
 end
 
--- JSON für den HTML-Quelltext lesbar formatieren.
+
+-- ============================================================================
+-- JSON-LD
+-- ============================================================================
 
 
 local function pretty_json(json)
 
   local result = {}
-
-  local indent =
-    0
-
-  local indent_string =
-    "  "
-
-  local in_string =
-    false
-
-  local escaped =
-    false
-
+  local indent = 0
+  local in_string = false
+  local escaped = false
 
   local function newline()
 
     table.insert(
       result,
-
       "\n"
       .. string.rep(
-        indent_string,
+        "  ",
         indent
       )
     )
 
   end
 
-
-  for i = 1, #json do
+  for index = 1, #json do
 
     local char =
-      json:sub(i, i)
-
+      json:sub(
+        index,
+        index
+      )
 
     if in_string then
 
@@ -3507,24 +3600,16 @@ local function pretty_json(json)
         char
       )
 
-
       if escaped then
-
         escaped =
           false
-
       elseif char == "\\" then
-
         escaped =
           true
-
       elseif char == '"' then
-
         in_string =
           false
-
       end
-
 
     else
 
@@ -3537,7 +3622,6 @@ local function pretty_json(json)
           result,
           char
         )
-
 
       elseif
         char == "{"
@@ -3553,7 +3637,6 @@ local function pretty_json(json)
           indent + 1
 
         newline()
-
 
       elseif
         char == "}"
@@ -3573,7 +3656,6 @@ local function pretty_json(json)
           char
         )
 
-
       elseif char == "," then
 
         table.insert(
@@ -3583,14 +3665,12 @@ local function pretty_json(json)
 
         newline()
 
-
       elseif char == ":" then
 
         table.insert(
           result,
           ": "
         )
-
 
       elseif not char:match("%s") then
 
@@ -3605,15 +3685,12 @@ local function pretty_json(json)
 
   end
 
-
   return
     table.concat(
       result
     )
 
 end
-
--- JSON-LD sicher als <script>-Element ausgeben.
 
 
 local function jsonld_script(
@@ -3628,13 +3705,11 @@ local function jsonld_script(
       )
     )
 
-
   json =
     json:gsub(
       "</",
       "<\\/"
     )
-
 
   return
     '<script type="application/ld+json" id="'
@@ -3645,7 +3720,10 @@ local function jsonld_script(
 
 end
 
--- Embedded Metadata für den Zotero Connector erzeugen.
+
+-- ============================================================================
+-- ZOTERO
+-- ============================================================================
 
 
 local function zotero_meta(
@@ -3656,11 +3734,9 @@ local function zotero_meta(
   local value_text =
     text(value)
 
-
   if value_text == nil then
     return nil
   end
-
 
   return
     '<meta name="'
@@ -3674,26 +3750,25 @@ local function zotero_meta(
 end
 
 
-local function zotero_presenter_name(
-  author
+local function zotero_creator_name(
+  person
 )
 
   if
-    author ~= nil
-    and type(author) == "table"
-    and type(author.name) == "table"
+    person ~= nil
+    and type(person) == "table"
+    and type(person.name) == "table"
   then
 
     local given =
       text(
-        author.name.given
+        person.name.given
       )
 
     local family =
       text(
-        author.name.family
+        person.name.family
       )
-
 
     if
       family ~= nil
@@ -3707,11 +3782,9 @@ local function zotero_presenter_name(
 
     end
 
-
     if family ~= nil then
       return family
     end
-
 
     if given ~= nil then
       return given
@@ -3719,25 +3792,20 @@ local function zotero_presenter_name(
 
   end
 
-
   return
     author_name(
-      author
+      person
     )
 
 end
 
 
-local function build_zotero_metadata(
-  meta
-)
+local function build_zotero_metadata(meta)
 
   local citation =
     meta.citation or {}
 
-
   local result = {}
-
 
   local function add(
     name,
@@ -3750,99 +3818,131 @@ local function build_zotero_metadata(
         value
       )
 
-
     if element ~= nil then
-
       table.insert(
         result,
         element
       )
-
     end
 
   end
-
-  -- Zotero-Typ explizit als Presentation setzen, um Fehlklassifikationen zu vermeiden.
-
 
   add(
     "z:itemType",
     "presentation"
   )
 
-
   add(
     "dc:title",
     meta.title
   )
-
 
   add(
     "dcterms:abstract",
     meta.description
   )
 
+  -- Zotero Presentation:
+  -- speaker -> Presenter
+  -- alle übrigen Personen -> Contributor
+  --
+  -- CRediT-Rollen werden hierfür ausdrücklich nicht ausgewertet.
 
-  local author_source =
-    meta["by-author"]
-    or meta.authors
-    or meta.author
-
-
-  for _, author in ipairs(
-    as_array(author_source)
+  for _, person in ipairs(
+    as_array(
+      author_source(meta)
+    )
   ) do
 
-    add(
-      "eprints:creators_name",
-      zotero_presenter_name(
-        author
+    local name =
+      zotero_creator_name(
+        person
       )
-    )
+
+    if has_function(
+      person,
+      "speaker"
+    ) then
+
+      add(
+        "eprints:creators_name",
+        name
+      )
+
+    else
+
+      add(
+        "eprints:contributors_name",
+        name
+      )
+
+    end
 
   end
 
-  -- Bei Zotero bezeichnet Date primär den Vortragstermin; event-date hat daher Vorrang.
+  for _, person in ipairs(
+    as_array(
+      contributor_source(meta)
+    )
+  ) do
 
+    local name =
+      zotero_creator_name(
+        person
+      )
+
+    if has_function(
+      person,
+      "speaker"
+    ) then
+
+      add(
+        "eprints:creators_name",
+        name
+      )
+
+    else
+
+      add(
+        "eprints:contributors_name",
+        name
+      )
+
+    end
+
+  end
 
   add(
     "dcterms:issued",
-
     citation["event-date"]
     or meta["date-meta"]
     or meta.date
   )
-
 
   add(
     "z:presentationType",
     citation.genre
   )
 
-
   add(
     "z:meetingName",
     citation["event-title"]
   )
-
 
   add(
     "z:place",
     citation["event-place"]
   )
 
-
   add(
     "z:series",
     citation["collection-title"]
   )
 
-
   add(
     "z:sessionTitle",
     citation["container-title"]
   )
-
 
   local doi =
     select(
@@ -3853,34 +3953,28 @@ local function build_zotero_metadata(
       )
     )
 
-
   add(
     "dc:identifier.DOI",
     doi
   )
-
 
   add(
     "z:url",
     citation.url
   )
 
-
   add(
     "dc:language",
     meta.lang
   )
 
-
   local license =
     meta.license
-
 
   if type(license) == "table" then
 
     add(
       "dc:rights",
-
       license.text
       or license.url
     )
@@ -3894,11 +3988,9 @@ local function build_zotero_metadata(
 
   end
 
-
-    if #result == 0 then
+  if #result == 0 then
     return nil
   end
-
 
   return
     table.concat(
@@ -3908,7 +4000,10 @@ local function build_zotero_metadata(
 
 end
 
--- Maschinenlesbare Metadaten in den HTML-Header einfügen.
+
+-- ============================================================================
+-- HTML-HEADER
+-- ============================================================================
 
 
 function Pandoc(doc)
@@ -3917,13 +4012,11 @@ function Pandoc(doc)
     return doc
   end
 
-
   local meta =
     doc.meta
 
   local citation =
     meta.citation or {}
-
 
   local description =
     text(
@@ -3940,17 +4033,14 @@ function Pandoc(doc)
       meta
     )
 
-
   local header = {}
 
   -- Beschreibung
-
 
   if description ~= nil then
 
     table.insert(
       header,
-
       '<meta name="description" content="'
       .. html_escape(
         normalize_space(description)
@@ -3962,12 +4052,10 @@ function Pandoc(doc)
 
   -- Kanonische URL
 
-
   if canonical ~= nil then
 
     table.insert(
       header,
-
       '<link rel="canonical" href="'
       .. html_escape(canonical)
       .. '">'
@@ -3977,12 +4065,10 @@ function Pandoc(doc)
 
   -- Lizenz
 
-
   if license ~= nil then
 
     table.insert(
       header,
-
       '<link rel="license" href="'
       .. html_escape(license)
       .. '">'
@@ -3992,37 +4078,29 @@ function Pandoc(doc)
 
   -- Zotero Connector
 
-
   local zotero =
     build_zotero_metadata(
       meta
     )
 
-
   if zotero ~= nil then
-
-
     table.insert(
       header,
       zotero
     )
-
   end
 
   -- AMB / OERSI
-
 
   local amb =
     build_amb_metadata(
       meta
     )
 
-
   if amb ~= nil then
 
     table.insert(
       header,
-
       jsonld_script(
         "n4o-amb-metadata",
         amb
@@ -4033,22 +4111,18 @@ function Pandoc(doc)
 
   -- Ergänzendes Schema.org
 
-
   local schema =
     build_schema_metadata(
       meta
     )
 
-
   table.insert(
     header,
-
     jsonld_script(
       "n4o-schema-metadata",
       schema
     )
   )
-
 
   quarto.doc.include_text(
     "in-header",
@@ -4057,7 +4131,6 @@ function Pandoc(doc)
       "\n"
     )
   )
-
 
   return doc
 

@@ -1,30 +1,139 @@
 -- title_authors.lua
 --
--- Ermittelt die Personen, die auf der Titelfolie erscheinen.
+-- Validiert die CRediT-Rollen der in Quarto unter author
+-- eingetragenen Personen und erzeugt die für N4O maßgeblichen
+-- Autor:innenlisten.
 --
 -- Voraussetzung:
 -- - Der eingebaute Quarto-Filter wurde bereits ausgeführt.
 -- - Die normalisierten Autor:innendaten stehen unter by-author.
 --
--- Auf der Titelfolie erscheinen Personen mit:
+-- N4O-Regeln:
 --
--- - writing
--- - Writing – original draft
--- - Writing – review & editing
+-- 1. Eine Person wird nur dann in N4O-Ausgaben berücksichtigt,
+--    wenn mindestens eine gültige CRediT-Rolle angegeben ist.
 --
--- Quarto normalisiert "writing" auf die CRediT-Rolle
--- "writing – original draft". Ausgewertet wird daher bevorzugt
--- das von Quarto erzeugte Feld "vocab-term".
+-- 2. Personen ohne roles bleiben ausschließlich in den
+--    Quellmetadaten (_autor_innen.yml) erhalten. Sie erscheinen
+--    weder auf Folien noch in Zitationen oder HTML-Metadaten.
 --
--- Ergebnis:
+-- 3. roles wird ausschließlich für Beiträge nach CRediT verwendet.
+--
+-- 4. Die konkrete CRediT-Rolle bestimmt nicht den bibliografischen
+--    Autor:innenstatus. Jede Person in n4o-authors bleibt Autor:in.
+--
+-- 5. Auf der Titelfolie erscheinen ausschließlich gültige
+--    Autor:innen mit:
+--
+--    - Writing – original draft
+--    - Writing – review & editing
+--
+-- Ergebnisse:
+--
+-- n4o-authors
+--     Alle gültigen N4O-Autor:innen.
+--
 -- n4o-title-authors
+--     Teilmenge von n4o-authors für die Titelfolie.
 --
--- by-author selbst wird nicht verändert. Damit bleiben alle
--- Autor:innen für Zitation, Appendix und maschinenlesbare
--- Metadaten erhalten.
+-- author-meta
+--     Wird aus n4o-authors neu aufgebaut. Dadurch verwendet auch
+--     Quartos native HTML-Ausgabe <meta name="author"> nur gültige
+--     N4O-Autor:innen.
+--
+-- by-author selbst bleibt als von Quarto normalisierte Rohquelle
+-- unverändert.
 
 
--- Pandoc-Metadaten als Text lesen.
+-- ============================================================================
+-- CRediT-VOKABULAR
+-- ============================================================================
+
+
+local credit_roles = {
+
+  ["conceptualization"] =
+    true,
+
+  ["data curation"] =
+    true,
+
+  ["formal analysis"] =
+    true,
+
+  ["funding acquisition"] =
+    true,
+
+  ["investigation"] =
+    true,
+
+  ["methodology"] =
+    true,
+
+  ["project administration"] =
+    true,
+
+  ["resources"] =
+    true,
+
+  ["software"] =
+    true,
+
+  ["supervision"] =
+    true,
+
+  ["validation"] =
+    true,
+
+  ["visualization"] =
+    true,
+
+  ["writing – original draft"] =
+    true,
+
+  ["writing – review & editing"] =
+    true
+
+}
+
+
+-- Von Quarto unterstützte Kurzformen beziehungsweise Aliase.
+--
+-- Diese Zuordnungen dienen als Fallback, wenn der Filter
+-- nicht vollständig normalisierte Rollenwerte erhält.
+
+local credit_aliases = {
+
+  ["analysis"] =
+    "formal analysis",
+
+  ["funding"] =
+    "funding acquisition",
+
+  ["writing"] =
+    "writing – original draft",
+
+  ["editing"] =
+    "writing – review & editing"
+
+}
+
+
+local title_roles = {
+
+  ["writing – original draft"] =
+    true,
+
+  ["writing – review & editing"] =
+    true
+
+}
+
+
+-- ============================================================================
+-- ALLGEMEINE HILFSFUNKTIONEN
+-- ============================================================================
+
 
 local function text(value)
 
@@ -32,28 +141,31 @@ local function text(value)
     return nil
   end
 
+
   local result =
     pandoc.utils.stringify(value)
+
 
   if result == "" then
     return nil
   end
+
 
   return result
 
 end
 
 
--- Text für Vergleiche normalisieren.
-
 local function normalize(value)
 
   local result =
     text(value)
 
+
   if result == nil then
     return nil
   end
+
 
   return
     string.lower(result)
@@ -63,51 +175,182 @@ local function normalize(value)
 end
 
 
--- CRediT-Rollen, die zur Anzeige auf der Titelfolie führen.
+-- ============================================================================
+-- AUTOR:INNENNAMEN
+-- ============================================================================
 
-local title_roles = {
-
-  ["writing – original draft"] =
-    true,
-
-  ["writing – review & editing"] =
-    true,
-
-  -- Fallback, falls der Filter einmal ohne vorherige
-  -- CRediT-Normalisierung verwendet wird.
-  ["writing"] =
-    true
-
-}
-
-
--- Name für verständliche Fehlermeldungen ermitteln.
 
 local function author_name(author)
 
   if
-    author ~= nil
-    and author.name ~= nil
-    and author.name.literal ~= nil
+    author == nil
+    or author.name == nil
+  then
+    return "unbekannte Person"
+  end
+
+
+  local literal =
+    text(
+      author.name.literal
+    )
+
+
+  if literal ~= nil then
+    return literal
+  end
+
+
+  local given =
+    text(
+      author.name.given
+    )
+
+  local family =
+    text(
+      author.name.family
+    )
+
+
+  if
+    given ~= nil
+    and family ~= nil
   then
 
     return
-      text(author.name.literal)
+      given
+      .. " "
+      .. family
 
   end
 
-  return nil
+
+  return
+    given
+    or family
+    or "unbekannte Person"
 
 end
 
 
--- Prüfen, ob eine Person eine Writing-Rolle besitzt.
+-- ============================================================================
+-- ROLLEN
+-- ============================================================================
 
-local function has_title_role(author)
+
+local function raw_role_name(role)
+
+  if role == nil then
+    return nil
+  end
+
+
+  if type(role) == "table" then
+
+    local vocab_term =
+      normalize(
+        role["vocab-term"]
+      )
+
+
+    if vocab_term ~= nil then
+      return vocab_term
+    end
+
+
+    local role_value =
+      normalize(
+        role.role
+      )
+
+
+    if role_value ~= nil then
+      return role_value
+    end
+
+  end
+
+
+  return normalize(role)
+
+end
+
+
+local function credit_role_name(role)
+
+  local name =
+    raw_role_name(role)
+
+
+  if name == nil then
+    return nil
+  end
+
+
+  if credit_roles[name] then
+    return name
+  end
+
+
+  return
+    credit_aliases[name]
+
+end
+
+
+-- ============================================================================
+-- VALIDIERUNG
+-- ============================================================================
+
+
+-- Meldet einen Metadatenfehler.
+--
+-- Die nachgelagerte Filterlogik darf sich nicht darauf verlassen,
+-- dass error() die emulierte Quarto-Filterkette sofort beendet.
+-- Deshalb geben die Validierungsfunktionen zusätzlich false zurück.
+
+local function metadata_error(message)
+
+  error(
+    "N4O-Metadaten: "
+    .. message
+  )
+
+end
+
+
+local function validate_roles_present(author)
 
   if
     author == nil
     or author.roles == nil
+    or #author.roles == 0
+  then
+
+    metadata_error(
+      "Für "
+      .. author_name(author)
+      .. " fehlt die erforderliche Angabe 'roles'. "
+      .. "Die Person wird nicht in Folien, Zitationen oder "
+      .. "HTML-Metadaten berücksichtigt."
+    )
+
+    return false
+
+  end
+
+
+  return true
+
+end
+
+
+local function validate_credit_roles(author)
+
+  if
+    author == nil
+    or author.roles == nil
+    or #author.roles == 0
   then
     return false
   end
@@ -115,45 +358,59 @@ local function has_title_role(author)
 
   for _, role in ipairs(author.roles) do
 
-    local role_name =
-      nil
+    local canonical =
+      credit_role_name(role)
 
 
-    if type(role) == "table" then
+    if canonical == nil then
 
-      -- Bei CRediT-Rollen bevorzugt den von Quarto
-      -- normalisierten Begriff verwenden.
-
-      role_name =
-        normalize(
-          role["vocab-term"]
-        )
+      local supplied =
+        raw_role_name(role)
+        or "unbekannte Rolle"
 
 
-      -- Fallback auf die ursprüngliche Rollenangabe.
+      metadata_error(
+        "Die Rolle '"
+        .. supplied
+        .. "' bei "
+        .. author_name(author)
+        .. " ist keine unterstützte CRediT-Rolle. "
+        .. "Die Person wird nicht in Folien, Zitationen oder "
+        .. "HTML-Metadaten berücksichtigt."
+      )
 
-      if role_name == nil then
-
-        role_name =
-          normalize(
-            role.role
-          )
-
-      end
-
-    else
-
-      role_name =
-        normalize(
-          role
-        )
+      return false
 
     end
 
+  end
+
+
+  return true
+
+end
+
+
+local function has_title_role(author)
+
+  if
+    author == nil
+    or author.roles == nil
+    or #author.roles == 0
+  then
+    return false
+  end
+
+
+  for _, role in ipairs(author.roles) do
+
+    local name =
+      credit_role_name(role)
+
 
     if
-      role_name ~= nil
-      and title_roles[role_name]
+      name ~= nil
+      and title_roles[name]
     then
       return true
     end
@@ -166,76 +423,174 @@ local function has_title_role(author)
 end
 
 
+-- ============================================================================
+-- NATIVE QUARTO-AUTOR:INNENMETADATEN
+-- ============================================================================
+
+
+local function make_author_meta(authors)
+
+  local result =
+    pandoc.MetaList{}
+
+
+  for _, author in ipairs(authors) do
+
+    local name =
+      author_name(author)
+
+
+    if
+      name ~= nil
+      and name ~= "unbekannte Person"
+    then
+
+      result:insert(
+        pandoc.MetaString(name)
+      )
+
+    end
+
+  end
+
+
+  return result
+
+end
+
+
+-- ============================================================================
+-- METADATENFILTER
+-- ============================================================================
+
+
 function Meta(meta)
 
   local authors =
     meta["by-author"]
 
 
+  local valid_authors =
+    pandoc.MetaList{}
+
+  local title_authors =
+    pandoc.MetaList{}
+
+
+  -- Fehlt by-author vollständig, werden bewusst leere
+  -- N4O-Autor:innenlisten bereitgestellt.
+
   if
     authors == nil
     or #authors == 0
   then
+
+    meta["n4o-authors"] =
+      valid_authors
+
+    meta["n4o-title-authors"] =
+      title_authors
+
+    meta["author-meta"] =
+      make_author_meta(
+        valid_authors
+      )
+
+
+    metadata_error(
+      "Es ist keine Autor:in mit gültiger CRediT-Rolle definiert."
+    )
+
 
     return meta
 
   end
 
 
-  local title_authors =
-    pandoc.MetaList{}
+  -- --------------------------------------------------------------------------
+  -- 1. Autor:innen validieren und zentrale N4O-Liste erzeugen
+  -- --------------------------------------------------------------------------
 
+  for _, author in ipairs(authors) do
 
-  for index, author in ipairs(authors) do
-
-    -- roles ist im N4O-Template für jede Person erforderlich.
-
-    if
-      author.roles == nil
-      or #author.roles == 0
-    then
-
-      local name =
-        author_name(author)
-        or ("Autor:in " .. index)
-
-
-      error(
-        "N4O-Metadaten: Für "
-        .. name
-        .. " fehlt die erforderliche Angabe 'roles'."
+    local valid =
+      validate_roles_present(
+        author
       )
+
+
+    if valid then
+
+      valid =
+        validate_credit_roles(
+          author
+        )
 
     end
 
 
-    if has_title_role(author) then
+    if valid then
 
-      title_authors:insert(
+      valid_authors:insert(
         author
       )
+
+
+      if has_title_role(author) then
+
+        title_authors:insert(
+          author
+        )
+
+      end
 
     end
 
   end
 
 
-  -- Mindestens eine Person muss auf der Titelfolie erscheinen.
+  -- --------------------------------------------------------------------------
+  -- 2. Zentrale Listen immer setzen
+  -- --------------------------------------------------------------------------
 
-  if #title_authors == 0 then
+  meta["n4o-authors"] =
+    valid_authors
 
-    error(
-      "N4O-Metadaten: Mindestens eine Person unter 'author' "
-      .. "muss die Rolle 'writing', "
-      .. "'Writing – original draft' oder "
-      .. "'Writing – review & editing' besitzen."
+  meta["n4o-title-authors"] =
+    title_authors
+
+
+  -- Quartos native HTML-Autor:innenmetadaten ebenfalls auf
+  -- die gültigen N4O-Autor:innen beschränken.
+
+  meta["author-meta"] =
+    make_author_meta(
+      valid_authors
+    )
+
+
+  -- --------------------------------------------------------------------------
+  -- 3. Mindestanforderungen prüfen
+  -- --------------------------------------------------------------------------
+
+  if #valid_authors == 0 then
+
+    metadata_error(
+      "Es ist keine Autor:in mit gültiger CRediT-Rolle definiert."
     )
 
   end
 
 
-  meta["n4o-title-authors"] =
-    title_authors
+  if #title_authors == 0 then
+
+    metadata_error(
+      "Für die Titelfolie ist keine gültige Autor:in mit "
+      .. "der CRediT-Rolle 'Writing – original draft' oder "
+      .. "'Writing – review & editing' definiert."
+    )
+
+  end
 
 
   return meta

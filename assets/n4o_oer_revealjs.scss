@@ -527,57 +527,28 @@ $presentation-h2-font-size: 1.55em;
   color: $dark-bg-text-color;
 }
 
-
 /* ==========================================================================
    APPENDIX-FOLIE
    ========================================================================== */
 
-/* Grundlayout */
+
+/* Grundlayout ------------------------------------------------------------- */
 
 .reveal .slides section.n4o-appendix-slide {
   text-align: left;
 }
 
+
+/* Zitierempfehlung -------------------------------------------------------- */
+
 .n4o-appendix-citation {
   width: 100%;
-  margin-bottom: 1.5em;
-}
-
-.n4o-appendix-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  column-gap: 4em;
-  align-items: start;
-  width: 88%;
-  margin-inline: auto;
-}
-
-.n4o-appendix-column {
-  min-width: 0;
-}
-
-/* Typografie und Abstände */
-
-.n4o-appendix-heading {
-  display: block;
-  font-size: 1em;
-  font-weight: 400;
-  line-height: 1.2;
-}
-
-.n4o-appendix-sources,
-.n4o-appendix-rights {
-  margin-top: 1.2em;
-}
-
-.reveal .slides section.n4o-appendix-slide p {
-  margin-top: 0.35em;
-  margin-bottom: 0.35em;
+  margin-bottom: 0.9em;
 }
 
 .n4o-appendix-citation-reference {
-  font-size: 1em;
-  line-height: 1.3;
+  font-size: 0.9em;
+  line-height: 1.25;
 }
 
 .reveal .slides .n4o-appendix-citation-reference .csl-entry {
@@ -589,36 +560,236 @@ $presentation-h2-font-size: 1.55em;
   margin-left: 0;
 }
 
-.n4o-appendix-contact-person + .n4o-appendix-contact-person {
-  margin-top: 0.8em;
+
+/* Zwischenüberschriften --------------------------------------------------- */
+
+.n4o-appendix-heading {
+  display: block;
+
+  margin: 0;
+
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.2;
 }
 
-/* Lizenz und Links */
+
+/* Autor:innen und CRediT-Beiträge ---------------------------------------- */
+
+.n4o-appendix-authors {
+  width: 100%;
+  margin: 0 0 0.9em;
+}
+
+
+/*
+ * Die Überschrift bleibt links am normalen Satzspiegel.
+ * Das Raster der Personen wird etwas eingerückt und nutzt
+ * dieselbe Breite wie der untere Zweispaltenbereich.
+ */
+
+.n4o-appendix-authors-grid {
+  display: grid;
+
+  width: 88%;
+  margin: 0.4em auto 0;
+
+  align-items: start;
+
+  column-gap: 3.5em;
+  row-gap: 0.55em;
+}
+
+
+/* Eine Autor:in */
+
+.n4o-appendix-authors-single
+.n4o-appendix-authors-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+
+/* Zwei bis vier Autor:innen */
+
+.n4o-appendix-authors-two-columns
+.n4o-appendix-authors-grid {
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+}
+
+
+/* Ab fünf Autor:innen */
+
+.n4o-appendix-authors-three-columns
+.n4o-appendix-authors-grid {
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  column-gap: 2em;
+  row-gap: 0.45em;
+}
+
+
+/*
+ * Jede Person bildet eine kompakte Einheit.
+ * Name und Rollen sollen nicht auf unterschiedliche
+ * Rasterzeilen auseinanderfallen.
+ */
+
+.n4o-appendix-author {
+  min-width: 0;
+  break-inside: avoid;
+}
+
+
+/* Name */
+
+.reveal .slides
+section.n4o-appendix-slide
+.n4o-appendix-author p:first-child {
+  margin-top: 0;
+  margin-bottom: 0.12em;
+}
+
+.n4o-appendix-author-name {
+  font-size: 0.82em;
+  line-height: 1.15;
+}
+
+
+/* CRediT-Rollen */
+
+.reveal .slides
+section.n4o-appendix-slide
+.n4o-appendix-author p:last-child {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.n4o-appendix-author-roles {
+  display: block;
+
+  font-size: 0.68em;
+  line-height: 1.2;
+
+  overflow-wrap: anywhere;
+}
+
+
+/*
+ * Bei fünf und mehr Personen geringfügig kompakter,
+ * damit drei Spalten auch bei längeren Rollenbezeichnungen
+ * stabil funktionieren.
+ */
+
+.n4o-appendix-authors-three-columns
+.n4o-appendix-author-name {
+  font-size: 0.76em;
+}
+
+.n4o-appendix-authors-three-columns
+.n4o-appendix-author-roles {
+  font-size: 0.60em;
+}
+
+
+/* Unterer Bereich --------------------------------------------------------- */
+
+.n4o-appendix-grid,
+.n4o-appendix-bottom-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+
+  column-gap: 4em;
+
+  align-items: start;
+
+  width: 88%;
+  margin: 0 auto;
+}
+
+.n4o-appendix-column {
+  min-width: 0;
+}
+
+
+/* Allgemeine Absatzabstände ---------------------------------------------- */
+
+.reveal .slides
+section.n4o-appendix-slide p {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+
+/* Veranstaltung ---------------------------------------------------------- */
+
+.n4o-appendix-event {
+  margin: 0;
+}
+
+
+/* Links und Quellen ------------------------------------------------------- */
+
+.n4o-appendix-sources {
+  margin-top: 0.7em;
+}
+
+.reveal .slides
+section.n4o-appendix-slide
+.n4o-appendix-sources p {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+
+
+/* Lizenz und Rechte ------------------------------------------------------- */
 
 .n4o-appendix-rights {
-  font-size: 0.7em;
+  margin-top: 0;
+
+  font-size: 0.65em;
   line-height: 1.2;
 }
 
 .n4o-appendix-rights img {
   display: block;
+
   width: 88px;
   height: auto;
 }
 
-.reveal .slides section.n4o-appendix-slide .n4o-appendix-rights p {
-  margin-top: 0.175em;
-  margin-bottom: 0.175em;
+.reveal .slides
+section.n4o-appendix-slide
+.n4o-appendix-rights p {
+  margin-top: 0.15em;
+  margin-bottom: 0.15em;
 }
 
-.reveal .slides section.n4o-appendix-slide a {
+
+/* Links ------------------------------------------------------------------ */
+
+.reveal .slides
+section.n4o-appendix-slide a {
   overflow-wrap: anywhere;
 }
 
-.reveal .slides section.n4o-appendix-slide img.n4o-appendix-link-icon {
+
+/* Icons vor Präsentations- und Repository-Link --------------------------- */
+
+.reveal .slides
+section.n4o-appendix-slide
+img.n4o-appendix-link-icon {
   display: inline-block;
+
   width: 1em;
   height: 1em;
+
   margin: 0;
+
   vertical-align: -0.125em;
 }

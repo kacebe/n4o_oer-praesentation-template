@@ -25,6 +25,8 @@ author:
       - conceptualization
       - writing
     # CRediT: https://credit.niso.org/
+    functions:
+      - speaker
 
   - name:
       given: "John" # Erforderlich: Vorname
@@ -40,6 +42,29 @@ author:
       - conceptualization
     # CRediT: https://credit.niso.org/
 
+  - name:
+      given: "Max" # Erforderlich: Vorname
+      family: "Musterfrau" # Erforderlich: Nachname
+
+    orcid: "0000-0000-0000-0003" # Optional, empfohlen: ORCID ohne URL
+    email: "john.doe@example.org" # Optional: E-Mail-Adresse
+    url: "https://example.com" # Optional: persönliche oder berufliche Website
+
+    affiliations:
+      - ref: institution-2
+    roles: # Erforderlich: Beiträge der Person nach CRediT; mehrere Rollen möglich
+      - Writing – review & editing
+      - Investigation
+
+  - name:
+      given: "Erika"
+      family: "Beispiel"
+    orcid: "0000-0000-0000-0004"
+    affiliations:
+    - ref: institution-1
+    # roles: # Erforderlich: Beiträge der Person nach CRediT; mehrere Rollen möglich
+    #   - Investigation
+
 
 # Institutionen
 
@@ -53,6 +78,16 @@ affiliations:
     country: "Country" # Optional: Land
     url: "https://example.com" # Optional: Website der Institution
     ror: "https://ror.org/00aa00a00" # Optional, empfohlen: vollständige ROR-URI
+
+    # group: "Arbeitsgruppe" # Optional: Arbeits- oder Forschungsgruppe
+
+  - id: institution-2
+    name: "Dreamworld University" # Erforderlich, sobald die Institution verwendet wird
+    department: "Fun and Entertainment with Quarto and Metadata" # Optional: Organisationseinheit
+    city: "City" # Optional: Ort
+    country: "Country" # Optional: Land
+    url: "https://example.com" # Optional: Website der Institution
+    ror: "https://ror.org/00aa00a11" # Optional, empfohlen: vollständige ROR-URI
 
     # group: "Arbeitsgruppe" # Optional: Arbeits- oder Forschungsgruppe
 
