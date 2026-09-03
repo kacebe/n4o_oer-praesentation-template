@@ -1,6 +1,5 @@
 # Angaben zu Autor:innen und ihren institutionellen Zugehörigkeiten.
-# Die eingetragenen Personen- und Kontaktdaten sind Beispielwerte und müssen
-# vor der Veröffentlichung geprüft bzw. ersetzt werden.
+# Die eingetragenen Personen- und Kontaktdaten sind Beispielwerte und müssen vor der Veröffentlichung geprüft bzw. ersetzt werden.
 #
 # Erforderlich = für jede Person ausfüllen
 # Optional     = bei Bedarf ergänzen bzw. Kommentarzeichen # entfernen
@@ -18,15 +17,17 @@ author:
     email: "jane.doe@example.org" # Optional: E-Mail-Adresse
     url: "https://example.com" # Optional: persönliche oder berufliche Website
 
-    affiliations: # Optional: institutionelle Zugehörigkeit über die unten definierte id
+    affiliations: # Optional: institutionelle Zugehörigkeit über die unten definierte id (hier institution-1)
       - ref: institution-1
 
-    roles: # Erforderlich: Beiträge der Person nach CRediT; mehrere Rollen möglich
-      - conceptualization
+    roles: # Erforderlich: Beiträge der Person nach CRediT; mehrere Rollen möglich. Autor:innen ohne Rolle werden nicht in die Metadaten übernommen.
       - writing
     # CRediT: https://credit.niso.org/
-    functions:
+
+    functions: # Optional: zusätzliche Funktion der Person im Zusammenhang mit der Ressource; kontrolliertes Vokabular nach DALIA/MoDALIA, mehrere Funktionen möglich.
       - speaker
+    # DALIA/MoDALIA Contributor Roles:
+    # https://dalia.pages.rwth-aachen.de/dalia-ontology/index-en.html#http://id.loc.gov/ontologies/bibframe/Role
 
   - name:
       given: "John" # Erforderlich: Vorname
@@ -37,39 +38,20 @@ author:
     url: "https://example.com" # Optional: persönliche oder berufliche Website
 
     affiliations:
-      - ref: institution-1
-    roles: # Erforderlich: Beiträge der Person nach CRediT; mehrere Rollen möglich
+      - ref: institution-2
+    roles: # Erforderlich: Beiträge der Person nach CRediT; mehrere Rollen möglich. Autor:innen ohne Rolle werden nicht in die Metadaten übernommen.
       - conceptualization
     # CRediT: https://credit.niso.org/
-
-  - name:
-      given: "Max" # Erforderlich: Vorname
-      family: "Musterfrau" # Erforderlich: Nachname
-
-    orcid: "0000-0000-0000-0003" # Optional, empfohlen: ORCID ohne URL
-    email: "john.doe@example.org" # Optional: E-Mail-Adresse
-    url: "https://example.com" # Optional: persönliche oder berufliche Website
-
-    affiliations:
-      - ref: institution-2
-    roles: # Erforderlich: Beiträge der Person nach CRediT; mehrere Rollen möglich
-      - Writing – review & editing
-      - Investigation
-
-  - name:
-      given: "Erika"
-      family: "Beispiel"
-    orcid: "0000-0000-0000-0004"
-    affiliations:
-    - ref: institution-1
-    # roles: # Erforderlich: Beiträge der Person nach CRediT; mehrere Rollen möglich
-    #   - Investigation
+    # functions: # Optional: zusätzliche Funktion der Person im Zusammenhang mit der Ressource; kontrolliertes Vokabular nach DALIA/MoDALIA, mehrere Funktionen möglich.
+    #   - speaker
+    # DALIA/MoDALIA Contributor Roles:
+    # https://dalia.pages.rwth-aachen.de/dalia-ontology/index-en.html#http://id.loc.gov/ontologies/bibframe/Role
 
 
 # Institutionen
 
-# Optional: nur erforderlich, wenn mindestens eine Person über affiliations darauf verweist.
-# Die lokale id dient ausschließlich zur Referenz innerhalb dieser YAML-Datei.
+# Optional: nur erforderlich, wenn mindestens eine Person über affiliations darauf verweist. Die lokale id dient ausschließlich zur Referenz innerhalb dieser YAML-Datei.
+
 affiliations:
   - id: institution-1
     name: "Awesome University" # Erforderlich, sobald die Institution verwendet wird

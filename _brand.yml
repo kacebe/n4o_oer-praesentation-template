@@ -7,15 +7,15 @@ logo:
   images:
     icon-logo:
       path: assets/logos/logo_klein.png # Kleines Markenlogo
-      alt: "Logo NFDI4Objects"
+      alt: "Logo Klein"
 
     logo:
       path: assets/logos/logo.png # Standardlogo
-      alt: "Logo NFDI4Objects"
+      alt: "Logo Standard"
 
     logo-gross:
       path: assets/logos/logo_gross.png # Großes Markenlogo
-      alt: "Logo NFDI4Objects"
+      alt: "Logo Gross"
 
     institution-logo:
       path: assets/logos/logo_institution.png # Durch eigenes Institutionslogo ersetzen
@@ -29,17 +29,17 @@ logo:
       path: assets/logos/logo_event.png # Optional: Logo der Veranstaltung
       alt: "Logo der Veranstaltung"
 
-    partner-1:
-      path: assets/logos/logo_partner1.png # Optional: Logo einer Partnerorganisation
-      alt: "Logo der Partnerorganisation 1"
+    # partner-1:
+    #   path: assets/logos/logo_partner1.png # Optional: Logo einer Partnerorganisation
+    #   alt: "Logo der Partnerorganisation 1"
 
-    partner-2:
-      path: assets/logos/logo_partner2.png # Optional: Logo einer weiteren Partnerorganisation
-      alt: "Logo der Partnerorganisation 2"
+    # partner-2:
+    #   path: assets/logos/logo_partner2.png # Optional: Logo einer weiteren Partnerorganisation
+    #   alt: "Logo der Partnerorganisation 2"
 
-  small: icon-logo # Kleine Logo-Variante
-  medium: institution-logo # Mittlere Logo-Variante; von Reveal.js bevorzugt
-  large: projekt-logo # Große Logo-Variante
+  small: icon-logo # In html als icon behandelt.
+  medium: institution-logo # Titelfolie oben links
+  large: projekt-logo # Titelfolie oben rechts
 
 
 # Farben

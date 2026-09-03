@@ -121,7 +121,7 @@ csl: assets/csl/apa.csl
 # DOI der konkreten veröffentlichten Version. Nur eintragen, wenn bereits ein DOI vergeben wurde.
 # DataCite Metadata Schema: https://datacite-metadata-schema.readthedocs.io/en/4.7/
 #
-doi: "10.0000/00000"
+# doi: "10.0000/00000"
 
 # -----------------------------------------------------------------------------
 # OPTIONAL, aber für Web-Veröffentlichung empfohlen: Vorschaubild

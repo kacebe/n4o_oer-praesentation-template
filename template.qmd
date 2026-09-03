@@ -444,6 +444,10 @@ Eine häufige Folienform kombiniert einen kurzen Text mit einer Abbildung.
 
 ![Beispielabbildung zur visuellen Prüfung von Größe, Zentrierung und Bildunterschrift.](img/placeholder.png){fig-alt="Neutrale Platzhaltergrafik zur Prüfung von Größe, Zentrierung und Bildunterschrift."}
 
+## Abbildung mit Bildunterschrift {.nostretch}
+
+![Beispielabbildung zur visuellen Prüfung von Größe, Zentrierung und Bildunterschrift.](img/placeholder.png){.nostretch fig-alt="Neutrale Platzhaltergrafik zur Prüfung von Größe, Zentrierung und Bildunterschrift."}
+
 ## Offenes Bild mit Quellenangabe
 
 Bei nachgenutzten Medien sollten Quelle, Urheber:in und Lizenz direkt mit der Abbildung dokumentiert werden.

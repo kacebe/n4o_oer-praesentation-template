@@ -59,7 +59,7 @@ $presentation-h2-font-size: 1.55em;
 #title-slide .n4o-title-institution-logo {
   grid-row: 1;
   width: 52%;
-  height: 4.5em;
+  height: 7.5em;
   display: flex;
   align-items: center;
   margin-top: 0.4em;
@@ -527,19 +527,41 @@ $presentation-h2-font-size: 1.55em;
    FOOTER UND FOLIENNUMMER
    ========================================================================== */
 
+/* Footer */
+
 .reveal .footer {
-  font-size: 0.45em;
+  color: $brand-text-logo;
 }
 
+.reveal .footer p {
+  margin: 0;
+
+  color: inherit;
+  font-size: 0.8em;
+  line-height: 1.2;
+}
+
+.reveal .footer a,
+.reveal .footer a:hover {
+  color: inherit;
+}
+
+
+/* Foliennummer */
+
 .reveal .slide-number {
-  font-size: 0.45em;
-  color: $light-bg-text-color;
+  color: $brand-text-logo;
+  font-size: 10px;
+  line-height: 1.2;
 
   a,
   a:hover {
     color: inherit;
   }
 }
+
+
+/* Anpassung der Foliennummer an helle und dunkle Hintergründe */
 
 .reveal.has-light-background .slide-number {
   color: $light-bg-text-color;
@@ -613,8 +635,7 @@ $presentation-h2-font-size: 1.55em;
 
 /*
  * Die Überschrift bleibt links am normalen Satzspiegel.
- * Das Raster der Personen wird etwas eingerückt und nutzt
- * dieselbe Breite wie der untere Zweispaltenbereich.
+ * Das Raster der Personen wird etwas eingerückt und nutzt dieselbe Breite wie der untere Zweispaltenbereich.
  */
 
 .n4o-appendix-authors-grid {
@@ -662,8 +683,7 @@ $presentation-h2-font-size: 1.55em;
 
 /*
  * Jede Person bildet eine kompakte Einheit.
- * Name und Rollen sollen nicht auf unterschiedliche
- * Rasterzeilen auseinanderfallen.
+ * Name und Rollen sollen nicht auf unterschiedliche Rasterzeilen auseinanderfallen.
  */
 
 .n4o-appendix-author {
@@ -709,9 +729,7 @@ section.n4o-appendix-slide
 
 
 /*
- * Bei fünf und mehr Personen geringfügig kompakter,
- * damit drei Spalten auch bei längeren Rollenbezeichnungen
- * stabil funktionieren.
+ * Bei fünf und mehr Personen geringfügig kompakter, damit drei Spalten auch bei längeren Rollenbezeichnungen stabil funktionieren.
  */
 
 .n4o-appendix-authors-three-columns

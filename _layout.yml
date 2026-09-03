@@ -13,14 +13,11 @@
 
 quarto-required: ">= 1.9.0" # Mindestversion von Quarto
 
-
 format:
   revealjs:
 
     # Format und Branding
-
     # brand: _brand.yml # Branding-Datei; im Projekt bereits zentral eingebunden
-    # brand-mode: light # Darstellungsmodus des Brandings: light oder dark
 
     theme: # Vorgabe: Reveal.js-Theme und N4O-Anpassungen
       - default
@@ -51,14 +48,6 @@ format:
 
     slide-level: 2 # Vorgabe: # erzeugt Abschnitte, ## erzeugt Folien
 
-    # incremental: true # Listeneinträge standardmäßig schrittweise einblenden
-    # scrollable: true # Überlange Folien vertikal scrollbar machen
-    # smaller: true # Schrift auf allen Folien verkleinern
-    # footer: "Text im Footer" # Text auf allen Folien anzeigen
-    # logo: assets/logos/logo.svg # Logo unten rechts auf allen Folien anzeigen
-    # output-location: default # Ausgabe ausführbarer Zellen: default, fragment, slide, column oder column-fragment
-    # rtl: true # Reveal.js-Präsentation von rechts nach links ausrichten
-
     # title-slide-attributes: # Zusätzliche data-Attribute für die Titelfolie
     #   data-background-image: backgrounds/title.svg
     #   data-background-size: cover
@@ -66,6 +55,13 @@ format:
 
     center-title-slide: false # Vorgabe: Titelfolie nicht vertikal zentrieren
 
+    # footer: "Text im Footer" # Text auf allen Folien anzeigen
+    # logo: assets/logos/logo.svg # Logo unten rechts auf allen Folien anzeigen
+    # incremental: true # Listeneinträge standardmäßig schrittweise einblenden
+    # scrollable: true # Überlange Folien vertikal scrollbar machen
+    # smaller: true # Schrift auf allen Folien verkleinern
+    # output-location: default # Ausgabe ausführbarer Zellen: default, fragment, slide, column oder column-fragment
+    # rtl: true # Reveal.js-Präsentation von rechts nach links ausrichten
 
     # Folienformat
 
@@ -73,7 +69,7 @@ format:
     height: 720 # Vorgabe: Folienhöhe
     margin: 0.1 # Vorgabe: freier Rand als Anteil der Darstellungsfläche
     center: false # Vorgabe: Folieninhalte nicht vertikal zentrieren
-    auto-stretch: true # Einzelne Bilder automatisch auf den verfügbaren Raum skalieren
+    auto-stretch: false # Einzelne Bilder automatisch auf den verfügbaren Raum skalieren
 
     # min-scale: 0.2 # Kleinster Skalierungsfaktor bei kleinen Displays
     # max-scale: 2.0 # Größter Skalierungsfaktor bei großen Displays
@@ -243,13 +239,10 @@ format:
     # Literatur und Fußnoten
 
     reference-location: document # Fußnoten und Referenzen am Dokumentende ausgeben
-
-    # bibliography: bibliography.bib # Bibliografie-Datei; meist im Dokument selbst festlegen
-    # csl: citation-style.csl # CSL-Zitierstil
-    # citations-hover: true # Literaturangaben beim Überfahren einer Zitation anzeigen
+    citations-hover: true # Literaturangaben beim Überfahren einer Zitation anzeigen
+    footnotes-hover: true # Fußnoten beim Überfahren als Popup anzeigen
     # citeproc: true # Pandocs integrierte Zitationsverarbeitung erzwingen
     # citation-abbreviations: abbreviations.json # Abkürzungen für Zeitschriftentitel
-    # footnotes-hover: true # Fußnoten beim Überfahren als Popup anzeigen
 
 
     # Querverweise
@@ -274,7 +267,6 @@ format:
     # include-before-body: _includes/before-body.html # HTML direkt nach <body> einfügen
     # include-after-body: _includes/after-body.html # HTML vor </body> einfügen
     # resources: "assets/**" # Zusätzliche Dateien mit veröffentlichen; projektweit in _quarto.yml gepflegt
-    # metadata-files: [_praesentation.yml] # Weitere Metadatendateien einlesen; projektweit in _quarto.yml gepflegt
 
     # revealjs-plugins: # Zusätzliche Reveal.js-Plugins aus lokalen Verzeichnissen laden
     #   - myplugin
@@ -289,7 +281,6 @@ format:
     # template: custom.html # Eigenes vollständiges Pandoc-Template verwenden
     # embed-resources: true # Abhängigkeiten möglichst in eine einzelne HTML-Datei einbetten
     # self-contained-math: true # Mathematikbibliothek bei eingebetteten Ressourcen mit einbetten
-    # filters: [filter.lua] # Zusätzliche Pandoc-/Lua-Filter verwenden
     # shortcodes: [shortcodes.lua] # Eigene Quarto-Shortcodes laden
     # keep-md: true # Nach Ausführung erzeugte Markdown-Zwischendatei behalten
     # keep-ipynb: true # Nach Ausführung erzeugtes Notebook behalten
@@ -328,7 +319,40 @@ format:
 # Sprachliche Anpassungen
 
 language:
+  # Titelfolie und Metadaten
+  title-block-author-single: "Autor:in"
+  title-block-author-plural: "Autor:innen"
   title-block-affiliation-single: "Institution"
   title-block-affiliation-plural: "Institutionen"
   title-block-published: "Veröffentlicht am"
   title-block-modified: "Zuletzt geändert am"
+  title-block-keywords: "Schlagwörter"
+
+  # Zitation und Nachnutzung
+  section-title-references: "Literatur"
+  section-title-citation: "Zitation"
+  section-title-reuse: "Nachnutzung"
+  section-title-copyright: "Urheberrecht"
+  section-title-appendices: "Anhang"
+  appendix-attribution-cite-as: "Bitte zitieren Sie diese Präsentation als:"
+  appendix-attribution-bibtex: "BibTeX-Zitation:"
+  appendix-view-license: "Lizenz anzeigen"
+
+  # Querverweise
+  crossref-fig-title: "Abbildung"
+  crossref-tbl-title: "Tabelle"
+  crossref-lst-title: "Listing"
+
+  # Callouts
+  callout-tip-title: "Tipp"
+  callout-note-title: "Hinweis"
+  callout-warning-title: "Warnung"
+  callout-important-title: "Wichtig"
+  callout-caution-title: "Achtung"
+
+  # Code
+  code-summary: "Code"
+  code-line: "Zeile"
+  code-lines: "Zeilen"
+  copy-button-tooltip: "In die Zwischenablage kopieren"
+  copy-button-tooltip-success: "Kopiert!"
