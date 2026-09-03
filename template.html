@@ -11,7 +11,6 @@
 
   <meta name="author" content="Jane Doe">
   <meta name="author" content="John Doe">
-  <meta name="author" content="Max Musterfrau">
   <meta name="dcterms.date" content="2026-08-19">
   <meta name="keywords" content="Schlagwort 1, Schlagwort 2">
   <title>Titel der Präsentation</title>
@@ -125,7 +124,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="template_files/libs/revealjs/dist/theme/quarto-cba8e18418d5b30f16d3f2f048460f32.css">
+  <link rel="stylesheet" href="template_files/libs/revealjs/dist/theme/quarto-a47958f04f0f7b07957e13ecda96b3b3.css">
   <link rel="stylesheet" href="backgrounds/background.css">
   <link href="template_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="template_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -296,14 +295,12 @@
   <meta name="dcterms:abstract" content="Kurze Beschreibung der Präsentation.">
   <meta name="eprints:creators_name" content="Doe, Jane">
   <meta name="eprints:contributors_name" content="Doe, John">
-  <meta name="eprints:contributors_name" content="Musterfrau, Max">
   <meta name="dcterms:issued" content="2026-08-18">
   <meta name="z:presentationType" content="Presentation">
   <meta name="z:meetingName" content="Name der Veranstaltung">
   <meta name="z:place" content="Veranstaltungsort">
   <meta name="z:series" content="Name der Veranstaltungsreihe">
   <meta name="z:sessionTitle" content="Titel der Session">
-  <meta name="dc:identifier.DOI" content="10.0000/00000">
   <meta name="z:url" content="https://kacebe.github.io/n4o_oer-praesentation-template/">
   <meta name="dc:language" content="de">
   <meta name="dc:rights" content="CC BY 4.0">
@@ -347,26 +344,16 @@
       },
       {
         "affiliation": {
-          "id": "https://ror.org/00aa00a00",
-          "name": "Awesome University",
+          "id": "https://ror.org/00aa00a11",
+          "name": "Dreamworld University",
           "type": "Organization"
         },
         "id": "https://orcid.org/0000-0000-0000-0002",
         "name": "John Doe",
         "type": "Person"
-      },
-      {
-        "affiliation": {
-          "id": "https://ror.org/00aa00a11",
-          "name": "Dreamworld University",
-          "type": "Organization"
-        },
-        "id": "https://orcid.org/0000-0000-0000-0003",
-        "name": "Max Musterfrau",
-        "type": "Person"
       }
     ],
-    "dateModified": "2026-08-28",
+    "dateModified": "2026-09-03",
     "datePublished": "2026-08-19",
     "description": "Kurze Beschreibung der Präsentation.",
     "educationalLevel": [
@@ -470,40 +457,6 @@
             "@id": "https://orcid.org/0000-0000-0000-0002",
             "@type": "Person",
             "affiliation": {
-              "@id": "https://ror.org/00aa00a00",
-              "@type": "Organization",
-              "address": {
-                "@type": "PostalAddress",
-                "addressCountry": "Country",
-                "addressLocality": "City"
-              },
-              "identifier": {
-                "@type": "PropertyValue",
-                "propertyID": "ROR",
-                "url": "https://ror.org/00aa00a00",
-                "value": "00aa00a00"
-              },
-              "name": "Awesome University",
-              "sameAs": "https://ror.org/00aa00a00",
-              "url": "https://example.com"
-            },
-            "email": "john.doe@example.org",
-            "familyName": "Doe",
-            "givenName": "John",
-            "identifier": {
-              "@type": "PropertyValue",
-              "propertyID": "ORCID",
-              "url": "https://orcid.org/0000-0000-0000-0002",
-              "value": "0000-0000-0000-0002"
-            },
-            "name": "John Doe",
-            "sameAs": "https://orcid.org/0000-0000-0000-0002",
-            "url": "https://example.com"
-          },
-          {
-            "@id": "https://orcid.org/0000-0000-0000-0003",
-            "@type": "Person",
-            "affiliation": {
               "@id": "https://ror.org/00aa00a11",
               "@type": "Organization",
               "address": {
@@ -522,29 +475,21 @@
               "url": "https://example.com"
             },
             "email": "john.doe@example.org",
-            "familyName": "Musterfrau",
-            "givenName": "Max",
+            "familyName": "Doe",
+            "givenName": "John",
             "identifier": {
               "@type": "PropertyValue",
               "propertyID": "ORCID",
-              "url": "https://orcid.org/0000-0000-0000-0003",
-              "value": "0000-0000-0000-0003"
+              "url": "https://orcid.org/0000-0000-0000-0002",
+              "value": "0000-0000-0000-0002"
             },
-            "name": "Max Musterfrau",
-            "sameAs": "https://orcid.org/0000-0000-0000-0003",
+            "name": "John Doe",
+            "sameAs": "https://orcid.org/0000-0000-0000-0002",
             "url": "https://example.com"
           }
         ],
         "conditionsOfAccess": "keine Anmeldung erforderlich",
         "contributor": [
-          {
-            "@type": "Role",
-            "contributor": {
-              "@id": "https://orcid.org/0000-0000-0000-0001"
-            },
-            "roleName": "Conceptualization",
-            "url": "https://credit.niso.org/contributor-roles/conceptualization/"
-          },
           {
             "@type": "Role",
             "contributor": {
@@ -568,22 +513,6 @@
             },
             "roleName": "Conceptualization",
             "url": "https://credit.niso.org/contributor-roles/conceptualization/"
-          },
-          {
-            "@type": "Role",
-            "contributor": {
-              "@id": "https://orcid.org/0000-0000-0000-0003"
-            },
-            "roleName": "Writing – review & editing",
-            "url": "https://credit.niso.org/contributor-roles/writing-review-editing/"
-          },
-          {
-            "@type": "Role",
-            "contributor": {
-              "@id": "https://orcid.org/0000-0000-0000-0003"
-            },
-            "roleName": "Investigation",
-            "url": "https://credit.niso.org/contributor-roles/investigation/"
           }
         ],
         "copyrightHolder": {
@@ -591,7 +520,7 @@
         },
         "copyrightNotice": "© 2026 Name der Rechteinhaberin / des Rechteinhabers",
         "copyrightYear": 2026,
-        "dateModified": "2026-08-28",
+        "dateModified": "2026-09-03",
         "datePublished": "2026-08-19",
         "description": "Kurze Beschreibung der Präsentation.",
         "educationalLevel": {
@@ -602,12 +531,6 @@
         },
         "encodingFormat": "text/html",
         "genre": "Presentation",
-        "identifier": {
-          "@type": "PropertyValue",
-          "propertyID": "DOI",
-          "url": "https://doi.org/10.0000/00000",
-          "value": "10.0000/00000"
-        },
         "inLanguage": "de",
         "isAccessibleForFree": true,
         "keywords": [
@@ -626,7 +549,6 @@
           "@type": "Organization",
           "name": "Name der herausgebenden Institution"
         },
-        "sameAs": "https://doi.org/10.0000/00000",
         "url": "https://kacebe.github.io/n4o_oer-praesentation-template/",
         "version": "1.0"
       },
@@ -737,35 +659,6 @@
           </div>
           
         </div>
-                <div class="quarto-title-author n4o-title-author">
-
-          <div class="quarto-title-author-name n4o-title-author-name">
-
-            Max Musterfrau
-
-                        <a href="https://orcid.org/0000-0000-0000-0003" class="quarto-title-author-orcid n4o-title-orcid" target="orcid.widget" rel="me noopener noreferrer" aria-label="ORCID von Max Musterfrau">
-              <img src="assets/icons/ORCID-iD_icon_vector.svg" alt="ORCID iD icon" class="n4o-title-orcid-icon">
-            </a>
-            
-          </div>
-
-                      <div class="quarto-title-author-email n4o-title-author-email">
-              <a href="mailto:john.doe@example.org">
-                john.doe@example.org
-              </a>
-            </div>
-          
-                    <div class="quarto-title-affiliations n4o-title-affiliations">
-
-                        <p class="quarto-title-affiliation n4o-title-affiliation">
-              <a href="https://example.com">
-              Dreamworld University
-              </a>
-            </p>
-            
-          </div>
-          
-        </div>
         
       </div>
       
@@ -784,13 +677,7 @@
         <img src="assets/logos/logo_event.png" alt="Logo der Veranstaltung">
       </div>
       
-            <div class="n4o-title-logo n4o-title-logo-partner n4o-title-logo-partner-1">
-        <img src="assets/logos/logo_partner1.png" alt="Logo der Partnerorganisation 1">
-      </div>
       
-            <div class="n4o-title-logo n4o-title-logo-partner n4o-title-logo-partner-2">
-        <img src="assets/logos/logo_partner2.png" alt="Logo der Partnerorganisation 2">
-      </div>
       
     </div>
 
@@ -1103,7 +990,7 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Vorsicht</strong></p>
+<p><strong>Achtung</strong></p>
 </div>
 <div class="callout-content">
 <p>Ein Vorsichtshinweis kennzeichnet Inhalte, bei denen besondere Aufmerksamkeit oder sorgfältiges Vorgehen erforderlich ist.</p>
@@ -1171,7 +1058,7 @@
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Vorsicht</strong></p>
+<p><strong>Achtung</strong></p>
 </div>
 <div class="callout-content">
 <p>Ein Vorsichtshinweis kennzeichnet Inhalte, bei denen besondere Aufmerksamkeit oder sorgfältiges Vorgehen erforderlich ist.</p>
@@ -1408,13 +1295,32 @@
 </section>
 <section id="abbildung-mit-bildunterschrift" class="slide level2">
 <h2>Abbildung mit Bildunterschrift</h2>
-
-<img data-src="img/placeholder.png" alt="Neutrale Platzhaltergrafik zur Prüfung von Größe, Zentrierung und Bildunterschrift." class="r-stretch quarto-figure-center"><p class="caption">Beispielabbildung zur visuellen Prüfung von Größe, Zentrierung und Bildunterschrift.</p></section>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/placeholder.png" alt="Neutrale Platzhaltergrafik zur Prüfung von Größe, Zentrierung und Bildunterschrift."></p>
+<figcaption>Beispielabbildung zur visuellen Prüfung von Größe, Zentrierung und Bildunterschrift.</figcaption>
+</figure>
+</div>
+</section>
+<section id="abbildung-mit-bildunterschrift-1" class="slide level2 nostretch">
+<h2>Abbildung mit Bildunterschrift</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/placeholder.png" class="nostretch" alt="Neutrale Platzhaltergrafik zur Prüfung von Größe, Zentrierung und Bildunterschrift."></p>
+<figcaption>Beispielabbildung zur visuellen Prüfung von Größe, Zentrierung und Bildunterschrift.</figcaption>
+</figure>
+</div>
+</section>
 <section id="offenes-bild-mit-quellenangabe" class="slide level2">
 <h2>Offenes Bild mit Quellenangabe</h2>
 <p>Bei nachgenutzten Medien sollten Quelle, Urheber:in und Lizenz direkt mit der Abbildung dokumentiert werden.</p>
-
-<img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Jubilee_and_Munin%2C_Ravens%2C_Tower_of_London_2016-04-30.jpg/500px-Jubilee_and_Munin%2C_Ravens%2C_Tower_of_London_2016-04-30.jpg" alt="Jubilee und Munin, zwei der Tower-Raben. Jubilee ist 2012 in Somerset geschlüpft und trägt einen goldenen Ring. Er wurde der Queen zu ihrem Diamantenen Thronjubiläum überreicht. Munin ist 1995 in North Uise geschlüpft und trägt einen hellgrünen Ring. Sie ist der älteste Rabe im Tower. Die Identifikation der Raben wurde von Chris Skaife, dem Ravenmaster („Rabenmeister“), bestätigt." class="r-stretch quarto-figure-center" id="Raben"><p class="caption">“<a href="https://commons.wikimedia.org/w/index.php?curid=48615973">Jubilee and Munin, Ravens, Tower of London</a>” by <a href="https://commons.wikimedia.org/wiki/User:Colin">Colin</a>&nbsp;from&nbsp;Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></p></section>
+<div id="Raben" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Jubilee_and_Munin%2C_Ravens%2C_Tower_of_London_2016-04-30.jpg/500px-Jubilee_and_Munin%2C_Ravens%2C_Tower_of_London_2016-04-30.jpg" alt="Jubilee und Munin, zwei der Tower-Raben. Jubilee ist 2012 in Somerset geschlüpft und trägt einen goldenen Ring. Er wurde der Queen zu ihrem Diamantenen Thronjubiläum überreicht. Munin ist 1995 in North Uise geschlüpft und trägt einen hellgrünen Ring. Sie ist der älteste Rabe im Tower. Die Identifikation der Raben wurde von Chris Skaife, dem Ravenmaster („Rabenmeister“), bestätigt."></p>
+<figcaption>“<a href="https://commons.wikimedia.org/w/index.php?curid=48615973">Jubilee and Munin, Ravens, Tower of London</a>” by <a href="https://commons.wikimedia.org/wiki/User:Colin">Colin</a>&nbsp;from&nbsp;Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></figcaption>
+</figure>
+</div>
+</section>
 <section id="offenes-bild-in-zwei-spalten" class="slide level2">
 <h2>Offenes Bild in zwei Spalten</h2>
 <p>Die vollständige Attribution bleibt auch bei kombinierten Text-Bild-Layouts erhalten.</p>
@@ -1442,8 +1348,8 @@
 <section id="bildgröße-kontrollieren" class="slide level2">
 <h2>Bildgröße kontrollieren</h2>
 <p>Die Bildgröße lässt sich direkt über die Markdown-Attribute festlegen.</p>
-
-<img data-src="img/placeholder.png" width="300" class="r-stretch"><p><code>width="300"</code></p>
+<p><img data-src="img/placeholder.png" width="300"></p>
+<p><code>width="300"</code></p>
 </section>
 <section id="absolute-positionierung" class="slide level2">
 <h2>Absolute Positionierung</h2>
@@ -1688,7 +1594,7 @@ oder vollständig entfernen.
 <p><span class="n4o-appendix-heading" role="heading" aria-level="3">Zitierempfehlung für diese Präsentation</span></p>
 <div class="references csl-bib-body hanging-indent n4o-appendix-citation-reference" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-n4o-presentation-self" class="csl-entry" role="listitem">
-Doe, J., Doe, J., &amp; Musterfrau, M. (2026, August 19). Titel der Präsentation. In <em>Titel der Session</em> [Presentation]. Name der herausgebenden Institution. Name der Veranstaltung, Veranstaltungsort, 18. August 2026. <a href="https://doi.org/10.0000/00000">https://doi.org/10.0000/00000</a>
+Doe, J., &amp; Doe, J. (2026, August 19). Titel der Präsentation. In <em>Titel der Session</em> [Presentation]. Name der herausgebenden Institution. Name der Veranstaltung, Veranstaltungsort, 18. August 2026. <a href="https://kacebe.github.io/n4o_oer-praesentation-template/">https://kacebe.github.io/n4o_oer-praesentation-template/</a>
 </div>
 </div>
 </div>
@@ -1697,15 +1603,11 @@ Doe, J., Doe, J., &amp; Musterfrau, M. (2026, August 19). Titel der Präsentatio
 <div class="n4o-appendix-authors-grid">
 <div class="n4o-appendix-author">
 <p><span class="n4o-appendix-author-name"><strong>Jane Doe</strong></span></p>
-<p><span class="n4o-appendix-author-roles">conceptualization · writing – original draft</span></p>
+<p><span class="n4o-appendix-author-roles">writing – original draft</span></p>
 </div>
 <div class="n4o-appendix-author">
 <p><span class="n4o-appendix-author-name"><strong>John Doe</strong></span></p>
 <p><span class="n4o-appendix-author-roles">conceptualization</span></p>
-</div>
-<div class="n4o-appendix-author">
-<p><span class="n4o-appendix-author-name"><strong>Max Musterfrau</strong></span></p>
-<p><span class="n4o-appendix-author-roles">writing – review &amp; editing · investigation</span></p>
 </div>
 </div>
 </div>
@@ -1739,7 +1641,7 @@ Doe, J., Doe, J., &amp; Musterfrau, M. (2026, August 19). Titel der Präsentatio
 </section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
-<p><img src="assets/logos/logo_klein.png" alt="Logo NFDI4Objects" class="slide-logo"></p>
+<p><img src="assets/logos/logo_klein.png" alt="Logo Klein" class="slide-logo"></p>
 <div class="footer footer-default">
 
 </div>
@@ -1975,12 +1877,12 @@ Doe, J., Doe, J., &amp; Musterfrau, M. (2026, August 19). Titel der Präsentatio
           // flash "checked"
           button.classList.add('code-copy-button-checked');
           var currentTitle = button.getAttribute("title");
-          button.setAttribute("title", "Kopiert");
+          button.setAttribute("title", "Kopiert!");
           let tooltip;
           if (window.bootstrap) {
             button.setAttribute("data-bs-toggle", "tooltip");
             button.setAttribute("data-bs-placement", "left");
-            button.setAttribute("data-bs-title", "Kopiert");
+            button.setAttribute("data-bs-title", "Kopiert!");
             tooltip = new bootstrap.Tooltip(button, 
               { trigger: "manual", 
                 customClass: "code-copy-button-tooltip",
