@@ -140,7 +140,7 @@ csl: assets/csl/apa.csl
 
 # Quarto verwendet für diese Angaben das Metadatenmodell der Citation Style Language (CSL).
 #
-# CSL besitzt keinen eigenen Typ "presentation". Präsentationen werden als "speech" erfasst; mit genre wird die konkrete Form näher bestimmt.
+# CSL besitzt keinen eigenen Typ "presentation". Präsentationen werden als "speech" erfasst; mit "genre" wird die konkrete Form näher bestimmt.
 # CSL: https://docs.citationstyles.org/en/stable/specification.html
 # Quarto: https://quarto.org/docs/reference/metadata/citation.html
 #
@@ -154,27 +154,23 @@ citation:
 
   # OPTIONAL: URL der veröffentlichten und zitierbaren Präsentation.
   #
-  # Für eine Veröffentlichung der Präsentation in OERSI ist eine dauerhaft
-  # erreichbare URL erforderlich. Sie wird dort als eindeutiger Identifier
-  # der Bildungsressource verwendet.
+  # Für eine Veröffentlichung der Präsentation in OERSI ist eine dauerhaft erreichbare URL erforderlich. Sie wird dort als eindeutiger Identifier der Bildungsressource verwendet.
   #
   url: "https://kacebe.github.io/n4o_oer-praesentation-template/"
 
   # OPTIONAL: Versionsnummer der Präsentation
-  version: "1.0"
+  # version: "1.0"
 
   # OPTIONAL: herausgebende Person oder Organisation
   # Name der Person oder Organisation, die für die Veröffentlichung der Präsentation verantwortlich ist (https://datacite-metadata-schema.readthedocs.io/en/4.7/properties/publisher/)
-  publisher: "Name der herausgebenden Institution"
+  # publisher: "Name der herausgebenden Institution"
 
   # ===========================================================================
   # VERANSTALTUNG
   # ===========================================================================
 
   # Die folgenden CSL-Felder beschreiben die Veranstaltung, in deren Rahmen die Präsentation gehalten wurde.
-  #
   # CSL-Variablen: https://docs.citationstyles.org/en/stable/specification.html#appendix-iv-variables
-
 
   # OPTIONAL: Name der Veranstaltung
   event-title: "Name der Veranstaltung"
@@ -242,10 +238,8 @@ copyright:
 # APPENDIX-FOLIE
 # -----------------------------------------------------------------------------
 
-# OPTIONAL: Automatisch erzeugte Abschlussfolie mit Informationen zu
-# Zitation, Nachnutzung, Kontakt, Lizenz und Quellen.
+# OPTIONAL: Automatisch erzeugte Abschlussfolie mit Informationen zu Zitation, Nachnutzung, Kontakt, Lizenz und Quellen.
 #
-# VORGABE = true; normalerweise nicht ändern.
-# Auf false setzen, wenn keine Appendix-Folie erzeugt werden soll.
+# VORGABE = true; normalerweise nicht ändern. Auf false setzen, wenn keine Appendix-Folie erzeugt werden soll.
 #
 # appendix-slide: false

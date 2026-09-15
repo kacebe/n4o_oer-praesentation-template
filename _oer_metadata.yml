@@ -121,8 +121,7 @@ dalia:
   #       de: "Bachelor-Studierende"
   #       en: "Bachelor students"
 
-  # Optional: vorausgesetztes Kompetenzniveau: Novice, Advanced Beginner,
-  # Competent, Proficient oder Expert
+  # Optional: vorausgesetztes Kompetenzniveau: Novice, Advanced Beginner, Competent, Proficient oder Expert
   # proficiencyLevel:
   #   id: "https://purl.org/ontology/modalia#Novice"
   #   prefLabel:
@@ -132,7 +131,6 @@ dalia:
 
   # Optionale Community-Zuordnung
 
-  # Optional: fachliche oder institutionelle Community in DALIA
-  # Vorhandene Communities: https://search.dalia.education/
+  # Optional: fachliche oder institutionelle Community in DALIA. Vorhandene Communities: https://search.dalia.education/
   # community:
   #   - name: "NFDI4Objects"
