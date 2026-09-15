@@ -133,22 +133,12 @@
   </style>
   <style>
 
-  /* ==========================================================================
-     Lokale Schriftarten
-     ==========================================================================
+  /* Lokale Schriftarten
 
-     Die Schriftarten werden hier explizit über @font-face eingebunden.
-
-     Hintergrund:
-     Die Einbindung lokaler Fonts über _brand.yml funktioniert bei Reveal.js aufgrund der erzeugten theme-relativen Pfade nicht zuverlässig. _brand.yml übernimmt daher nur die typografische Zuordnung der Schriftfamilien. Die Font-Dateien selbst werden über diese Datei geladen.
-
-     Alle verwendeten Schriftarten liegen lokal im Repository. Dadurch bleibt die Präsentation auch ohne Internetverbindung vollständig nutzbar.
-     ========================================================================== */
-
-
-  /* --------------------------------------------------------------------------
-     PT Sans
-     -------------------------------------------------------------------------- */
+     Die Schriftarten werden hier explizit über @font-face eingebunden. Hintergrund:
+     Die Einbindung lokaler Fonts über _brand.yml in Quarto funktioniert bei Reveal.js aufgrund der erzeugten theme-relativen Pfade nicht zuverlässig. _brand.yml übernimmt daher nur die typografische Zuordnung der Schriftfamilien. Die Font-Dateien selbst werden über diese Datei geladen. Alle verwendeten Schriftarten liegen lokal im Repository. Dadurch bleibt die Präsentation auch ohne Internetverbindung vollständig nutzbar.
+     Bei der Anpassung der Schriftarten in der _brand.yml muss dieser Abschnitt entsprechend angepasst werden.
+  */
 
   @font-face {
     font-family: "PT Sans";
@@ -181,15 +171,6 @@
     font-weight: 700;
     font-display: swap;
   }
-
-
-  /* --------------------------------------------------------------------------
-     Noto Sans Mono
-     --------------------------------------------------------------------------
-
-     Variable Schriftart. Eine Datei stellt alle benötigten Schriftgewichte
-     von Thin (100) bis Black (900) bereit.
-     -------------------------------------------------------------------------- */
 
   @font-face {
     font-family: "Noto Sans Mono";
@@ -262,7 +243,7 @@
         "type": "Person"
       }
     ],
-    "dateModified": "2026-09-03",
+    "dateModified": "2026-09-15",
     "datePublished": "2026-08-19",
     "description": "Kurzanleitung zum Laden und Anpassen des N4O OER-Präsentationstemplates.",
     "educationalLevel": [
@@ -423,7 +404,7 @@
         },
         "copyrightNotice": "© 2026 Name der Rechteinhaberin / des Rechteinhabers",
         "copyrightYear": 2026,
-        "dateModified": "2026-09-03",
+        "dateModified": "2026-09-15",
         "datePublished": "2026-08-19",
         "description": "Kurzanleitung zum Laden und Anpassen des N4O OER-Präsentationstemplates.",
         "educationalLevel": {

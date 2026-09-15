@@ -153,22 +153,12 @@
   </style>
   <style>
 
-  /* ==========================================================================
-     Lokale Schriftarten
-     ==========================================================================
+  /* Lokale Schriftarten
 
-     Die Schriftarten werden hier explizit über @font-face eingebunden.
-
-     Hintergrund:
-     Die Einbindung lokaler Fonts über _brand.yml funktioniert bei Reveal.js aufgrund der erzeugten theme-relativen Pfade nicht zuverlässig. _brand.yml übernimmt daher nur die typografische Zuordnung der Schriftfamilien. Die Font-Dateien selbst werden über diese Datei geladen.
-
-     Alle verwendeten Schriftarten liegen lokal im Repository. Dadurch bleibt die Präsentation auch ohne Internetverbindung vollständig nutzbar.
-     ========================================================================== */
-
-
-  /* --------------------------------------------------------------------------
-     PT Sans
-     -------------------------------------------------------------------------- */
+     Die Schriftarten werden hier explizit über @font-face eingebunden. Hintergrund:
+     Die Einbindung lokaler Fonts über _brand.yml in Quarto funktioniert bei Reveal.js aufgrund der erzeugten theme-relativen Pfade nicht zuverlässig. _brand.yml übernimmt daher nur die typografische Zuordnung der Schriftfamilien. Die Font-Dateien selbst werden über diese Datei geladen. Alle verwendeten Schriftarten liegen lokal im Repository. Dadurch bleibt die Präsentation auch ohne Internetverbindung vollständig nutzbar.
+     Bei der Anpassung der Schriftarten in der _brand.yml muss dieser Abschnitt entsprechend angepasst werden.
+  */
 
   @font-face {
     font-family: "PT Sans";
@@ -201,15 +191,6 @@
     font-weight: 700;
     font-display: swap;
   }
-
-
-  /* --------------------------------------------------------------------------
-     Noto Sans Mono
-     --------------------------------------------------------------------------
-
-     Variable Schriftart. Eine Datei stellt alle benötigten Schriftgewichte
-     von Thin (100) bis Black (900) bereit.
-     -------------------------------------------------------------------------- */
 
   @font-face {
     font-family: "Noto Sans Mono";
@@ -287,7 +268,7 @@
         "type": "Person"
       }
     ],
-    "dateModified": "2026-09-03",
+    "dateModified": "2026-09-15",
     "datePublished": "2026-08-19",
     "description": "Kurze Beschreibung der Präsentation.",
     "educationalLevel": [
@@ -323,12 +304,6 @@
       "id": "https://creativecommons.org/licenses/by/4.0/"
     },
     "name": "Titel der Präsentation",
-    "publisher": [
-      {
-        "name": "Name der herausgebenden Institution",
-        "type": "Organization"
-      }
-    ],
     "type": [
       "LearningResource",
       "PresentationDigitalDocument"
@@ -454,7 +429,7 @@
         },
         "copyrightNotice": "© 2026 Name der Rechteinhaberin / des Rechteinhabers",
         "copyrightYear": 2026,
-        "dateModified": "2026-09-03",
+        "dateModified": "2026-09-15",
         "datePublished": "2026-08-19",
         "description": "Kurze Beschreibung der Präsentation.",
         "educationalLevel": {
@@ -479,12 +454,7 @@
         },
         "license": "https://creativecommons.org/licenses/by/4.0/",
         "name": "Titel der Präsentation",
-        "publisher": {
-          "@type": "Organization",
-          "name": "Name der herausgebenden Institution"
-        },
-        "url": "https://kacebe.github.io/n4o_oer-praesentation-template/",
-        "version": "1.0"
+        "url": "https://kacebe.github.io/n4o_oer-praesentation-template/"
       },
       {
         "@id": "https://kacebe.github.io/n4o_oer-praesentation-template/#event-series",
@@ -822,7 +792,7 @@
 <p><span class="n4o-appendix-heading" role="heading" aria-level="3">Zitierempfehlung für diese Präsentation</span></p>
 <div class="references csl-bib-body hanging-indent n4o-appendix-citation-reference" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-n4o-presentation-self" class="csl-entry" role="listitem">
-Doe, J., &amp; Doe, J. (2026, August 19). Titel der Präsentation. In <em>Titel der Session</em> [Presentation]. Name der herausgebenden Institution. Name der Veranstaltung, Veranstaltungsort, 18. August 2026. <a href="https://kacebe.github.io/n4o_oer-praesentation-template/">https://kacebe.github.io/n4o_oer-praesentation-template/</a>
+Doe, J., &amp; Doe, J. (2026, August 19). Titel der Präsentation. In <em>Titel der Session</em> [Presentation]. Name der Veranstaltung, Veranstaltungsort, 18. August 2026. <a href="https://kacebe.github.io/n4o_oer-praesentation-template/">https://kacebe.github.io/n4o_oer-praesentation-template/</a>
 </div>
 </div>
 </div>
