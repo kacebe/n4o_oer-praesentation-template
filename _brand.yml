@@ -77,6 +77,8 @@ color:
 
 typography:
 
+# Die Grundeinstellung für die Font-Size wird in der assets/n4o_oer_revealjs.scss gesteuert
+
   base:
     family: "PT Sans" # Standardschrift
     line-height: 1.4 # Zeilenabstand
@@ -93,7 +95,7 @@ typography:
   monospace:
     family: "Noto Sans Mono" # Schrift für Code
     # size: 1em # Grundgröße
-    # weight: 400 # Schriftgewicht
+    weight: 400 # Schriftgewicht
     # color: text-logo # Schriftfarbe
     # background-color: extended-soft # Hintergrundfarbe
 
@@ -101,18 +103,18 @@ typography:
     color: text-logo # Schriftfarbe für Inline-Code
     background-color: extended-soft # Hintergrund für Inline-Code
     # size: 1em # Schriftgröße
-    # weight: 400 # Schriftgewicht
+    weight: 400 # Schriftgewicht
 
   monospace-block:
     size: 0.75em # Schriftgröße in Codeblöcken
     background-color: extended-soft # Hintergrund für Codeblöcke
     # color: text-logo # Schriftfarbe
-    # weight: 400 # Schriftgewicht
+    weight: 400 # Schriftgewicht
     # line-height: 1.4 # Zeilenabstand
 
   link:
     decoration: underline # Links unterstreichen
-    # weight: 400 # Schriftgewicht
+    weight: 400 # Schriftgewicht
     # color: text-logo # Linkfarbe
     # background-color: transparent # Hintergrundfarbe
 
