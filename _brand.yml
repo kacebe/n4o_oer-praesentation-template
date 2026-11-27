@@ -17,25 +17,25 @@ logo:
       path: assets/logos/logo_gross.png # Großes Markenlogo
       alt: "Logo Gross"
 
-    institution-logo:
-      path: assets/logos/logo_institution.png # Durch eigenes Institutionslogo ersetzen
-      alt: "Logo der Institution"
-
     projekt-logo:
-      path: assets/logos/logo_projekt.png # Durch eigenes Projektlogo ersetzen
+      path: assets/logos/logo_projekt.png # Oben Links auf Titelfolie. Durch eigenes Projektlogo ersetzen
       alt: "Logo des Projekts"
 
+    institution-logo:
+      path: assets/logos/logo_institution.png # Oben rechts auf der Titelfolie. Durch eigenes Institutionslogo ersetzen
+      alt: "Logo der Institution"
+
     event-logo:
-      path: assets/logos/logo_event.png # Optional: Logo der Veranstaltung
+      path: assets/logos/logo_event.png # Optionales Logo unten auf Titelfolie. Logo der Veranstaltung
       alt: "Logo der Veranstaltung"
 
-    # partner-1:
-    #   path: assets/logos/logo_partner1.png # Optional: Logo einer Partnerorganisation
-    #   alt: "Logo der Partnerorganisation 1"
+    partner-1:
+      path: assets/logos/logo_partner1.png # Optional: Logo einer Partnerorganisation
+      alt: "Logo der Partnerorganisation 1"
 
-    # partner-2:
-    #   path: assets/logos/logo_partner2.png # Optional: Logo einer weiteren Partnerorganisation
-    #   alt: "Logo der Partnerorganisation 2"
+    partner-2:
+      path: assets/logos/logo_partner2.png # Optional: Logo einer weiteren Partnerorganisation
+      alt: "Logo der Partnerorganisation 2"
 
   small: icon-logo # In html als icon behandelt.
   medium: institution-logo # Titelfolie oben links
