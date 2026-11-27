@@ -1253,7 +1253,7 @@ local function make_rights_block(meta)
 
     local license_markdown =
       "Soweit nicht anders gekennzeichnet: "
-      .. "Gerne nachnutzen, teilen und weiterentwickeln. "
+      .. "Inhalte gerne nachnutzen, teilen und weiterentwickeln. "
       .. "Diese Präsentation steht unter "
 
 
