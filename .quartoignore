@@ -1,2 +1,5 @@
 index.qmd
 n4o-oer-credits-documentation.md
+# Qualitätssicherung
+_qa/
+.github/workflows/validate.yml
